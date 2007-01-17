@@ -24,7 +24,6 @@ CodePress = {
 	
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		this.detect();
-		browser.ff = true;
 		chars = '|13|32|191|57|48|187|188|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
 		if(browser.ff) {
@@ -272,7 +271,7 @@ CodePress = {
 		else if(browser.ie) {
 			var range = document.selection.createRange();
 			var caret = Math.abs(range.moveStart("character", -1000000)+1);
-			range = top.CodePress.tools.getCode();	
+			range = parent.CodePress.getCode();	
 			range = range.replace(/\n\r/gi,'__');
 			range = range.replace(/\n/gi,'');	
 		}	

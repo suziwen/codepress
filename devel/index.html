@@ -33,7 +33,7 @@
 		obj.style.fontWeight = 'bold';
 		obj.style.color = 'red';
 		last = obj;
-		CodePress.tools.edit(file)
+		CodePress.edit(file)
 	}
 	</script>
 </head>
@@ -85,8 +85,8 @@ for (i=0;i<10;i++) {
 <script src="codepress-editor.js" type="text/javascript"></script>
 
 
-<button onclick="alert(CodePress.tools.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
-<button onclick="CodePress.tools.edit('myTextAreaId','javascript')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
+<button onclick="alert(CodePress.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
+<button onclick="CodePress.edit('myTextAreaId','javascript')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
 
 
 <h3>How to use it</h3>

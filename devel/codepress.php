@@ -22,6 +22,8 @@ $path['server'] = $_SERVER['DOCUMENT_ROOT'];
 
 $code = "";
 $language = "generic";
+$supported = ($_GET['supported']=="true") ? true : false ;
+
 
 if(isset($_GET['file'])) {
     $file = basename($_GET['file']);
@@ -31,6 +33,7 @@ if(isset($_GET['file'])) {
 	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
+		if(!$supported)$code = preg_replace("/\r\n/","<br>",$code);
 		if(isset($_GET['language'])) $language = $_GET['language'];
 	}
 }
@@ -43,17 +46,26 @@ if(isset($_GET['file'])) {
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<meta name="description" content="CodePress source code editor window" />
 
-	<link type="text/css" href="codepress.css?timestamp=<?=time()?>" rel="stylesheet" />	
+	<link type="text/css" href="codepress.css?timestamp=<?=time()?>" rel="stylesheet" />
 	<link type="text/css" href="languages/<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
-	
-	<script type="text/javascript" src="codepress.js?timestamp=<?=time()?>"></script>
-	<script type="text/javascript" src="languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
-	<script type="text/javascript">
-		CodePress.language = '<?=$language?>';
-		onload = function() { CodePress.initialize('new'); }
-	</script>
-	
-	</script>
-</head>
-<body id="ffedt"><pre id="ieedt"><?=$code?></pre></body>
+
+	<? if($supported) { ?>
+		<script type="text/javascript" src="codepress.js?timestamp=<?=time()?>"></script>
+		<script type="text/javascript" src="languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
+		<script type="text/javascript">
+			parent.cpBody = parent.document.getElementById('cp-editor').contentWindow;
+			parent.CodePress.addEvent(window,'load',function() { CodePress.initialize('new'); },true);
+		</script>
+	</head>
+	<body id="ffedt"><pre id="ieedt"><?=$code?></pre></body>
+	<? } else { ?>
+		<script type="text/javascript">parent.CodePress.addEvent(window,'load',function() { 
+				document.getElementById('ffedt').contentEditable = true; 
+				parent.cpBody = parent.document.getElementById('cp-editor').contentWindow;
+				editor = document.getElementById('ffedt'); 
+			},true);
+		</script>
+	</head>
+	<body id="ffedt"><?=$code?></body>
+	<? } ?>
 </html>

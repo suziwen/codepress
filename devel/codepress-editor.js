@@ -9,52 +9,20 @@
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
 
-$ = function() { return document.getElementById(arguments[0]); }
-
-config = {}
-config.language = { 
-	perl       : { name : 'Perl',       extensions : 'pl,cgi'         },
-	java       : { name : 'Java',       extensions : 'java'           },
-	javascript : { name : 'JavaScript', extensions : 'js'             },	
-	text       : { name : 'Plain Text', extensions : 'txt'   	      },	
-	html       : { name : 'HTML',       extensions : 'html,htm,xhtml' },
-	css        : { name : 'CSS',        extensions : 'css'			  },
-	generic    : { name : 'Generic',    extensions : '' 			  },
-	php        : { name : 'PHP',        extensions : 'php,phtml'      }
-}
-
-config.message =  {
-	browserNotSupported : 'Your browser is not supported.\nSyntax highlighting is turned off\nand some features are disabled.'
-}
-
-config.menu = {
-	untitledFile : 'Untitle source code',
-	options      : 'Options',
-	languages    : 'Languages',
-	autoComplete : 'Auto complete',
-	fullScreen   : 'Full screen',
-	lineNumbers  : 'Line numbers'
-}
-
-/*
- * tools
- * 
- */
-CodePress = {}; // del? 
- 
-CodePress.tools = {
+CodePress = {
 
 	initialize : function() {
-//		this.printHTML();
+		this.printHTML();
 		this.detect();
 		cpWindow = $('cp-window');
 		cpEditor = $('cp-editor');
 		cpTools = $('cp-tools');
 		cpLanguages = $('cp-languages-menu');
 		cpOptions = $('cp-options-menu');
-		cpBody = cpEditor.contentWindow;
+//		cpBody = cpEditor.contentWindow;
 		pgBody = document.getElementsByTagName('body')[0];
 //		this.edit(CodePress.loadFrom);
+
 		this.edit('FileManager.java');
 	},
 	
@@ -63,25 +31,13 @@ CodePress.tools = {
 		else if (element.attachEvent) element.attachEvent('on'+type, func);
 	},
 	
-	detect : function() {
-		browser = { ie:false, ff:false, sa:false, hasFind:false, hasFindText:false, supported:true };
-		if(navigator.appName.indexOf('Microsoft') != -1) browser.ie = true;
-		else if(navigator.userAgent.indexOf('Safari')!=-1) browser.sa = true;
-		else if(navigator.appName == 'Netscape') browser.ff = true;
+	detect : function() { // remake
+		browser = { ie:false, ff:false, xx:false };
+		if(navigator.userAgent.indexOf('MSIE') != -1) browser.ie = true;
+		else if(navigator.userAgent.indexOf('Firefox') != -1) browser.ff = true; // test for netscape too
+		else browser.xx = true;
 		
-		browser.ff = true;
-//		alert(document.designMode)
-		
-//		if(!self.find && !self.document.body.createTextRange &&'
-//		else browser.supported = false;
-		if(!browser.supported) {
-			$('cp-autocomplete').disabled = true;
-			if(browser.sa) {
-				$('cp-fullscreen').disabled = true;
-				$('cp-linenumbers').disabled = true;			
-			}
-		//alert(config.message.browserNotSupported)
-		}
+		if(browser.xx) $('cp-autocomplete').disabled = true;
 	},
 	
 	setFileName : function() {
@@ -102,14 +58,14 @@ CodePress.tools = {
 		$('cp-language-name').innerHTML = config.language[this.language].name;
 		$('language-'+this.language).checked = true;
 		this.hideAllMenu();
-		if(arguments[0]) {
+		if(arguments[0]&&!browser.xx) {
 			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
 		   	var head = cpBody.document.getElementsByTagName('head')[0];
 		   	var script = cpBody.document.createElement('script');
 		   	script.type = 'text/javascript';
-		   	script.src = 'languages/codepress-'+this.language+'.js';
+		   	script.src = 'languages/'+this.language+'.js';
 			head.appendChild(script)
-			cpBody.document.getElementById('cp-lang-style').href = 'languages/codepress-'+this.language+'.css';
+			cpBody.document.getElementById('cp-lang-style').href = 'languages/'+this.language+'.css';
 		}
 	},
 	
@@ -119,7 +75,7 @@ CodePress.tools = {
 	
 	toogleMenu : function(item) {
 		$('cp-'+item+'-menu').className = ($('cp-'+item+'-menu').className=='show') ? 'hide' : 'show' ;
-		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? 'images/arrow-down.gif' : 'images/arrow-up.gif' ;
+		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? 'images/menu-arrow-down.gif' : 'images/menu-arrow-up.gif' ;
 	},
 	
 	toggleAutoComplete : function() {
@@ -166,36 +122,35 @@ CodePress.tools = {
 		this.setFileName();
 		if($(arguments[0])) {
 			this.setLanguage(arguments[1]);
-			CodePress.tools.setCode($(arguments[0]).value); // id name of the source code
+			CodePress.setCode($(arguments[0]).value); // id name of the source code
 		}
 		else if(arguments[0].length>100||arguments[0].match(/[\|&\\\/\{\(\[\<]/)) { // text of the source code
 			this.setLanguage(arguments[1]);
-			CodePress.tools.setCode(arguments[0]); 
+			CodePress.setCode(arguments[0]); 
 		}
 		else if(typeof(arguments[0])=='Object') { // object of the source code
 			this.setLanguage(arguments[1]);
-			CodePress.tools.setCode(arguments[0].value);
+			CodePress.setCode(arguments[0].value);
 		}
 		else { // file name of the source code
 			this.setFileName(arguments[0]);
 			this.setLanguage();
-			cpEditor.src = 'codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&supported='+browser.supported; 
+			cpEditor.src = 'codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&supported='+ !browser.xx 
 		}
 	},
 
 	printHTML : function() {
 		var allLanguages = '';
-		for(lang in config.language) allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.tools.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+config.language[lang].name+'</label><br />';
+		for(lang in config.language) allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+config.language[lang].name+'</label><br />';
 
-		document.write('<style type="text/css"> @import url(codepress-editor.css); </style>');
 		cpEditorHeight = $('codepress1').clientHeight;
 		$('codepress1').innerHTML = '<div id="cp-window">'+
-			'<iframe id="cp-editor" src="codepress.php" style="height:'+ (cpEditorHeight-20) +'px"></iframe>'+
+			'<iframe id="cp-editor" src="" style="height:'+ (cpEditorHeight-20) +'px"></iframe>'+
 			'<div id="cp-tools">'+
-				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.tools.toogleMenu(\'options\')"><img src=images/menu-icon-options.gif align=top /> '+config.menu.options+' <img src=images/menu-arrow-up.gif align=top id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.tools.toogleMenu(\'languages\')"><img src=images/menu-icon-languages.gif align=top /> <span id="cp-language-name">'+config.language.generic.name+'</span> <img src=images/menu-arrow-up.gif align=top id="cp-arrow-languages" /></span>'+
+				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src=images/menu-icon-options.gif align=top /> '+config.menu.options+' <img src=images/menu-arrow-up.gif align=top id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src=images/menu-icon-languages.gif align=top /> <span id="cp-language-name">'+config.language.generic.name+'</span> <img src=images/menu-arrow-up.gif align=top id="cp-arrow-languages" /></span>'+
 			'</div>'+
 			'<div id="cp-options-menu" class="hide">'+
-    			'<input type=checkbox id="cp-fullscreen" onclick="CodePress.tools.toggleFullScreen()"><label for="cp-fullscreen">'+config.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.tools.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+config.menu.lineNumbers+'</label><br><input type=checkbox id="cp-autocomplete" onclick="CodePress.tools.toggleAutoComplete()" checked="checked"><label for="cp-autocomplete">'+config.menu.autoComplete+'</label>'+
+    			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+config.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+config.menu.lineNumbers+'</label><br><input type=checkbox id="cp-autocomplete" onclick="CodePress.toggleAutoComplete()" checked="checked"><label for="cp-autocomplete">'+config.menu.autoComplete+'</label>'+
 			'</div>'+
 			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
 		'</div>';
@@ -225,56 +180,13 @@ CodePress.tools = {
        	code = code.replace(/</g,'&lt;');
         code = code.replace(/>/g,'&gt;');
 		cpBody.editor.innerHTML = "<pre>"+code+"</pre>";
-//		CodePress.tools.setLanguage(language,'new');
-//		CodePress.initialize('new');
 	}
 }
 
-/*
- * Store various CodePress window configurations
- * 
- */
 
-CodePress.config = {
-	
-	configs : [],
-	id : 0,
-	
-	startNew : function() {
-		this.configs[this.id] = {
-			language : CodePress.language,
-			editorHeight : CodePress.editorHeight,
-			editorWidth : CodePress.editorWidth,
-			lineNumbers : CodePress.lineNumbers,
-			fullScreen : CodePress.fullScreen
-		}
-		this.id++;
-	}
-}
+$ = function() { return document.getElementById(arguments[0]); }
 
-CodePress.tools.addEvent(window,'load',function () { CodePress.tools.initialize() },true);
-//window.addEventListener('load', function bla(){CodePress.tools.initialize()}, false);
+document.write('<link type="text/css" href="codepress-editor.css" rel="stylesheet" />');
+document.write('<script type="text/javascript" src="configs/en-us.js"></script>');		
 
-//onload = function() {
-//	CodePress.tools.initialize();
-//	cpWindow = top.document.getElementById('codepress');
-
-
-//	cpOnload = top.document.getElementById(top.CodePress.loadFrom);
-//
-//	top.CodePress.getCode = CodePress.getCode;
-//	top.CodePress.setCode = CodePress.setCode;
-//	top.CodePress.edit = CodePress.edit;
-//
-//	top.CodePress.tools.setLanguage(CodePress.language,'init');
-//	CodePress.initialize('new');
-//	cpOndemand = top.document.getElementById('codepress-ondemand');
-
-//	if(cpOnload!=null) {
-//		cpOnload.style.display = 'none';
-//		cpOnload.id = 'codepress-loaded';
-//		CodePress.setCode(cpOnload,'javascript');
-//	}
-//	if(cpOndemand!=null) cpOndemand.style.display = 'none';
-//}
-CodePress.tools.printHTML();
+CodePress.addEvent(window,'load',function () { CodePress.initialize() },true);
