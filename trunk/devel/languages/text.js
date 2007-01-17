@@ -6,5 +6,12 @@ syntax = [
 	// do nothing, as expected 
 ];
 
+bundles = {
+
+	tab : [],
+	key : []
+	
+}
+
 CodePress.initialize();
 

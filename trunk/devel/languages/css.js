@@ -9,5 +9,12 @@ syntax = [ // CSS
 	/\/\*(.*?)\*\//g,'<i>/*$1*/</i>', // comments
 ];
 
+bundles = {
+
+	tab : [],
+	key : []
+
+}
+
 CodePress.initialize();
 

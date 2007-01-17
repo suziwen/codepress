@@ -18,5 +18,29 @@ syntax = [ // PHP
 	/(&lt;!--.*?--&gt.)/g,'<big>$1</big>' // html comments 
 ];
 
+bundles = {
+
+	tab : [
+	
+		{triger : 'if', content : 'if($0){\n\t\n}' },
+		{triger : 'do', content : 'do{\n\t$0\n}\nwhile();' },
+		{triger : 'while', content : 'while($0){\n\t\n}' },
+		{triger : 'whil', content : 'while($0){\n\t\n}' },
+		{triger : 'echo', content : 'echo \'$0\';' },
+		{triger : 'eco', content : 'echo \'$0\';' },
+		{triger : 'switch', content : 'switch($0) {\n\tcase "": break;\n\tdefault: ;\n}' }	
+	
+	],
+	key : [
+	
+		{triger : '\'', content : '\'$0\'' },
+		{triger : '"', content : '"$0"' },
+		{triger : '(', content : '\($0\)' },
+		{triger : '[', content : '\[$0\]' },
+		{triger : '{', content : '{\n\t$0\n}' }		
+	
+	]
+}
+
 CodePress.initialize();
 

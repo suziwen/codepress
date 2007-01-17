@@ -31,7 +31,6 @@ if(isset($_GET['file'])) {
 	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
-	    $code = preg_replace("/\r\n/","<br>",$code);		
 		if(isset($_GET['language'])) $language = $_GET['language'];
 	}
 }
@@ -45,17 +44,16 @@ if(isset($_GET['file'])) {
 	<meta name="description" content="CodePress source code editor window" />
 
 	<link type="text/css" href="codepress.css?timestamp=<?=time()?>" rel="stylesheet" />	
-	<link type="text/css" href="languages/codepress-<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
+	<link type="text/css" href="languages/<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
 	
-<!--	<script type="text/javascript" src="codepress-core.js?timestamp=<?=time()?>"></script>
-	<script type="text/javascript" src="languages/codepress-<?=$language?>.js?timestamp=<?=time()?>"></script> -->
+	<script type="text/javascript" src="codepress.js?timestamp=<?=time()?>"></script>
+	<script type="text/javascript" src="languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
 	<script type="text/javascript">
-//		CodePress.language = '<?=$language?>';
-//		onload = function() { CodePress.initialize('new'); }
-//		onload = function() { document.getElementById('').designMode = 'on' }
+		CodePress.language = '<?=$language?>';
+		onload = function() { CodePress.initialize('new'); }
 	</script>
 	
 	</script>
 </head>
-<body id="ffedt"><pre id="ieedt" contenteditable=true><?=$code?></pre></body>
+<body id="ffedt"><pre id="ieedt"><?=$code?></pre></body>
 </html>
