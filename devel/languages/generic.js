@@ -11,5 +11,19 @@ syntax = [ // generic languages
 	/\/\*(.*?)\*\//g,'<i>/*$1*/</i>' // comments /* */
 ];
 
+bundles = {
+
+	tab : [],
+	key : [
+	
+		{triger : '\'', content : '\'$0\'' },
+		{triger : '"', content : '"$0"' },
+		{triger : '(', content : '\($0\)' },
+		{triger : '[', content : '\[$0\]' },
+		{triger : '{', content : '{\n\t$0\n}' }		
+	
+	]
+}
+
 CodePress.initialize();
 
