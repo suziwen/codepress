@@ -2,11 +2,11 @@
  * CodePress regular expressions for Text syntax highlighting
  */
 
-syntax = [
+Language.syntax = [
 	// do nothing, as expected 
-];
+]
 
-bundles = {
+Language.bundles = {
 
 	tab : [],
 	key : []

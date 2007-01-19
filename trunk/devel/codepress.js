@@ -1,11 +1,7 @@
 /*
  * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
  * 
- * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
- *
- * Contributors :
- *
- * 	Michael Hurni <michael.hurni@gmail.com>
+ * Copyright (C) 2006 Fernando M.A.d.S. <fermads@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the 
  * GNU Lesser General Public License as published by the Free Software Foundation.
@@ -13,303 +9,184 @@
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
 
+document.write('<link type="text/css" href="themes/default/codepress-editor.css" rel="stylesheet" />');
 
 CodePress = {
-	range : null,
-	language : null,
-	scrolling : false,
-
-	// set initial vars and start sh
 	initialize : function() {
+		cpWindow = $('cp-window');
+		cpEditor = $('cp-editor');
+//		cpTools = $('cp-tools');
+//		cpLanguages = $('cp-languages-menu');
+//		cpOptions = $('cp-options-menu');
+		cpBody = cpEditor.contentWindow;
+//		cpCode = cpBody.document.getElementById("code");
+		cpBody.CodePress.syntaxHighlight('init');
+		if(onLoadEdit) { onLoadEdit=false; this.edit(this.fileName,pgCode); }
+	},
 	
-		if(typeof(editor)=='undefined'&&!arguments[0]) return;
-		this.detect();
-		chars = '|13|32|191|57|48|187|188|'; // charcodes that trigger syntax highlighting
-		cc = '\u2009'; // control char
-		if(browser.ff) {
-			editor = document.getElementById('ffedt');
-			document.designMode = 'on';
-			document.addEventListener('keydown', this.keyHandler, true);
-			window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
+/*	addEvent : function (element, type, func, capture) {
+		if (element.addEventListener) element.addEventListener(type, func, capture);
+		else if (element.attachEvent) element.attachEvent('on'+type, func);
+	},*/
+	
+	detect : function() {
+		cpEngine = 'older';
+		var ua = navigator.userAgent;
+		if(ua.match('MSIE')) cpEngine = 'msie';
+		else if(ua.match('KHTML')) cpEngine = 'khtml'; 
+		else if(ua.match('Opera')) cpEngine = 'opera'; 
+		else if(ua.match('Gecko')) cpEngine = 'gecko';
+	},
+	
+	setFileName : function() {
+		$('cp-filename').innerHTML = this.fileName = (arguments[0]) ? arguments[0] : Content.menu.untitledFile;
+	},
+
+	getLanguage : function() {
+		var extension = this.fileName.replace(/.*\.([^\.]+)$/,'$1');
+		for(lang in Content.languages) {
+			extensions = ','+Content.languages[lang].extensions+',';
+			if(extensions.match(','+extension+',')) return lang;
 		}
-		else if(browser.ie) {
-//			CodePress.tools = top.CodePress.tools;
-			editor = document.getElementById('ieedt');
-			editor.contentEditable = 'true';
-			document.attachEvent('onkeydown', this.keyHandler);
-			window.attachEvent('onscroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') });
+		return 'generic';
+	},
+
+	loadScript : function(target, src, callback) {
+		var node = target.createElement("script");
+		if (node.addEventListener) node.addEventListener("load", callback, false);
+		else node.onreadystatechange = function() { if (this.readyState == "loaded") { ;callback.call(this);} }
+		node.src = src;
+		target.getElementsByTagName("head").item(0).appendChild(node);
+		node = null;
+	},
+	
+	setLanguage : function(refresh) {
+		this.language = (typeof(Content.languages[arguments[0]])!='undefined') ? arguments[0] : this.getLanguage();
+		$('cp-language-name').innerHTML = Content.languages[this.language].name;
+		$('language-'+this.language).checked = true;
+		this.hideAllMenu();
+		if(refresh) {
+			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
+			this.loadScript(cpBody.document, 'languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
+//		   	var head = cpBody.document.getElementsByTagName('head')[0];
+//		   	var script = cpBody.document.createElement('script');
+//		   	script.type = 'text/javascript';
+//		   	script.src = 'languages/'+this.language+'.js';
+//			script.onload = function () { alert(3);cpBody.CodePress.syntaxHighlight('init'); };
+//			head.appendChild(script)
+			cpBody.document.getElementById('cp-lang-style').href = 'languages/'+this.language+'.css';
 		}
-		else {
-			// TODO: textarea without syntax highlighting for non supported browsers
-			alert('your browser is not supported at the moment');
+	},
+	
+	hideAllMenu : function() {
+		$('cp-options-menu').className = $('cp-languages-menu').className = 'hide';
+	},
+	
+	toogleMenu : function(item) {
+		$('cp-'+item+'-menu').className = ($('cp-'+item+'-menu').className=='show') ? 'hide' : 'show' ;
+		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? 'themes/default/menu-arrow-down.gif' : 'themes/default/menu-arrow-up.gif' ;
+	},
+	
+	toggleAutoComplete : function() {
+		// To do
+		alert( ($('cp-autocomplete').checked) ? 'on' : 'off' );
+		this.hideAllMenu();
+	},
+
+	toggleLineNumbers : function() {
+	    cpBody.document.getElementsByTagName('body')[0].className = ($('cp-linenumbers').checked) ? 'show-line-numbers' : 'hide-line-numbers';
+		this.hideAllMenu();
+	},
+	
+	toggleFullScreen : function() {
+		var pgBody = document.getElementsByTagName('body')[0];
+	    if($('cp-fullscreen').checked) {
+			cpWindow.className = 'fullscreen-on'; 
+			pgBody.style.height = pgBody.style.width = '100px';
+			pgBody.style.overflow = 'hidden';
+			cH = self.innerHeight ? self.innerHeight : document.documentElement.clientHeight;
+			cW = self.innerWidth ? self.innerWidth : document.documentElement.clientWidth;
+			cpEditor.style.height = cH-22 + 'px';
+			cpWindow.style.height = cH-2 + 'px';
+			cpWindow.style.width = cW-2 + 'px';
+	    }
+	    else {
+			cpWindow.className = 'fullscreen-off';
+			pgBody.style.height = pgBody.style.width = pgBody.style.overflow = 'auto';
+			cpWindow.style.width = '100%';
+			cpWindow.style.height = cpEditorHeight+'px';
+			cpEditor.style.height = cpEditorHeight-20 +'px';
+	    }
+		this.hideAllMenu();
+	},
+
+	edit : function() {
+		this.setFileName(arguments[0]);
+		if(!arguments[1]||arguments[1]=='') { // file name of the source code (to open from server)
+			this.setLanguage();
+			cpEditor.src = 'modules/codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&engine='+cpEngine
 			return;
 		}
-		this.syntaxHighlight('init');
-		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top
+		this.setLanguage('refresh');
+		if($(arguments[1])) CodePress.setCode($(arguments[1]).firstChild.nodeValue); // id name of the source code
+		else if(arguments[1].match(/\w/))  CodePress.setCode(arguments[1]);  // text of the source code
+		else if(typeof(arguments[1])=='Object') CodePress.setCode(arguments[1].firstChild.nodeValue); // object of the source code
+		else alert('teste: should not come here')
 	},
 
-	// detect browser, for now IE and FF
-	detect : function() {
-		browser = { ie:false, ff:false };
-		if(navigator.appName.indexOf("Microsoft") != -1) browser.ie = true;
-		else if(navigator.appName == "Netscape") browser.ff = true;
-	},
-
-	// treat key bindings
-	keyHandler : function(evt) {
-		evt = (evt) ? evt : (window.event) ? event : null;
-	  	if(evt) {
-	    	charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode : ((evt.which) ? evt.which : 0));	
-			if(charCode==32 && evt.shiftKey)  { // non-breaking space
-				CodePress.insertCode("&nbsp;",false);
-			}
-			else if(((charCode>48 && charCode<91) || charCode>187) && !evt.ctrlKey) {
-				if(CodePress.language != "text") {
-					top.window.setTimeout(function () { CodePress.putBundles(CodePress.getLastChar(),"key"); },4);
-				}   
-			}
-			else if(charCode==9) {  // Tab Activation
-				if(CodePress.language != "text") {
-					top.window.setTimeout(function () {	CodePress.putBundles(CodePress.getLastWord(),"tab"); },4);	
-				}
-			}
-			if((charCode==34||charCode==33)&&browser.ie) { // handle page up/down for IE
-				parent.codepress.scrollBy(0, (charCode==34) ? 200 : -200); 
-				evt.returnValue = false;
-			}
-		    if((chars.indexOf('|'+charCode+'|')!=-1) && (!evt.tabKey && !evt.altKey)) { // syntax highlighting
-			 	CodePress.syntaxHighlight('generic');
-			}
-			else if(charCode==46||charCode==8) { // save to history when delete or backspace pressed
-			 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
-			}
-			else if((charCode==90||charCode==89) && evt.ctrlKey) { // undo and redo
-				(charCode==89||evt.shiftKey) ? CodePress.actions.redo() : CodePress.actions.undo() ;
-				evt.returnValue = false;
-				if(browser.ff)evt.preventDefault();
-			}
-			else if(charCode==86 && evt.ctrlKey)  { // paste
-				// TODO: pasted text should be parsed and highlighted
-			}
-		}
-	},
-
-	// put cursor back to its original position after every parsing
-	findString : function() {
-		if(browser.ff) {
-			if(self.find(cc))
-				window.getSelection().getRangeAt(0).deleteContents();
-		}
-		else if(browser.ie) {
-		    range = self.document.body.createTextRange();
-			if(range.findText(cc)){
-				range.select();
-				range.text = '';
-			}
-		}
-	},
-	
-	// split big files, highlighting parts of it
-	split : function(code,flag) {
-		if(flag=='scroll') {
-			this.scrolling = true;
-			return code;
-		}
-		else {
-			this.scrolling = false;
-			mid = code.indexOf(cc);
-			if(mid-2000<0) {ini=0;end=4000;}
-			else if(mid+2000>code.length) {ini=code.length-4000;end=code.length;}
-			else {ini=mid-2000;end=mid+2000;}
-			code = code.substring(ini,end);
-			if(browser.ff) return code;
-			else return code.substring(code.indexOf('<P>'),code.lastIndexOf('</P>')+4);
-		}
-	},
-	
-	// syntax highlighting parser
-	syntaxHighlight : function(flag) {
-		var preParse = this.prepareParsing(flag);
-		var x = preParse[0];
-		var z = preParse[1];
+	setContent : function() {
+		var allLanguages = '';
+		for(lang in Content.languages) allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+Content.languages[lang].name+'</label><br />';
 		
-		for(i=0;i<syntax.length;i+=2) 
-			x = x.replace(syntax[i],syntax[i+1]);
+		pgCode = ($('codepress').firstChild) ? $('codepress').firstChild.nodeValue : '';
+		this.fileName = $('codepress').title;
+		this.language = this.getLanguage();
+		onLoadEdit = (pgCode.match(/\w/)) ? true : false ;
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
-		if(flag!='init') this.findString();
-	},
-
-	// undo and redo methods
-	actions : {
-		pos : -1, // actual history position
-		history : [], // history vector
+		cpEditorHeight = $('codepress').clientHeight;
+		$('codepress').innerHTML = '<div id="cp-window">'+
+			'<iframe id="cp-editor" src="modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ (cpEditorHeight-20) +'px"></iframe>'+
+			'<div id="cp-tools">'+
+				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
+			'</div>'+
+			'<div id="cp-options-menu" class="hide">'+
+    			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+Content.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+Content.menu.lineNumbers+'</label><br><input type=checkbox id="cp-autocomplete" onclick="CodePress.toggleAutoComplete()" checked="checked"><label for="cp-autocomplete">'+Content.menu.autoComplete+'</label>'+
+			'</div>'+
+			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
+		'</div>';
 		
-		undo : function() {
-			if(editor.innerHTML.indexOf(cc)==-1){
-				if(browser.ff) window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
-				else document.selection.createRange().text = cc;
-			 	this.history[this.pos] = editor.innerHTML;
-			}
-			this.pos--;
-			if(typeof(this.history[this.pos])=='undefined') this.pos++;
-			editor.innerHTML = this.history[this.pos];
-			CodePress.findString();
-		},
-		
-		redo : function() {
-			this.pos++;
-			if(typeof(this.history[this.pos])=='undefined') this.pos--;
-			editor.innerHTML = this.history[this.pos];
-			CodePress.findString();
-		},
-		
-		next : function() { // get next vector position and clean old ones
-			if(this.pos>20) this.history[this.pos-21] = undefined;
-			return ++this.pos;
-		}
+		this.setLanguage(); 
+		this.setFileName(this.fileName); 
 	},
 
-	getLastChar : function() {
-		var rangeAndCaret = CodePress.getRangeAndCaret();
-		return rangeAndCaret[0].substr(rangeAndCaret[1]-1,1);
+	// transform syntax highlighted code to original code
+	getCode : function() {
+		var code = cpBody.editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix
+		code = code.replace(/<p>/gi,'\n');
+		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
 	},
 
-	getLastWord : function() {
-		var rangeAndCaret = CodePress.getRangeAndCaret();
-		var s = rangeAndCaret[0].substr(0,rangeAndCaret[1]);
-		if (browser.ff) { s = s.replace(/<.*?>/g,' '); }
-			
-		s = s.replace(/\'/g,' ');
-		s = s.replace(/\"/g,' ');
-		s = s.replace(/\n/g,' ');
-		s = s.replace(/\r/g,' ');
-		s = (s.substr(s.length-1,1)=="\t") ? s.substr(0,s.length-1) : s;
-		s = s.replace(/\t/g,' ');
-		
-		// use a char who is never used in as snippet
-		sentence = s.replace(/ /g,'\u2008');
-		words = sentence.split('\u2008');
-		return words[words.length-1];
-		
-	},
-	
-	putBundles : function(triger,event) {
-		var bundle = bundles[event];
-		for (var i=0; i<bundle.length; i++) {
-			if(bundle[i].triger == triger) {
-				var preParse = this.prepareParsing("generic");
-				var x = preParse[0];
-				var z = preParse[1];
-	
-				content = bundle[i].content.replace(/</g,'&lt;');
-				content = content.replace(/>/g,'&gt;');
-				content = content.replace(/\$0/g,cc);
-				
-				if(browser.ff) content = content.replace(/\n/g,'<br>');
-				else content = content.replace(/\n/g,'</P><P>');
-				
-				var postTriger = (event=='tab') ? "\t" : "";
-				var escape = (event=='key') ? "\\" : "";
-
-				var pattern = new RegExp(escape+triger+postTriger+cc,"g");
-
-				x = x.replace(pattern,content);
-
-				for(j=0;j<syntax.length;j+=2) 
-					x = x.replace(syntax[j],syntax[j+1]);
-
-				editor.innerHTML = this.actions.history[this.actions.next()] = o.replace(z,x);
-				this.findString();
-				return true;
-				
-			}
-		}
-	},
-	
-	prepareParsing : function(flag) {
-		if(browser.ff) {
-			if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
-			o = editor.innerHTML;
-			o = o.replace(/<br>/g,'\n');
-			o = o.replace(/<.*?>/g,'');
-			o = o.replace(/\u2008/g,'<br>');
-			o = o.replace(/\u2007/g,'\t');
-			x = z = this.split(o,flag);
-			x = x.replace(/\n/g,'<br />');
-		}
-		else if(browser.ie) {
-			if(flag!='init') document.selection.createRange().text = cc;
-			o = editor.innerHTML;
-			o = o.replace(/<P>/g,'\n');
-			o = o.replace(/<\/P>/g,'\r');
-			o = o.replace(/<.*?>/g,'');
-			o = o.replace(/&nbsp;/g,'');			
-			o = '<PRE><P>'+o+'</P></PRE>';
-			o = o.replace(/\n\r/g,'<P></P>');
-			o = o.replace(/\n/g,'<P>');
-			o = o.replace(/\r/g,'<\/P>');
-			o = o.replace(/<P>(<P>)+/,'<P>');
-			o = o.replace(/<\/P>(<\/P>)+/,'</P>');
-			o = o.replace(/<P><\/P>/g,'<P><BR/></P>');
-			o = o.replace(/\u2008/g,'</P><P>');
-			o = o.replace(/\u2007/g,'\t');
-			x = z = this.split(o,flag);
-		}
-		return [x,z,flag];
-	
-	},
-	
-	getRangeAndCaret : function() {	
-		if (browser.ff) {	
-			var r1 = window.getSelection().getRangeAt(0);
-			var range = r1.cloneRange();
-			var node = range.endContainer;			
-			var caret = range.endOffset;
-			range.selectNode(node);	
-		}
-		else if(browser.ie) {
-			var range = document.selection.createRange();
-			var caret = Math.abs(range.moveStart("character", -1000000)+1);
-			range = parent.CodePress.getCode();	
-			range = range.replace(/\n\r/gi,'__');
-			range = range.replace(/\n/gi,'');	
-		}	
-		return new Array(range.toString(),caret);
-	},
-	
-	insertCode : function(code,replaceCursorBefore) {
-		if (browser.ff) {	
-			var r = window.getSelection().getRangeAt(0);
-			var n = window.document.createTextNode(code);
-			var s = window.getSelection();
-			var r2 = r.cloneRange();
-
-			// Insert text at cursor position
-			s.removeAllRanges();
-			r.deleteContents();
-			r.insertNode(n);
-			
-			// Move the cursor to the end of text
-			r2.selectNode(n);		
-			r2.collapse(replaceCursorBefore);
-			s.removeAllRanges();
-			s.addRange(r2);
-		
-		} else if(browser.ie) {
-			var repdeb = "";
-			var repfin = "";
-			
-			if(replaceCursorBefore) { repfin = code; }
-			else { repdeb = code; }
-			
-			if(typeof document.selection != 'undefined') {
-				var range = document.selection.createRange();
-				range.text = repdeb + repfin;
-				range = document.selection.createRange();
-				range.move('character', -repfin.length);
-				range.select();	
-			}	
-		}
+	// put some code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');		
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		cpBody.document.getElementById("code").innerHTML = "<pre>"+code+"</pre>";
 	}
 }
+
+CodePress.detect();
+Content={};
+$ = function() { return document.getElementById(arguments[0]); }
+CodePress.loadScript(document, 'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
