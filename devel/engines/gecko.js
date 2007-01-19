@@ -177,8 +177,8 @@ CodePress = {
 
 				x = x.replace(pattern,content);
 
-				for(j=0;j<syntax.length;j+=2) 
-					x = x.replace(syntax[j],syntax[j+1]);
+				for(j=0;j<Language.syntax.length;j++) 
+					x = x.replace(Language.syntax[j].pattern,Language.syntax[j].replace);
 
 				editor.innerHTML = this.actions.history[this.actions.next()] = o.replace(z,x);
 				this.findString();
