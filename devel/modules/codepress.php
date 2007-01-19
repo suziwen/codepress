@@ -17,13 +17,14 @@
 $path['files'] = "examples";  // directory of files to edit
 
 // no need to change below ////////////////////////////////////////////////////
-$path['webdocs'] = dirname($_SERVER['SCRIPT_NAME']);
+$path['webdocs'] = preg_replace("/\/modules/","",dirname($_SERVER['SCRIPT_NAME']));
 $path['server'] = $_SERVER['DOCUMENT_ROOT'];
 
 $code = "";
 $language = "generic";
-$supported = ($_GET['supported']=="true") ? true : false ;
-
+$engine = $_GET['engine'];
+//$init = isset($_GET['init']) ? 1 : 0;
+if(isset($_GET['language'])) $language = $_GET['language'];
 
 if(isset($_GET['file'])) {
     $file = basename($_GET['file']);
@@ -33,8 +34,8 @@ if(isset($_GET['file'])) {
 	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
-		if(!$supported)$code = preg_replace("/\r\n/","<br>",$code);
-		if(isset($_GET['language'])) $language = $_GET['language'];
+		//$code = preg_replace("/\r\n/","<br>",$code); // opera and khtml engines
+//		if(isset($_GET['language'])) $language = $_GET['language'];
 	}
 }
 
@@ -45,27 +46,13 @@ if(isset($_GET['file'])) {
 <head>
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<meta name="description" content="CodePress source code editor window" />
-
-	<link type="text/css" href="codepress.css?timestamp=<?=time()?>" rel="stylesheet" />
-	<link type="text/css" href="languages/<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
-
-	<? if($supported) { ?>
-		<script type="text/javascript" src="codepress.js?timestamp=<?=time()?>"></script>
-		<script type="text/javascript" src="languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
-		<script type="text/javascript">
-			parent.cpBody = parent.document.getElementById('cp-editor').contentWindow;
-			parent.CodePress.addEvent(window,'load',function() { CodePress.initialize('new'); },true);
-		</script>
-	</head>
-	<body id="ffedt"><pre id="ieedt"><?=$code?></pre></body>
-	<? } else { ?>
-		<script type="text/javascript">parent.CodePress.addEvent(window,'load',function() { 
-				document.getElementById('ffedt').contentEditable = true; 
-				parent.cpBody = parent.document.getElementById('cp-editor').contentWindow;
-				editor = document.getElementById('ffedt'); 
-			},true);
-		</script>
-	</head>
-	<body id="ffedt"><?=$code?></body>
-	<? } ?>
+	<link type="text/css" href="../themes/default/codepress.css?timestamp=<?=time()?>" rel="stylesheet" />
+	<link type="text/css" href="../languages/<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
+	<script type="text/javascript" src="../engines/<?=$engine?>.js?timestamp=<?=time()?>"></script>
+	<script type="text/javascript" src="../languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
+</head>
+<? 
+if ($engine == "gecko") echo "<body id='code'>".$code."</body>";
+else if($engine == "msie") echo "<body><pre id='code'>".$code."</pre></body>";
+?>
 </html>

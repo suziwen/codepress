@@ -36,6 +36,7 @@
 		CodePress.edit(file)
 	}
 	</script>
+
 </head>
 
 <body>
@@ -71,22 +72,19 @@
 	<button onclick="edit('loremipsum.txt',this)">plain text</button><br />
 </div>
 
-<textarea id="myTextAreaId" lang="javascript">/* CodePress example */
+<code id="myTextAreaId" class="codepress">/* CodePress example */
 for (i=0;i<10;i++) {
 	alert(10);
 	document.write("Test");
 }
-</textarea>
+</code>
 
 
-
-<div id="codepress1" style="width:700px;height:400px;"></div>
-
-<script src="codepress-editor.js" type="text/javascript"></script>
+<code id="codepress" title="codepress.php" style="width:700px;height:400px;display:block"></code>
 
 
 <button onclick="alert(CodePress.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
-<button onclick="CodePress.edit('myTextAreaId','javascript')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
+<button onclick="CodePress.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
 
 
 <h3>How to use it</h3>
@@ -151,8 +149,8 @@ Thanks.
 
 <a href="mailto:fermads@gmail.com">Fernando M.A.d.S.</a>
 
-
-
 </div><!--/container-->
+
+<script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
 </body>
 </html>

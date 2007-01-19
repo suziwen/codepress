@@ -2,20 +2,41 @@
  * CodePress regular expressions for HTML syntax highlighting
  */
 
-syntax = [ // HTML
-	/(&lt;[^!]*?&gt;)/g,'<b>$1</b>', // all tags
-	/(&lt;a .*?&gt;|&lt;\/a&gt;)/g,'<a>$1</a>', // links
-	/(&lt;img .*?&gt;)/g,'<big>$1</big>', // images
-	/(&lt;\/?(button|textarea|form|input|select|option|label).*?&gt;)/g,'<u>$1</u>', // forms
-	/(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g,'<em>$1</em><em>$2</em><em>$3</em>', // style tags
-	/(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g,'<strong>$1</strong><tt>$2</tt><strong>$3</strong>', // script tags
-	/=(".*?")/g,'=<s>$1</s>', // atributes double quote
-	/=('.*?')/g,'=<s>$1</s>', // atributes single quote
-	/(&lt;!--.*?--&gt.)/g,'<ins>$1</ins>', // comments 
-	/\b(alert|window|document|break|continue|do|for|new|this|void|case|default|else|function|return|typeof|while|if|label|switch|var|with|catch|boolean|int|try|false|throws|null|true|goto)\b/g,'<i>$1</i>', // script reserved words
-];
+Language.syntax = [ // HTML
+	{
+	pattern : /(&lt;[^!]*?&gt;)/g,
+	replace : '<b>$1</b>' // all tags
+	},{
+	pattern : /(&lt;a .*?&gt;|&lt;\/a&gt;)/g,
+	replace : '<a>$1</a>' // links
+	},{
+	pattern : /(&lt;img .*?&gt;)/g,
+	replace : '<big>$1</big>' // images
+	},{
+	pattern : /(&lt;\/?(button|textarea|form|input|select|option|label).*?&gt;)/g,
+	replace : '<u>$1</u>' // forms
+	},{
+	pattern : /(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g,
+	replace : '<em>$1</em><em>$2</em><em>$3</em>' // style tags
+	},{
+	pattern : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g,
+	replace : '<strong>$1</strong><tt>$2</tt><strong>$3</strong>' // script tags
+	},{
+	pattern : /=(".*?")/g,
+	replace : '=<s>$1</s>' // atributes double quote
+	},{
+	pattern : /=('.*?')/g,
+	replace : '=<s>$1</s>' // atributes single quote
+	},{
+	pattern : /(&lt;!--.*?--&gt.)/g,
+	replace : '<ins>$1</ins>' // comments 
+	},{
+	pattern : /\b(alert|window|document|break|continue|do|for|new|this|void|case|default|else|function|return|typeof|while|if|label|switch|var|with|catch|boolean|int|try|false|throws|null|true|goto)\b/g,
+	replace : '<i>$1</i>' // script reserved words
+	}	
+]
 
-bundles = {
+Language.bundles = {
 
 	tab : [
 	

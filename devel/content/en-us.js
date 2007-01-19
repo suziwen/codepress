@@ -1,5 +1,4 @@
-config = {}
-config.language = { 
+Content.languages = { 
 	perl       : { name : 'Perl',       extensions : 'pl,cgi'         },
 	java       : { name : 'Java',       extensions : 'java'           },
 	javascript : { name : 'JavaScript', extensions : 'js'             },	
@@ -10,15 +9,23 @@ config.language = {
 	php        : { name : 'PHP',        extensions : 'php,phtml'      }
 }
 
-config.message =  {
-	browserNotSupported : 'Your browser is not supported.\nSyntax highlighting is turned off\nand some features are disabled.'
+Content.messages =  {
+	browserError  : 'Your browser is not supported.\nSyntax highlighting is turned off\nand some features are disabled.',
+	fileSaveError : 'There is a problem saving your file.\nPlease try again.'
 }
 
-config.menu = {
+Content.menu = {
 	untitledFile : 'Untitle source code',
 	options      : 'Options',
 	languages    : 'Languages',
 	autoComplete : 'Auto complete',
+	autoIndent   : 'Auto indent',		
 	fullScreen   : 'Full screen',
-	lineNumbers  : 'Line numbers'
+	lineNumbers  : 'Line numbers',
+	save         : 'Save',
+	saved        : 'Salvo',
+	about        : 'Sobre',
+	snippets     : 'Snippets',
+	help         : 'Help',
+	website      : 'Website'
 }
