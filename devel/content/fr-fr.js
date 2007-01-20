@@ -11,7 +11,7 @@ Content.languages = {
 
 Content.messages =  {
 	browserError  : 'Votre navigateur n\'est pas support&eacute;.\nLa colorisation syntaxique &agrave; &eacute;t&eacute; d&eacute;sactiv&eacute;e.',
-	fileSaveError : 'xxx'	
+	fileSaveError : 'Erreur lors de la sauvegarde.\n R&eacute;essayez ult&eacute;rieurement.'	
 }
 
 Content.menu = {
@@ -19,13 +19,13 @@ Content.menu = {
 	options      : 'Options',
 	languages    : 'Langages',
 	autoComplete : 'Auto-compl&eacute;tion',
-	autoIndent   : 'xxx',		
+	autoIndent   : 'Indentation Automatique',		
 	fullScreen   : 'Plein &eacute;cran',
 	lineNumbers  : 'Num&eacute;roter les lignes'
-	save         : 'xxx',
-	saved        : 'xxx',
-	about        : 'xxx',
-	snippets     : 'xxx',
-	help         : 'xxx',
-	website      : 'xxx'
+	save         : 'Sauvegarder',
+	saved        : 'Sauvegard&eacute;',
+	about        : '&Agrave; propos',
+	snippets     : 'Extrait de code',
+	help         : 'Aide',
+	website      : 'Site Intenet'
 }
