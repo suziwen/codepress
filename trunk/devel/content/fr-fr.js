@@ -21,7 +21,7 @@ Content.menu = {
 	autoComplete : 'Auto-compl&eacute;tion',
 	autoIndent   : 'Indentation Automatique',		
 	fullScreen   : 'Plein &eacute;cran',
-	lineNumbers  : 'Num&eacute;roter les lignes'
+	lineNumbers  : 'Num&eacute;roter les lignes',
 	save         : 'Sauvegarder',
 	saved        : 'Sauvegard&eacute;',
 	about        : '&Agrave; propos',
