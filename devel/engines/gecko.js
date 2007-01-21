@@ -92,6 +92,7 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
+		if(document.designMode=='off') document.designMode='on'
 		var preParse = this.prepareParsing(flag);
 		var x = preParse[0];
 		var z = preParse[1];
@@ -195,7 +196,7 @@ CodePress = {
 		o = o.replace(/\u2008/g,'<br>');
 		o = o.replace(/\u2007/g,'\t');
 		x = z = this.split(o,flag);
-		x = x.replace(/\n/g,'<br />');
+		x = x.replace(/\n/g,'<br>');
 		return [x,z,flag];
 	
 	},

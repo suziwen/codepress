@@ -8,9 +8,9 @@
  * 
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
-
+ 
 document.write('<link type="text/css" href="themes/default/codepress-editor.css" rel="stylesheet" />');
-
+ 
 CodePress = {
 	initialize : function() {
 		cpWindow = $('cp-window');
@@ -54,7 +54,7 @@ CodePress = {
 	loadScript : function(target, src, callback) {
 		var node = target.createElement("script");
 		if (node.addEventListener) node.addEventListener("load", callback, false);
-		else node.onreadystatechange = function() { if (this.readyState == "loaded") { ;callback.call(this);} }
+		else node.onreadystatechange = function() { if (this.readyState == "loaded") { callback.call(this);} }
 		node.src = src;
 		target.getElementsByTagName("head").item(0).appendChild(node);
 		node = null;
@@ -67,14 +67,14 @@ CodePress = {
 		this.hideAllMenu();
 		if(refresh) {
 			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
-			this.loadScript(cpBody.document, 'languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
+			this.loadScript(cpBody.document, '../languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
 //		   	var head = cpBody.document.getElementsByTagName('head')[0];
 //		   	var script = cpBody.document.createElement('script');
 //		   	script.type = 'text/javascript';
 //		   	script.src = 'languages/'+this.language+'.js';
 //			script.onload = function () { alert(3);cpBody.CodePress.syntaxHighlight('init'); };
 //			head.appendChild(script)
-			cpBody.document.getElementById('cp-lang-style').href = 'languages/'+this.language+'.css';
+			cpBody.document.getElementById('cp-lang-style').href = '../languages/'+this.language+'.css';
 		}
 	},
 	
@@ -155,8 +155,8 @@ CodePress = {
 			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
 		'</div>';
 		
-		this.setLanguage(); 
-		this.setFileName(this.fileName); 
+//		this.setLanguage(); 
+//		this.setFileName(this.fileName); 
 	},
 
 	// transform syntax highlighted code to original code
