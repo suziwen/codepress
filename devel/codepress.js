@@ -15,19 +15,10 @@ CodePress = {
 	initialize : function() {
 		cpWindow = $('cp-window');
 		cpEditor = $('cp-editor');
-//		cpTools = $('cp-tools');
-//		cpLanguages = $('cp-languages-menu');
-//		cpOptions = $('cp-options-menu');
 		cpBody = cpEditor.contentWindow;
-//		cpCode = cpBody.document.getElementById("code");
 		cpBody.CodePress.syntaxHighlight('init');
 		if(onLoadEdit) { onLoadEdit=false; this.edit(this.fileName,pgCode); }
 	},
-	
-/*	addEvent : function (element, type, func, capture) {
-		if (element.addEventListener) element.addEventListener(type, func, capture);
-		else if (element.attachEvent) element.attachEvent('on'+type, func);
-	},*/
 	
 	detect : function() {
 		cpEngine = 'older';
@@ -68,12 +59,6 @@ CodePress = {
 		if(refresh) {
 			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
 			this.loadScript(cpBody.document, '../languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
-//		   	var head = cpBody.document.getElementsByTagName('head')[0];
-//		   	var script = cpBody.document.createElement('script');
-//		   	script.type = 'text/javascript';
-//		   	script.src = 'languages/'+this.language+'.js';
-//			script.onload = function () { alert(3);cpBody.CodePress.syntaxHighlight('init'); };
-//			head.appendChild(script)
 			cpBody.document.getElementById('cp-lang-style').href = '../languages/'+this.language+'.css';
 		}
 	},
@@ -114,8 +99,8 @@ CodePress = {
 			cpWindow.className = 'fullscreen-off';
 			pgBody.style.height = pgBody.style.width = pgBody.style.overflow = 'auto';
 			cpWindow.style.width = '100%';
-			cpWindow.style.height = cpEditorHeight+'px';
-			cpEditor.style.height = cpEditorHeight-20 +'px';
+			cpWindow.style.height = cpWindowHeight+'px';
+			cpEditor.style.height = cpEditorHeight+'px';
 	    }
 		this.hideAllMenu();
 	},
@@ -143,10 +128,12 @@ CodePress = {
 		this.language = this.getLanguage();
 		onLoadEdit = (pgCode.match(/\w/)) ? true : false ;
 
-		cpEditorHeight = $('codepress').clientHeight;
+		cpWindowHeight = $('codepress').clientHeight;
+		cpEditorHeight = ($('codepress').className.match('hideMenu')) ? cpWindowHeight : cpWindowHeight-20 ;
+		
 		$('codepress').innerHTML = '<div id="cp-window">'+
-			'<iframe id="cp-editor" src="modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ (cpEditorHeight-20) +'px"></iframe>'+
-			'<div id="cp-tools">'+
+			'<iframe id="cp-editor" src="modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ cpEditorHeight +'px"></iframe>'+
+			'<div id="cp-menu">'+
 				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
 			'</div>'+
 			'<div id="cp-options-menu" class="hide">'+
@@ -155,8 +142,8 @@ CodePress = {
 			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
 		'</div>';
 		
-//		this.setLanguage(); 
-//		this.setFileName(this.fileName); 
+		this.setLanguage(); 
+		this.setFileName(this.fileName); 
 	},
 
 	// transform syntax highlighted code to original code
