@@ -33,11 +33,11 @@ Language.bundles = {
 	tab : [],
 	key : [
 	
-		{triger : '\'', content : '\'$0\'' },
-		{triger : '"', content : '"$0"' },
-		{triger : '(', content : '\($0\)' },
-		{triger : '[', content : '\[$0\]' },
-		{triger : '{', content : '{\n\t$0\n}' }		
+		{trigger : '\'', content : '\'$0\'' },
+		{trigger : '"', content : '"$0"' },
+		{trigger : '(', content : '\($0\)' },
+		{trigger : '[', content : '\[$0\]' },
+		{trigger : '{', content : '{\n\t$0\n}' }		
 	
 	]
 }
