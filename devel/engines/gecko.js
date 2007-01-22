@@ -42,7 +42,7 @@ CodePress = {
 			if(charCode==32 && evt.shiftKey)  { // non-breaking space
 				CodePress.insertCode("&nbsp;",false);
 			}
-			else if(((charCode>48 && charCode<65) || charCode>187 ) && charCode != 192 && charCode != 224 && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
+			else if(((charCode>48 && charCode<65) || charCode>187 ) && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
 				if(CodePress.language != "text") {
 					top.window.setTimeout(function () { CodePress.putBundles(CodePress.getLastChar(),"key"); },4);
 				}   
@@ -158,10 +158,10 @@ CodePress = {
 		
 	},
 	
-	putBundles : function(triger,event) {
+	putBundles : function(trigger,event) {
 		var bundle = Language.bundles[event];
 		for (var i=0; i<bundle.length; i++) {
-			if(bundle[i].triger == triger) {
+			if(bundle[i].trigger == trigger) {
 				var preParse = this.prepareParsing("generic");
 				var x = preParse[0];
 				var z = preParse[1];
@@ -172,10 +172,11 @@ CodePress = {
 				
 				content = content.replace(/\n/g,'<br>');
 				
-				var postTriger = (event=='tab') ? "\t" : "";
+				var removeTab = (event=='tab') ? "\t" : "";
+				
 				var escape = (event=='key') ? "\\" : "";
 
-				var pattern = new RegExp(escape+triger+postTriger+cc,"g");
+				var pattern = new RegExp(escape+trigger+removeTab+cc,"g");
 
 				x = x.replace(pattern,content);
 
