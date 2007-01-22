@@ -41,12 +41,12 @@ CodePress = {
 			if(charCode==32 && evt.shiftKey)  { // non-breaking space
 				CodePress.insertCode("&nbsp;",false);
 			}
-			else if(((charCode>48 && charCode<91) || charCode>187) && !evt.ctrlKey) {
+			else if(((charCode>48 && charCode<65) || charCode>187 ) && charCode != 192 && charCode != 224 && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
 				if(CodePress.language != "text") {
 					top.window.setTimeout(function () { CodePress.putBundles(CodePress.getLastChar(),"key"); },4);
 				}   
 			}
-			else if(charCode==9) {  // Tab Activation
+			else if(charCode==9 || evt.tabKey) {  // Tab Activation
 				if(CodePress.language != "text") {
 					top.window.setTimeout(function () {	CodePress.putBundles(CodePress.getLastWord(),"tab"); },4);	
 				}
