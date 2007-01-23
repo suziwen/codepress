@@ -45,29 +45,24 @@ Language.syntax = [ // PHP
 	}
 ]
 
-Language.bundles = {
+Language.snippets = [
+	{trigger : 'if', content : 'if($0){\n\t\n}' },
+	{trigger : 'do', content : 'do{\n\t$0\n}\nwhile();' },
+	{trigger : 'while', content : 'while($0){\n\t\n}' },
+	{trigger : 'whil', content : 'while($0){\n\t\n}' },
+	{trigger : 'echo', content : 'echo \'$0\';' },
+	{trigger : 'eco', content : 'echo \'$0\';' },
+	{trigger : 'switch', content : 'switch($0) {\n\tcase "": break;\n\tdefault: ;\n}' }	
+],
 
-	tab : [
-	
-		{trigger : 'if', content : 'if($0){\n\t\n}' },
-		{trigger : 'do', content : 'do{\n\t$0\n}\nwhile();' },
-		{trigger : 'while', content : 'while($0){\n\t\n}' },
-		{trigger : 'whil', content : 'while($0){\n\t\n}' },
-		{trigger : 'echo', content : 'echo \'$0\';' },
-		{trigger : 'eco', content : 'echo \'$0\';' },
-		{trigger : 'switch', content : 'switch($0) {\n\tcase "": break;\n\tdefault: ;\n}' }	
-	
-	],
-	key : [
-	
-		{trigger : '\'', content : '\'$0\'' },
-		{trigger : '"', content : '"$0"' },
-		{trigger : '(', content : '\($0\)' },
-		{trigger : '[', content : '\[$0\]' },
-		{trigger : '{', content : '{\n\t$0\n}' }		
-	
-	]
-}
+Language.complete = [
+	{trigger : '\'', content : '\'$0\'' },
+	{trigger : '"', content : '"$0"' },
+	{trigger : '(', content : '\($0\)' },
+	{trigger : '[', content : '\[$0\]' },
+	{trigger : '{', content : '{\n\t$0\n}' }		
+]
 
-CodePress.initialize();
-
+Language.shortcuts = [
+	{trigger : '[ctrl][shift][space]', content : '&nbsp;' } 
+]

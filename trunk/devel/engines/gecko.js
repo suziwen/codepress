@@ -27,42 +27,57 @@ CodePress = {
 		cc = '\u2009'; // control char
 		editor = document.getElementById('code');
 		document.designMode = 'on';
-		document.addEventListener('keydown', this.keyHandler, true);
+		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
+		completeChars = this.getCharCodes();
 		parent.CodePress.initialize();
 //		this.syntaxHighlight('init');
 	},
 
+	getCharCodes : function() {
+		var cChars = '';
+		for(var i=0;i<Language.complete.length;i++)
+			cChars += '|'+Language.complete[i].trigger;
+		return cChars+'|';
+	},
+	
 	// treat key bindings
 	keyHandler : function(evt) {
 		evt = (evt) ? evt : (window.event) ? event : null;
 	  	
 	  	if(evt) {
-	    	top.document.title = charCode = (evt.charCode) ? evt.charCode : ((evt.keyCode) ? evt.keyCode : ((evt.which) ? evt.which : 0));	
-			if(charCode==32 && evt.shiftKey)  { // non-breaking space
+	    	top.document.title = keyCode = evt.keyCode;	
+			charCode = evt.charCode;
+
+			if(keyCode==32 && evt.shiftKey)  { // non-breaking space
 				CodePress.insertCode("&nbsp;",false);
 			}
-			else if(((charCode>48 && charCode<65) || charCode>187 ) && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
-				if(CodePress.language != "text") {
-					top.window.setTimeout(function () { CodePress.putBundles(CodePress.getLastChar(),"key"); },4);
-				}   
+			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
+				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
-			else if(charCode==9 || evt.tabKey) {  // Tab Activation
+//			else if(((keyCode>48 && keyCode<65) || keyCode>187 ) && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
+//				if(CodePress.language != "text") {
+//					CodePress.syntaxHighlight('complete',evt);
+//					top.window.setTimeout(function () { CodePress.autoComplete(CodePress.getLastChar()); },4);
+//				}   
+//			}
+			else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
 				if(CodePress.language != "text") {
-					top.window.setTimeout(function () {	CodePress.putBundles(CodePress.getLastWord(),"tab"); },4);	
+					CodePress.syntaxHighlight('snippets',evt);
+//					top.window.setTimeout(function () {	CodePress.snippets(CodePress.getLastWord()); },4);	
 				}
 			}
-		    if((chars.indexOf('|'+charCode+'|')!=-1) && (!evt.tabKey && !evt.altKey)) { // syntax highlighting
+		    if((chars.indexOf('|'+keyCode+'|')!=-1) && (!evt.tabKey && !evt.altKey)) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
 			}
-			else if(charCode==46||charCode==8) { // save to history when delete or backspace pressed
+			else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
 			 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
 			}
-			else if((charCode==90||charCode==89) && evt.ctrlKey) { // undo and redo
-				(charCode==89||evt.shiftKey) ? CodePress.actions.redo() : CodePress.actions.undo() ;
+			else if((keyCode==90||keyCode==89) && evt.ctrlKey) { // undo and redo
+				(keyCode==89||evt.shiftKey) ? CodePress.actions.redo() : CodePress.actions.undo() ;
 				evt.preventDefault();
 			}
-			else if(charCode==86 && evt.ctrlKey)  { // paste
+			else if(keyCode==86 && evt.ctrlKey)  { // paste
 				// TODO: pasted text should be parsed and highlighted
 			}
 		}
@@ -91,13 +106,22 @@ CodePress = {
 		}
 	},
 	
-	// syntax highlighting parser
+	// syntax highlighting parser ///////////////////////////////////////////////////////////////////////////////////////////////////////
 	syntaxHighlight : function(flag) {
 		if(document.designMode=='off') document.designMode='on'
-		var preParse = this.prepareParsing(flag);
-		var x = preParse[0];
-		var z = preParse[1];
+		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
+
+		o = editor.innerHTML;
+		o = o.replace(/<br>/g,'\n');
+		o = o.replace(/<.*?>/g,'');
+		o = o.replace(/\u2008/g,'<br>');
+		o = o.replace(/\u2007/g,'\t');
+		x = z = this.split(o,flag);
+		x = x.replace(/\n/g,'<br>');
 		
+		if(flag=='snippets') x = CodePress.snippets(arguments[1]);
+		if(flag=='complete') x = CodePress.complete(arguments[1],arguments[2]);
+	
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].pattern,Language.syntax[i].replace);
 
@@ -136,14 +160,15 @@ CodePress = {
 
 	getLastChar : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
+		alert(rangeAndCaret)
 		return rangeAndCaret[0].substr(rangeAndCaret[1]-1,1);
 	},
 
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		var s = rangeAndCaret[0].substr(0,rangeAndCaret[1]);
+
 		s = s.replace(/<.*?>/g,' ');
-			
 		s = s.replace(/\'/g,' ');
 		s = s.replace(/\"/g,' ');
 		s = s.replace(/\n/g,' ');
@@ -158,49 +183,35 @@ CodePress = {
 		
 	},
 	
-	putBundles : function(trigger,event) {
-		var bundle = Language.bundles[event];
-		for (var i=0; i<bundle.length; i++) {
-			if(bundle[i].trigger == trigger) {
-				var preParse = this.prepareParsing("generic");
-				var x = preParse[0];
-				var z = preParse[1];
-	
-				content = bundle[i].content.replace(/</g,'&lt;');
+	snippets : function(evt) {
+		trigger = CodePress.getLastWord();
+		for (var i=0; i<Language.snippets.length; i++) {
+			if(Language.snippets[i].trigger == trigger) {
+				content = Language.snippets[i].content.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
-				
 				content = content.replace(/\n/g,'<br>');
-				
-				var removeTab = (event=='tab') ? "\t" : "";
-				
-				var escape = (event=='key') ? "\\" : "";
-
-				var pattern = new RegExp(escape+trigger+removeTab+cc,"g");
-
-				x = x.replace(pattern,content);
-
-				for(j=0;j<Language.syntax.length;j++) 
-					x = x.replace(Language.syntax[j].pattern,Language.syntax[j].replace);
-
-				editor.innerHTML = this.actions.history[this.actions.next()] = o.replace(z,x);
-				this.findString();
-				return true;
+//				var removeTab = "";
+//				var escape = "";
+//				var removeTab = (event=='tab') ? "\t" : "";
+//				var escape = (event=='key') ? "\\" : "";
+				var pattern = new RegExp(trigger+cc,"g");
+				evt.preventDefault(); // prevent the tab key to be added
+				return x.replace(pattern,content);
 			}
 		}
+		return x;
 	},
-	
-	prepareParsing : function(flag) {
-		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
-		o = editor.innerHTML;
-		o = o.replace(/<br>/g,'\n');
-		o = o.replace(/<.*?>/g,'');
-		o = o.replace(/\u2008/g,'<br>');
-		o = o.replace(/\u2007/g,'\t');
-		x = z = this.split(o,flag);
-		x = x.replace(/\n/g,'<br>');
-		return [x,z,flag];
-	
+
+	complete : function(trigger,evt) {
+		for (var i=0; i<Language.complete.length; i++) {
+			if(Language.complete[i].trigger == trigger) {
+				var pattern = new RegExp(cc,"g");
+				evt.preventDefault(); // prevent the tab key to be added
+				return x.replace(cc,Language.complete[i].content.replace(/\$0/g,cc));
+			}
+		}
+		return x;
 	},
 	
 	getRangeAndCaret : function() {	
