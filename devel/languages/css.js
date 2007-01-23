@@ -3,27 +3,20 @@
  */
 
 Language.syntax = [ // CSS
-	{ 
-	pattern : /(.*?){(.*?)}/g,
-	replace : '<b>$1</b>{<u>$2</u>}' // tags, ids, classes, values
-	},{ 
-	pattern : /([\w-]*?):([^\/])/g,
-	replace : '<a>$1</a>:$2' // keys
-	},{ 
-	pattern : /\((.*?)\)/g,
-	replace : '(<s>$1</s>)' // parameters
-	},{ 
-	pattern : /\/\*(.*?)\*\//g,
-	replace : '<i>/*$1*/</i>' // comments
-	}
-]
+	{ input : /(.*?){(.*?)}/g,output : '<b>$1</b>{<u>$2</u>}' },	// tags, ids, classes, values
+	{ input : /([\w-]*?):([^\/])/g,output : '<a>$1</a>:$2' },		// keys
+	{ input : /\((.*?)\)/g,output : '(<s>$1</s>)' }, 				// parameters
+	{ input : /\/\*(.*?)\*\//g,output : '<i>/*$1*/</i>'}			// comments
+];
 
-Language.bundles = {
+Language.snippets = [];
 
-	tab : [],
-	key : []
+Language.complete = [ // Auto complete only for 1 character
+	{input : '\'',output : '\'$0\'' },
+	{input : '"', output : '"$0"' },
+	{input : '(', output : '\($0\)' },
+	{input : '[', output : '\[$0\]' },
+	{input : '{', output : '{\n\t$0\n}' }		
+];
 
-}
-
-CodePress.initialize();
-
+Language.shortcuts = [];
