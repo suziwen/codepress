@@ -6,12 +6,6 @@ Language.syntax = [
 	// do nothing, as expected 
 ]
 
-Language.bundles = {
-
-	tab : [],
-	key : []
-	
-}
-
-CodePress.initialize();
-
+Language.snippets = [];
+Language.complete = [];
+Language.shortcuts = [];
