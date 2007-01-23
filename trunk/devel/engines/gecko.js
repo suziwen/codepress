@@ -37,7 +37,7 @@ CodePress = {
 	getCharCodes : function() {
 		var cChars = '';
 		for(var i=0;i<Language.complete.length;i++)
-			cChars += '|'+Language.complete[i].trigger;
+			cChars += '|'+Language.complete[i].input;
 		return cChars+'|';
 	},
 	
@@ -46,7 +46,7 @@ CodePress = {
 		evt = (evt) ? evt : (window.event) ? event : null;
 	  	
 	  	if(evt) {
-	    	top.document.title = keyCode = evt.keyCode;	
+	    	keyCode = evt.keyCode;	
 			charCode = evt.charCode;
 
 			if(keyCode==32 && evt.shiftKey)  { // non-breaking space
@@ -55,17 +55,8 @@ CodePress = {
 			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
-//			else if(((keyCode>48 && keyCode<65) || keyCode>187 ) && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
-//				if(CodePress.language != "text") {
-//					CodePress.syntaxHighlight('complete',evt);
-//					top.window.setTimeout(function () { CodePress.autoComplete(CodePress.getLastChar()); },4);
-//				}   
-//			}
-			else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
-				if(CodePress.language != "text") {
-					CodePress.syntaxHighlight('snippets',evt);
-//					top.window.setTimeout(function () {	CodePress.snippets(CodePress.getLastWord()); },4);	
-				}
+			else if(keyCode==9 || evt.tabKey) {
+				CodePress.syntaxHighlight('snippets',evt);
 			}
 		    if((chars.indexOf('|'+keyCode+'|')!=-1) && (!evt.tabKey && !evt.altKey)) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
@@ -123,7 +114,7 @@ CodePress = {
 		if(flag=='complete') x = CodePress.complete(arguments[1],arguments[2]);
 	
 		for(i=0;i<Language.syntax.length;i++) 
-			x = x.replace(Language.syntax[i].pattern,Language.syntax[i].replace);
+			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
 		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
 		if(flag!='init') this.findString();
@@ -186,15 +177,11 @@ CodePress = {
 	snippets : function(evt) {
 		trigger = CodePress.getLastWord();
 		for (var i=0; i<Language.snippets.length; i++) {
-			if(Language.snippets[i].trigger == trigger) {
-				content = Language.snippets[i].content.replace(/</g,'&lt;');
+			if(Language.snippets[i].input == trigger) {
+				content = Language.snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
 				content = content.replace(/\n/g,'<br>');
-//				var removeTab = "";
-//				var escape = "";
-//				var removeTab = (event=='tab') ? "\t" : "";
-//				var escape = (event=='key') ? "\\" : "";
 				var pattern = new RegExp(trigger+cc,"g");
 				evt.preventDefault(); // prevent the tab key to be added
 				return x.replace(pattern,content);
@@ -205,10 +192,10 @@ CodePress = {
 
 	complete : function(trigger,evt) {
 		for (var i=0; i<Language.complete.length; i++) {
-			if(Language.complete[i].trigger == trigger) {
+			if(Language.complete[i].input == trigger) {
 				var pattern = new RegExp(cc,"g");
 				evt.preventDefault(); // prevent the tab key to be added
-				return x.replace(cc,Language.complete[i].content.replace(/\$0/g,cc));
+				return x.replace(cc,Language.complete[i].output.replace(/\$0/g,cc));
 			}
 		}
 		return x;
