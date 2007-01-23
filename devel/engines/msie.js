@@ -104,7 +104,7 @@ CodePress = {
 		var z = preParse[1];
 		
 		for(i=0;i<Language.syntax.length;i++) 
-			x = x.replace(Language.syntax[i].pattern,Language.syntax[i].replace);
+			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 			
 		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
 		if(flag!='init') this.findString();
@@ -163,14 +163,15 @@ CodePress = {
 	},
 	
 	putBundles : function(trigger,event) {
-		var bundle = Language.bundles[event];
+		if (event=='tab') var bundle = Language.snippets;
+		if (event=='key') var bundle = Language.complete;
 		for (var i=0; i<bundle.length; i++) {
-			if(bundle[i].trigger == trigger) {
+			if(bundle[i].input == trigger) {
 				var preParse = this.prepareParsing("generic");
 				var x = preParse[0];
 				var z = preParse[1];
 	
-				content = bundle[i].content.replace(/</g,'&lt;');
+				content = bundle[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
 				content = content.replace(/\n/g,'</P><P>');
@@ -183,7 +184,7 @@ CodePress = {
 				x = x.replace(pattern,content);
 
 				for(j=0;j<Language.syntax.length;j++) 
-					x = x.replace(Language.syntax[j].pattern,Language.syntax[j].replace);
+					x = x.replace(Language.syntax[j].input,Language.syntax[j].output);
 
 				editor.innerHTML = this.actions.history[this.actions.next()] = o.replace(z,x);
 				this.findString();
@@ -239,6 +240,5 @@ CodePress = {
 	}
 }
 
-//window.addEventListener('load', function() { CodePress.initialize('new'); }, true);
 Language={};
 window.attachEvent('onload', function() { CodePress.initialize('new'); });
