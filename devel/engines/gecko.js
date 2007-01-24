@@ -59,7 +59,7 @@ CodePress = {
 			if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 				CodePress.shortcuts(charCode?charCode:keyCode);
 			}
-			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
+			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
 				window.getSelection().getRangeAt(0).deleteContents();
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
@@ -113,8 +113,8 @@ CodePress = {
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
-		o = o.replace(/\u2008/g,'<br>');
-		o = o.replace(/\u2007/g,'\t');
+//		o = o.replace(/\u2008/g,'<br>');
+//		o = o.replace(/\u2007/g,'\t');
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 		
@@ -184,7 +184,7 @@ CodePress = {
 	},
 	
 	snippets : function(evt) {
-		trigger = this.getLastWord();
+		var trigger = this.getLastWord();
 		for (var i=0; i<Language.snippets.length; i++) {
 			if(Language.snippets[i].input == trigger) {
 				var content = Language.snippets[i].output.replace(/</g,'&lt;');
@@ -211,28 +211,28 @@ CodePress = {
 	},
 	
 	getRangeAndCaret : function() {	
-		var r1 = window.getSelection().getRangeAt(0);
-		var range = r1.cloneRange();
+		var range = window.getSelection().getRangeAt(0);
+		var range2 = range.cloneRange();
 		var node = range.endContainer;			
 		var caret = range.endOffset;
-		range.selectNode(node);	
-		return [range.toString(),caret];
+		range2.selectNode(node);	
+		return [range2.toString(),caret];
 	},
 	
 	insertCode : function(code,replaceCursorBefore) {
-		var r = window.getSelection().getRangeAt(0);
-		var n = window.document.createTextNode(code);
-		var s = window.getSelection();
-		var r2 = r.cloneRange();
+		var range = window.getSelection().getRangeAt(0);
+		var node = window.document.createTextNode(code);
+		var selct = window.getSelection();
+		var range2 = range.cloneRange();
 		// Insert text at cursor position
-		s.removeAllRanges();
-		r.deleteContents();
-		r.insertNode(n);
+		selct.removeAllRanges();
+		range.deleteContents();
+		range.insertNode(node);
 		// Move the cursor to the end of text
-		r2.selectNode(n);		
-		r2.collapse(replaceCursorBefore);
-		s.removeAllRanges();
-		s.addRange(r2);
+		range2.selectNode(node);		
+		range2.collapse(replaceCursorBefore);
+		selct.removeAllRanges();
+		selct.addRange(range2);
 	}
 }
 
