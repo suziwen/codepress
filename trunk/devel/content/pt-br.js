@@ -6,6 +6,7 @@ Content.languages = {
 	html       : { name : 'HTML',       extensions : 'html,htm,xhtml' },
 	css        : { name : 'CSS',        extensions : 'css'			  },
 	generic    : { name : 'Generica',   extensions : '' 			  },
+	sql        : { name : 'SQL',    	extensions : 'sql' 			  },
 	php        : { name : 'PHP',        extensions : 'php,phtml'      }
 }
 
