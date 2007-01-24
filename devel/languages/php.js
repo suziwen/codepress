@@ -43,5 +43,6 @@ Language.complete = [
 Language.shortcuts = [
 	{ input : '[space]', output : '&nbsp;' },
 	{ input : '[enter]', output : '<br />' } ,
-	{ input : '[j]', output : 'testing' } 
+	{ input : '[j]', output : 'testing' },
+	{ input : '[7]', output : '&amp;' }
 ]
