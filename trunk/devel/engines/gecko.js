@@ -22,8 +22,7 @@ CodePress = {
 	// set initial vars and start sh
 	initialize : function() {
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
-//		this.detect();
-		chars = '|13|32|191|57|48|187|188|'; // charcodes that trigger syntax highlighting
+		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
 		editor = document.getElementById('code');
 		document.designMode = 'on';
@@ -31,6 +30,7 @@ CodePress = {
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCharCodes();
 		parent.CodePress.initialize();
+		this.language = parent.CodePress.language;
 //		this.syntaxHighlight('init');
 	},
 
@@ -40,32 +40,42 @@ CodePress = {
 			cChars += '|'+Language.complete[i].input;
 		return cChars+'|';
 	},
+
+	shortcuts : function() {
+		var cCode = arguments[0];
+		if(cCode==13) cCode = '[enter]';
+		else if(cCode==32) cCode = '[space]';
+		else cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
+		for(var i=0;i<Language.shortcuts.length;i++)
+			if(Language.shortcuts[i].input == cCode)
+				CodePress.insertCode(Language.shortcuts[i].output,false);
+	},
 	
 	// treat key bindings
 	keyHandler : function(evt) {
-		evt = (evt) ? evt : (window.event) ? event : null;
-	  	
+//		evt = (evt) ? evt : (window.event) ? event : null;
 	  	if(evt) {
 	    	keyCode = evt.keyCode;	
 			charCode = evt.charCode;
+			top.document.title = 'charCode='+charCode+' keyCode='+keyCode;
 
-			if(keyCode==32 && evt.shiftKey)  { // non-breaking space
-				CodePress.insertCode("&nbsp;",false);
+			if(evt.ctrlKey && evt.shiftKey && charCode!=90)  { // shortcuts
+				CodePress.shortcuts(charCode?charCode:keyCode);
 			}
-			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
+			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.language!='text') { // auto complete
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
-			else if(keyCode==9 || evt.tabKey) {
-				CodePress.syntaxHighlight('snippets',evt);
-			}
-		    if((chars.indexOf('|'+keyCode+'|')!=-1) && (!evt.tabKey && !evt.altKey)) { // syntax highlighting
+		    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
+			}
+			else if((keyCode==9 || evt.tabKey) && CodePress.language!='text') {  // snippets activation (tab)
+				CodePress.syntaxHighlight('snippets',evt);
 			}
 			else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
 			 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
 			}
-			else if((keyCode==90||keyCode==89) && evt.ctrlKey) { // undo and redo
-				(keyCode==89||evt.shiftKey) ? CodePress.actions.redo() : CodePress.actions.undo() ;
+			else if((charCode==122||charCode==121||charCode==90) && evt.ctrlKey) { // undo and redo
+				(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
 				evt.preventDefault();
 			}
 			else if(keyCode==86 && evt.ctrlKey)  { // paste
@@ -97,7 +107,7 @@ CodePress = {
 		}
 	},
 	
-	// syntax highlighting parser ///////////////////////////////////////////////////////////////////////////////////////////////////////
+	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
 		if(document.designMode=='off') document.designMode='on'
 		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
@@ -149,14 +159,16 @@ CodePress = {
 		}
 	},
 
+	/*
 	getLastChar : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		alert(rangeAndCaret)
 		return rangeAndCaret[0].substr(rangeAndCaret[1]-1,1);
 	},
-
+*/
+	
 	getLastWord : function() {
-		var rangeAndCaret = CodePress.getRangeAndCaret();
+		var rangeAndCaret = this.getRangeAndCaret();
 		var s = rangeAndCaret[0].substr(0,rangeAndCaret[1]);
 
 		s = s.replace(/<.*?>/g,' ');
@@ -178,12 +190,12 @@ CodePress = {
 		trigger = CodePress.getLastWord();
 		for (var i=0; i<Language.snippets.length; i++) {
 			if(Language.snippets[i].input == trigger) {
-				content = Language.snippets[i].output.replace(/</g,'&lt;');
+				var content = Language.snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
 				content = content.replace(/\n/g,'<br>');
 				var pattern = new RegExp(trigger+cc,"g");
-				evt.preventDefault(); // prevent the tab key to be added
+				evt.preventDefault(); // prevent the tab key from being added
 				return x.replace(pattern,content);
 			}
 		}
@@ -193,8 +205,8 @@ CodePress = {
 	complete : function(trigger,evt) {
 		for (var i=0; i<Language.complete.length; i++) {
 			if(Language.complete[i].input == trigger) {
-				var pattern = new RegExp(cc,"g");
-				evt.preventDefault(); // prevent the tab key to be added
+				var pattern = new RegExp(cc);
+				evt.preventDefault(); // prevent the key from being added
 				return x.replace(cc,Language.complete[i].output.replace(/\$0/g,cc));
 			}
 		}
@@ -219,7 +231,6 @@ CodePress = {
 		s.removeAllRanges();
 		r.deleteContents();
 		r.insertNode(n);
-		
 		// Move the cursor to the end of text
 		r2.selectNode(n);		
 		r2.collapse(replaceCursorBefore);
