@@ -60,6 +60,7 @@ CodePress = {
 				CodePress.shortcuts(charCode?charCode:keyCode);
 			}
 			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
+				window.getSelection().getRangeAt(0).deleteContents();
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
 		    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
