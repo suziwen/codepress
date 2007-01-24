@@ -15,7 +15,6 @@
 
 
 CodePress = {
-	range : null,
 	language : null,
 	scrolling : false,
 
