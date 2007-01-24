@@ -65,6 +65,7 @@ CodePress = {
 	
 	hideAllMenu : function() {
 		$('cp-options-menu').className = $('cp-languages-menu').className = 'hide';
+		$('cp-arrow-languages').src = $('cp-arrow-options').src = 'themes/default/menu-arrow-up.gif' ;		
 	},
 	
 	toogleMenu : function(item) {
