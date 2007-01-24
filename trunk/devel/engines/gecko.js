@@ -28,13 +28,12 @@ CodePress = {
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
-		completeChars = this.getCharCodes();
+		completeChars = this.getCompleteChars();
 		parent.CodePress.initialize();
 		this.language = parent.CodePress.language;
-//		this.syntaxHighlight('init');
 	},
 
-	getCharCodes : function() {
+	getCompleteChars : function() {
 		var cChars = '';
 		for(var i=0;i<Language.complete.length;i++)
 			cChars += '|'+Language.complete[i].input;
@@ -48,27 +47,26 @@ CodePress = {
 		else cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
 		for(var i=0;i<Language.shortcuts.length;i++)
 			if(Language.shortcuts[i].input == cCode)
-				CodePress.insertCode(Language.shortcuts[i].output,false);
+				this.insertCode(Language.shortcuts[i].output,false);
 	},
 	
 	// treat key bindings
 	keyHandler : function(evt) {
-//		evt = (evt) ? evt : (window.event) ? event : null;
 	  	if(evt) {
 	    	keyCode = evt.keyCode;	
 			charCode = evt.charCode;
 			top.document.title = 'charCode='+charCode+' keyCode='+keyCode;
 
-			if(evt.ctrlKey && evt.shiftKey && charCode!=90)  { // shortcuts
+			if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 				CodePress.shortcuts(charCode?charCode:keyCode);
 			}
-			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.language!='text') { // auto complete
+			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1) { // auto complete
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
 		    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
 			}
-			else if((keyCode==9 || evt.tabKey) && CodePress.language!='text') {  // snippets activation (tab)
+			else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
 				CodePress.syntaxHighlight('snippets',evt);
 			}
 			else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
@@ -120,8 +118,8 @@ CodePress = {
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 		
-		if(flag=='snippets') x = CodePress.snippets(arguments[1]);
-		if(flag=='complete') x = CodePress.complete(arguments[1],arguments[2]);
+		if(flag=='snippets') x = this.snippets(arguments[1]);
+		if(flag=='complete') x = this.complete(arguments[1],arguments[2]);
 	
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
@@ -183,11 +181,10 @@ CodePress = {
 		sentence = s.replace(/ /g,'\u2008');
 		words = sentence.split('\u2008');
 		return words[words.length-1];
-		
 	},
 	
 	snippets : function(evt) {
-		trigger = CodePress.getLastWord();
+		trigger = this.getLastWord();
 		for (var i=0; i<Language.snippets.length; i++) {
 			if(Language.snippets[i].input == trigger) {
 				var content = Language.snippets[i].output.replace(/</g,'&lt;');
@@ -219,7 +216,7 @@ CodePress = {
 		var node = range.endContainer;			
 		var caret = range.endOffset;
 		range.selectNode(node);	
-		return new Array(range.toString(),caret);
+		return [range.toString(),caret];
 	},
 	
 	insertCode : function(code,replaceCursorBefore) {
