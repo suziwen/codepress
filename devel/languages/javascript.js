@@ -24,7 +24,9 @@ Language.syntax = [ // JavaScript
 	}
 ]
 
-Language.snippets = [];
+Language.snippets = [
+	{ input : 'dw', output : 'document.write(\'$0\');' }
+];
 
 Language.complete = [ // Auto complete only for 1 character
 	{input : '\'',output : '\'$0\'' },
