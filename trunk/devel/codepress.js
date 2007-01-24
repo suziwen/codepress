@@ -51,12 +51,12 @@ CodePress = {
 		node = null;
 	},
 	
-	setLanguage : function(refresh) {
+	setLanguage : function(reload) {
 		this.language = (typeof(Content.languages[arguments[0]])!='undefined') ? arguments[0] : this.getLanguage();
 		$('cp-language-name').innerHTML = Content.languages[this.language].name;
 		$('language-'+this.language).checked = true;
 		this.hideAllMenu();
-		if(refresh) {
+		if(reload) {
 			if(cpBody.document.designMode=='on') cpBody.document.designMode = 'off';
 			this.loadScript(cpBody.document, '../languages/'+this.language+'.js', function () { cpBody.CodePress.syntaxHighlight('init'); })
 			cpBody.document.getElementById('cp-lang-style').href = '../languages/'+this.language+'.css';
@@ -73,9 +73,8 @@ CodePress = {
 		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? 'themes/default/menu-arrow-down.gif' : 'themes/default/menu-arrow-up.gif' ;
 	},
 	
-	toggleAutoComplete : function() {
-		// To do
-		alert( ($('cp-autocomplete').checked) ? 'on' : 'off' );
+	toggleComplete : function() {
+		this.complete = $('cp-complete').checked ? true : false ;
 		this.hideAllMenu();
 	},
 
@@ -113,20 +112,21 @@ CodePress = {
 			cpEditor.src = 'modules/codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&engine='+cpEngine
 			return;
 		}
-		this.setLanguage('refresh');
+		this.setLanguage('reload');
 		if($(arguments[1])) CodePress.setCode($(arguments[1]).firstChild.nodeValue); // id name of the source code
-		else if(arguments[1].match(/\w/))  CodePress.setCode(arguments[1]);  // text of the source code
+		else if(arguments[1].match(/\w/)) CodePress.setCode(arguments[1]);  // text of the source code
 		else if(typeof(arguments[1])=='Object') CodePress.setCode(arguments[1].firstChild.nodeValue); // object of the source code
-		else alert('teste: should not come here')
 	},
 
 	setContent : function() {
 		var allLanguages = '';
-		for(lang in Content.languages) allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+Content.languages[lang].name+'</label><br />';
+		for(lang in Content.languages) 
+			allLanguages += '<input type=radio name=lang id="language-'+lang+'" onclick="CodePress.setLanguage(\''+lang+'\')"><label for="language-'+lang+'">'+Content.languages[lang].name+'</label><br />';
 		
 		pgCode = ($('codepress').firstChild) ? $('codepress').firstChild.nodeValue : '';
 		this.fileName = $('codepress').title;
 		this.language = this.getLanguage();
+		this.complete = true;
 		onLoadEdit = (pgCode.match(/\w/)) ? true : false ;
 
 		cpWindowHeight = $('codepress').clientHeight;
@@ -138,7 +138,7 @@ CodePress = {
 				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
 			'</div>'+
 			'<div id="cp-options-menu" class="hide">'+
-    			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+Content.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+Content.menu.lineNumbers+'</label><br><input type=checkbox id="cp-autocomplete" onclick="CodePress.toggleAutoComplete()" checked="checked"><label for="cp-autocomplete">'+Content.menu.autoComplete+'</label>'+
+    			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+Content.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+Content.menu.lineNumbers+'</label><br><input type=checkbox id="cp-complete" onclick="CodePress.toggleComplete()" checked="checked"><label for="cp-complete">'+Content.menu.autoComplete+'</label>'+
 			'</div>'+
 			'<div id="cp-languages-menu" class="hide">'+allLanguages+'</div>'+
 		'</div>';
