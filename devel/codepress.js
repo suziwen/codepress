@@ -83,6 +83,16 @@ CodePress = {
 		this.hideAllMenu();
 	},
 	
+	resizeFullScreen : function() {
+		if($('cp-fullscreen').checked) {
+			cH = self.innerHeight ? self.innerHeight : document.documentElement.clientHeight;
+			cW = self.innerWidth ? self.innerWidth : document.documentElement.clientWidth;
+			cpEditor.style.height = cH-22 + 'px';
+			cpWindow.style.height = cH-2 + 'px';
+			cpWindow.style.width = cW-2 + 'px';
+		}
+	},
+	
 	toggleFullScreen : function() {
 		var pgBody = document.getElementsByTagName('body')[0];
 	    if($('cp-fullscreen').checked) {
