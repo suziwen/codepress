@@ -41,7 +41,7 @@ CodePress = {
 			if(charCode==32 && evt.shiftKey)  { // non-breaking space
 				CodePress.insertCode("&nbsp;",false);
 			}
-			else if(((charCode>48 && charCode<65) || charCode>187 ) && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
+			else if(((charCode>48 && charCode<65) || charCode>187 ) && parent.CodePress.complete && ((evt.ctrlKey && evt.altKey) || (!evt.ctrlKey && !evt.altKey))) {
 				if(CodePress.language != "text") {
 					top.window.setTimeout(function () { CodePress.putBundles(CodePress.getLastChar(),"key"); },4);
 				}   
