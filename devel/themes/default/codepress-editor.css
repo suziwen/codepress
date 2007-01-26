@@ -12,7 +12,7 @@
 #cp-options-menu.hide, #cp-languages-menu.hide {display:none;}
 #cp-options-menu.show, #cp-languages-menu.show {display:block;}
 
-#cp-window.fullscreen-on { position:absolute;top:0;left:0; }
+#cp-window.fullscreen-on { position:absolute;top:0;left:0;z-index:1001; }
 #cp-window.fullscreen-off { position:relative;top:auto;left:auto;width:100%; }
 
 
