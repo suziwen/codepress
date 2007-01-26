@@ -9,33 +9,43 @@
  *
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  *
- *
- * Very simple implementation of server side script
- * to open files and send to CodePress interface
+ * Very simple implementation of server side script to open files and send to CodePress interface
  */
 
-$path['files'] = "examples";  // directory of files to edit
+/*
+ * root directory of files to open/edit from server
+ * there are 2 ways to set the file directory. See examples below, edit and comment/uncomment the appropriate
+ */
 
-// no need to change below ////////////////////////////////////////////////////
+// RELATIVE to codepress directory instalation: will open file from [root path of your server]/[codepress directory]/examples/
+$path['files'] = "examples"; 
+
+// ABSOLUTE from your webserver root path: will open files from [root path of your server]/examples/
+// $path['files'] = "/examples"; 
+
+
+/* * * * * * * * * * * * * * 
+ * no need to change below * 
+ * * * * * * * * * * * * * */
+ 
 $path['webdocs'] = preg_replace("/\/modules/","",dirname($_SERVER['SCRIPT_NAME']));
 $path['server'] = $_SERVER['DOCUMENT_ROOT'];
 
 $code = "";
-$language = "generic";
 $engine = $_GET['engine'];
-//$init = isset($_GET['init']) ? 1 : 0;
-if(isset($_GET['language'])) $language = $_GET['language'];
+$language = (isset($_GET['language'])) ? $_GET['language'] : "generic" ;
 
 if(isset($_GET['file'])) {
-    $file = basename($_GET['file']);
-	$full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file;
+    $file = preg_replace("/\.\.\//","",$_GET['file']); // don't let users go up with ../../
+	if($path['files']{0}=="/") $full_file = $path['server'].'/'.$path['files']."/".$file; // absolute path
+	else $full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file; // relative path
+
 	if(file_exists($full_file)) {
 	    $code = file_get_contents($full_file);
 	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
 		//$code = preg_replace("/\r\n/","<br>",$code); // opera and khtml engines
-//		if(isset($_GET['language'])) $language = $_GET['language'];
 	}
 }
 
