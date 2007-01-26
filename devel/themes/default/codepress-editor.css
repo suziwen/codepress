@@ -16,6 +16,5 @@
 #cp-window.fullscreen-off { position:relative;top:auto;left:auto;width:100%; }
 
 
-code#codepress, code.codepress { background:white;font-family:13px normal monospace;white-space:pre;line-height:16px;color:black;padding:0;margin:0;visibility:visible; }
+code#codepress, code.cp { width:700px;height:400px;display:block;background:white;font:normal 13px monospace;white-space:pre;line-height:16px;color:white;padding:0;margin:0;visibility:visible; }
 code.hideFileName #cp-filename, code.hideLanguage #cp-language, code.hideOptions #cp-options, code.hideMenu #cp-menu { display:none; }
-

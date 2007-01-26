@@ -184,4 +184,6 @@ CodePress = {
 
 CodePress.detect();
 Content={};
-CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
+onload = function () {
+	CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
+}
