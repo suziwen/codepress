@@ -1,13 +1,13 @@
 Content.languages = { 
-	perl       : { name : 'Perl',       extensions : 'pl,cgi'         },
-	java       : { name : 'Java',       extensions : 'java'           },
-	javascript : { name : 'JavaScript', extensions : 'js'             },	
-	text       : { name : 'Texte',	    extensions : 'txt'   	      },	
-	html       : { name : 'HTML',       extensions : 'html,htm,xhtml' },
 	css        : { name : 'CSS',        extensions : 'css'			  },
 	generic    : { name : 'G&eacute;n&eacute;rique',    extensions : '' 			  },
+	html       : { name : 'HTML',       extensions : 'html,htm,xhtml' },
+	java       : { name : 'Java',       extensions : 'java'           },
+	javascript : { name : 'JavaScript', extensions : 'js'             },	
+	perl       : { name : 'Perl',       extensions : 'pl,cgi'         },
+	php        : { name : 'PHP',        extensions : 'php,phtml'      },
 	sql        : { name : 'SQL',    	extensions : 'sql' 			  },	
-	php        : { name : 'PHP',        extensions : 'php,phtml'      }
+	text       : { name : 'Texte',	    extensions : 'txt'   	      }
 }
 
 Content.messages =  {
