@@ -202,7 +202,6 @@ CodePress = {
 	complete : function(trigger,evt) {
 		for (var i=0; i<Language.complete.length; i++) {
 			if(Language.complete[i].input == trigger) {
-				var pattern = new RegExp(cc);
 				evt.preventDefault(); // prevent the key from being added
 				return x.replace(cc,Language.complete[i].output.replace(/\$0/g,cc));
 			}
