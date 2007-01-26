@@ -9,7 +9,9 @@
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
  
-document.write('<link type="text/css" href="themes/default/codepress-editor.css" rel="stylesheet" />');
+$ = function() { return document.getElementById(arguments[0]); }
+var cpPath = $('cp-script').src.replace('codepress.js','');
+document.write('<link type="text/css" href="'+cpPath+'themes/default/codepress-editor.css" rel="stylesheet" />');
  
 CodePress = {
 	initialize : function() {
@@ -65,12 +67,12 @@ CodePress = {
 	
 	hideAllMenu : function() {
 		$('cp-options-menu').className = $('cp-languages-menu').className = 'hide';
-		$('cp-arrow-languages').src = $('cp-arrow-options').src = 'themes/default/menu-arrow-up.gif' ;		
+		$('cp-arrow-languages').src = $('cp-arrow-options').src = cpPath+'themes/default/menu-arrow-up.gif' ;		
 	},
 	
 	toogleMenu : function(item) {
 		$('cp-'+item+'-menu').className = ($('cp-'+item+'-menu').className=='show') ? 'hide' : 'show' ;
-		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? 'themes/default/menu-arrow-down.gif' : 'themes/default/menu-arrow-up.gif' ;
+		$('cp-arrow-'+item).src = ($('cp-'+item+'-menu').className=='show') ? cpPath+'themes/default/menu-arrow-down.gif' : cpPath+'themes/default/menu-arrow-up.gif' ;
 	},
 	
 	toggleComplete : function() {
@@ -119,7 +121,7 @@ CodePress = {
 		this.setFileName(arguments[0]);
 		if(!arguments[1]||arguments[1]=='') { // file name of the source code (to open from server)
 			this.setLanguage();
-			cpEditor.src = 'modules/codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&engine='+cpEngine
+			cpEditor.src = cpPath+'modules/codepress.php?action=edit&file='+this.fileName+'&language='+this.language+'&engine='+cpEngine
 			return;
 		}
 		this.setLanguage('reload');
@@ -143,9 +145,9 @@ CodePress = {
 		cpEditorHeight = ($('codepress').className.match('hideMenu')) ? cpWindowHeight : cpWindowHeight-20 ;
 		
 		$('codepress').innerHTML = '<div id="cp-window">'+
-			'<iframe id="cp-editor" src="modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ cpEditorHeight +'px"></iframe>'+
+			'<iframe id="cp-editor" src="'+cpPath+'modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ cpEditorHeight +'px"></iframe>'+
 			'<div id="cp-menu">'+
-				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
+				'<em id="cp-filename"></em><span id="cp-options" onclick="CodePress.toogleMenu(\'options\')"><img src="'+cpPath+'themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align="top" id="cp-arrow-options" /></span><span id="cp-language" onclick="CodePress.toogleMenu(\'languages\')"><img src="'+cpPath+'themes/default/menu-icon-languages.gif" align="top" /> <span id="cp-language-name">'+Content.languages.generic.name+'</span> <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align=top id="cp-arrow-languages" /></span>'+
 			'</div>'+
 			'<div id="cp-options-menu" class="hide">'+
     			'<input type="checkbox" id="cp-fullscreen" onclick="CodePress.toggleFullScreen()"><label for="cp-fullscreen">'+Content.menu.fullScreen+'</label><br><input type=checkbox id="cp-linenumbers" onclick="CodePress.toggleLineNumbers()" checked="checked"><label for="cp-linenumbers">'+Content.menu.lineNumbers+'</label><br><input type=checkbox id="cp-complete" onclick="CodePress.toggleComplete()" checked="checked"><label for="cp-complete">'+Content.menu.autoComplete+'</label>'+
@@ -186,5 +188,4 @@ CodePress = {
 
 CodePress.detect();
 Content={};
-$ = function() { return document.getElementById(arguments[0]); }
-CodePress.loadScript(document, 'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
+CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
