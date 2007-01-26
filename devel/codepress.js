@@ -101,11 +101,7 @@ CodePress = {
 			cpWindow.className = 'fullscreen-on'; 
 			pgBody.style.height = pgBody.style.width = '100px';
 			pgBody.style.overflow = 'hidden';
-			cH = self.innerHeight ? self.innerHeight : document.documentElement.clientHeight;
-			cW = self.innerWidth ? self.innerWidth : document.documentElement.clientWidth;
-			cpEditor.style.height = cH-22 + 'px';
-			cpWindow.style.height = cH-2 + 'px';
-			cpWindow.style.width = cW-2 + 'px';
+			this.resizeFullScreen();
 	    }
 	    else {
 			cpWindow.className = 'fullscreen-off';
