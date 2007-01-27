@@ -55,6 +55,11 @@ CodePress = {
 	    	keyCode = evt.keyCode;	
 			charCode = evt.charCode;
 			top.document.title = 'charCode='+charCode+' keyCode='+keyCode;
+			
+			if(keyCode==13 && !evt.ctrlKey && !evt.metaKey && !evt.shiftKey) {
+				evt.preventDefault();
+				CodePress.syntaxHighlight('newline');
+			}
 
 			if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 				CodePress.shortcuts(charCode?charCode:keyCode);
@@ -120,6 +125,7 @@ CodePress = {
 		
 		if(flag=='snippets') x = this.snippets(arguments[1]);
 		if(flag=='complete') x = this.complete(arguments[1],arguments[2]);
+		if(flag=='newline')  x = x.replace(cc,"<br>"+this.getIndent(x,0)+cc);
 	
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
@@ -157,13 +163,28 @@ CodePress = {
 		}
 	},
 
-	/*
+/*
 	getLastChar : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		alert(rangeAndCaret)
 		return rangeAndCaret[0].substr(rangeAndCaret[1]-1,1);
 	},
 */
+
+	getIndent : function(code,lineOffset) {
+		var lines = code.split("<br>");
+		var indent = currentLine = "";
+		for (k=1;k<lines.length;k++) {
+		  if(lines[k].indexOf(cc)!=-1) {
+			currentLine = lines[k];
+			break;}}
+		if(!currentLine) return "";
+		for (l=0;l<currentLine.length;l++) {
+		  if(currentLine.split('')[l]=="\t") indent+="\t";
+		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
+		  else break; }	
+		return indent;
+	},
 	
 	getLastWord : function() {
 		var rangeAndCaret = this.getRangeAndCaret();
@@ -190,6 +211,7 @@ CodePress = {
 				var content = Language.snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
+				content = content.replace(/\n/g,"\n"+this.getIndent(x,0)); // indentation
 				content = content.replace(/\n/g,'<br>');
 				var pattern = new RegExp(trigger+cc,"g");
 				evt.preventDefault(); // prevent the tab key from being added
