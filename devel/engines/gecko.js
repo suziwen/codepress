@@ -60,8 +60,7 @@ CodePress = {
 				evt.preventDefault();
 				CodePress.syntaxHighlight('newline');
 			}
-
-			if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
+			else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 				CodePress.shortcuts(charCode?charCode:keyCode);
 			}
 			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
@@ -125,7 +124,7 @@ CodePress = {
 		
 		if(flag=='snippets') x = this.snippets(arguments[1]);
 		if(flag=='complete') x = this.complete(arguments[1],arguments[2]);
-		if(flag=='newline')  x = x.replace(cc,"<br>"+this.getIndent(x,0)+cc);
+		if(flag=='newline')  x = x.replace(cc,"<br>"+this.getIndent(x)+cc);
 	
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
@@ -171,7 +170,7 @@ CodePress = {
 	},
 */
 
-	getIndent : function(code,lineOffset) {
+	getIndent : function(code) {
 		var lines = code.split("<br>");
 		var indent = currentLine = "";
 		for (k=1;k<lines.length;k++) {
@@ -211,7 +210,7 @@ CodePress = {
 				var content = Language.snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				content = content.replace(/\$0/g,cc);
-				content = content.replace(/\n/g,"\n"+this.getIndent(x,0)); // indentation
+				content = content.replace(/\n/g,"\n"+this.getIndent(x)); // indentation
 				content = content.replace(/\n/g,'<br>');
 				var pattern = new RegExp(trigger+cc,"g");
 				evt.preventDefault(); // prevent the tab key from being added
