@@ -68,7 +68,7 @@ CodePress = {
 				window.getSelection().getRangeAt(0).deleteContents();
 				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
 			}
-		    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
+		    else if(chars.indexOf('|'+charCode+'|')!=-1) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
 			}
 			else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
