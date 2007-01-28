@@ -13,8 +13,8 @@ if(isset($_GET['file'])) {
 	$full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file;
 	if(file_exists($full_file)) {
 		$code = file_get_contents($full_file);
-		$code = preg_replace("/</","&lt;",$code);
-		$code = preg_replace("/>/","&gt;",$code);
+		$code = preg_replace("/>/","&amp;gt;",$code);
+		$code = preg_replace("/</","&amp;lt;",$code);
 		$language = getLanguage($file);
 	}
 }

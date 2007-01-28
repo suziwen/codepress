@@ -18,10 +18,6 @@ $path['files'] = "examples";  // directory of files to edit
 $path['webdocs'] = dirname($_SERVER['SCRIPT_NAME']);
 $path['server'] = $_SERVER['DOCUMENT_ROOT'];
 
-/* For future use
-$action = $_GET['action']; 
-if($action == 'edit') { } */
-
 $code = "";
 $language = "text";
 
@@ -30,7 +26,7 @@ if(isset($_GET['file'])) {
 	$full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file;
 	if(file_exists($full_file)) {
 	    $code = file_get_contents($full_file);
-	    $code = preg_replace("/&shy;|&amp;shy;/","\\xad",$code);
+	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
 	    $language = getLanguage($file);
@@ -72,6 +68,7 @@ function getLanguage($file) {
 	$ext['php'] = 'php'; $ext['phtml'] = 'php';
 	$ext['js'] = 'javascript';
 	$ext['java'] = 'java';
+	$ext['sql'] = 'sql';	
 	$ext['pl'] = 'perl'; $ext['cgi'] = 'perl'; $ext['perl'] = 'perl';
 	$ext['txt'] = 'text';
 	$ext['html'] = 'html'; $ext['htm'] = 'html';

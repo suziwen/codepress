@@ -13,11 +13,9 @@ CodePress = {
 	range : null,
 	language : null,
 	scrolling : false,
-
-		
+	
 	// set initial vars and start sh
 	initialize : function() {
-		charCode =0;
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		this.detect();
 		chars = '|13|32|191|57|48|187|188|'; // charcodes that trigger syntax highlighting
@@ -74,6 +72,7 @@ CodePress = {
 			else if(charCode==86 && evt.ctrlKey)  { // paste
 				// TODO: pasted text should be parsed and highlighted
 			}
+
 		}
 	},
 
@@ -115,20 +114,8 @@ CodePress = {
 		if(browser.ff) {
 			if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 			o = editor.innerHTML;
-		/*
-			if(charCode==13) { 
-				z=o.indexOf(cc)
-				linha = o.substring(z-100,z);
-				tabs ='';
-				g = linha.split('\t').length-1;
-				for(x=0;x<g;x++) tabs += '\t';
-				o = o.replace(cc,tabs+cc);
-				alert(1);
-			}
-*/
 			o = o.replace(/<br>/g,'\n');
 			o = o.replace(/<.*?>/g,'');
-			o = o.replace(cc+'\n','\nxx'+cc+'');			
 			x = z = this.split(o,flag);
 			x = x.replace(/\n/g,'<br>');
 		}
@@ -138,19 +125,19 @@ CodePress = {
 			o = o.replace(/<P>/g,'\n');
 			o = o.replace(/<\/P>/g,'\r');
 			o = o.replace(/<.*?>/g,'');
+			o = o.replace(/&nbsp;/g,'');			
 			o = '<PRE><P>'+o+'</P></PRE>';
 			o = o.replace(/\n/g,'<P>');
 			o = o.replace(/\r/g,'<\/P>');
 			o = o.replace(/<P>(<P>)+/,'<P>');
 			o = o.replace(/<\/P>(<\/P>)+/,'</P>');
-			o = o.replace(/<P><\/P>/g,'<P>&nbsp;<\/P>');
+			o = o.replace(/<P><\/P>/g,'<P><BR /><\/P>');
 			x = z = this.split(o,flag);
 		}
 
 		for(i=0;i<syntax.length;i+=2) 
 			x = x.replace(syntax[i],syntax[i+1]);
 
-		
 		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
 
 		if(flag!='init') this.findString();
@@ -189,9 +176,9 @@ CodePress = {
 	// transform syntax highlighted code to original code
 	getCode : function() {
 		code = editor.innerHTML;
-//		code = code.replace(/<pre>(<p>)*|(<\/p>)*<\/pre>/gi,'');
-		code = code.replace(/<br>/gi,'\n');
+		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix		
 		code = code.replace(/<p>/gi,'\n');
 		code = code.replace(/&nbsp;/gi,'');
 		code = code.replace(/\u2009/g,'');
@@ -203,11 +190,10 @@ CodePress = {
 	},
 
 	// put some code inside editor
-	// you can pass parameters like (language,code) or just textarea object id
 	setCode : function() {
 		if(typeof(arguments[1])=='undefined') {
-			language = parent.document.getElementById(arguments[0]).lang.toLowerCase();
-			code = parent.document.getElementById(arguments[0]).value;
+			language = top.document.getElementById(arguments[0]).lang.toLowerCase();
+			code = top.document.getElementById(arguments[0]).value;
 		} 
 		else {
 			language = arguments[0];
@@ -230,17 +216,17 @@ CodePress = {
 }
 
 onload = function() {
-	cpWindow = parent.document.getElementById('codepress');
+	cpWindow = top.document.getElementById('codepress');
 	if(cpWindow!=null) {
 		cpWindow.style.border = '1px solid gray';
 		cpWindow.style.frameBorder = '0';
 	}
 	
-	parent.CodePress = CodePress;
+	top.CodePress = CodePress;
 	CodePress.initialize('new');
 	
-	cpOnload = parent.document.getElementById('codepress-onload');
-	cpOndemand = parent.document.getElementById('codepress-ondemand');
+	cpOnload = top.document.getElementById('codepress-onload');
+	cpOndemand = top.document.getElementById('codepress-ondemand');
 	
 	if(cpOnload!=null) {
 		cpOnload.style.display = 'none';
