@@ -70,8 +70,9 @@ CodePress = {
 		    else if(chars.indexOf('|'+charCode+'|')!=-1) { // syntax highlighting
 			 	CodePress.syntaxHighlight('generic');
 			}
-			else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
-				CodePress.syntaxHighlight('snippets',evt);
+			else if(keyCode==9 || evt.tabKey) { // tab Event
+				if(!window.getSelection().toString().length) CodePress.syntaxHighlight('snippets',evt);
+				else CodePress.syntaxHighlight('indentBlock'); // TODO
 			}
 			else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
 			 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
@@ -111,14 +112,14 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-		if(document.designMode=='off') document.designMode='on'
-		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
+		if(document.designMode=='off') document.designMode='on';
+		var selection = window.getSelection();
+		if(flag=='indentBlock') selection.deleteFromDocument(); // Remove the selection, TODO: indent the selection	
+		if(flag!='init') selection.getRangeAt(0).insertNode(document.createTextNode(cc));
 
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
-//		o = o.replace(/\u2008/g,'<br>');
-//		o = o.replace(/\u2007/g,'\t');
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 		
