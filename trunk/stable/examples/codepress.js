@@ -1,10 +1,12 @@
-// CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+/*
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript
+ */
 
 CodePress = {
 	range : null,
 	language : null,
 	scrolling : false,
-		
+	
 	// set initial vars and start sh
 	initialize : function() {
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
@@ -199,8 +201,8 @@ CodePress = {
 		document.getElementById('cp-lang-style').href = 'languages/codepress-'+language+'.css';
 		code = code.replace(/\u2009/gi,'');
 		code = code.replace(/&/gi,'&amp;');		
-       	code = code.replace(/</g,'&lt;');
-        code = code.replace(/>/g,'&gt;');
+		code = code.replace(/</g,'&lt;');
+		code = code.replace(/>/g,'&gt;');
 		editor.innerHTML = "<pre>"+code+"</pre>";
 		this.language = language;
 	}

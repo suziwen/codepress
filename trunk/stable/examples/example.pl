@@ -13,8 +13,10 @@ $var2 = 14.6;
 # Hash variable, or associative array
 %hash1 = ("one","Monday","two", "Tuesday","three", "Wednesday","four","Thursday");
 
+# Some simple printing
+print $var1; 
 
-# Some simple printing examples
-
-print $var1;   # Printing out Scalar Variables
-print (" ",$var2,"\n");
+# Subroutine
+sub test() {
+	print "ok";
+}

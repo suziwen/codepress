@@ -2,7 +2,6 @@
  * CodePress color styles for Java syntax highlighting
  */
 
-b, i, s {text-decoration:none;font-weight:normal;font-style:normal;}
 b {color:#7F0055;font-weight:bold;font-style:normal;} /* reserved words */
 i, i b, i s {color:#3F7F5F;font-weight:bold;} /* comments */
 s, s b {color:#2A00FF;font-weight:normal;} /* strings */

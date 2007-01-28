@@ -1,8 +1,8 @@
 /*
- * CodePress regular expressions for Generic ( syntax highlighting
+ * CodePress regular expressions for generic syntax highlighting
  */
  
-syntax = [ // Generic languages
+syntax = [ // generic languages
 	/\"(.*?)(\"|<br>|<\/P>)/g,'<s>"$1$2</s>', // strings double quote
 	/\'(.*?)(\'|<br>|<\/P>)/g,'<s>\'$1$2</s>', // strings single quote
 	/\b(abstract|continue|for|new|switch|default|goto|boolean|do|if|private|this|break|double|protected|throw|byte|else|import|public|throws|case|return|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|const|float|while|function|label)\b/g,'<b>$1</b>', // reserved words

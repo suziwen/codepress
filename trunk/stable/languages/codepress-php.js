@@ -1,6 +1,5 @@
 /*
  * CodePress regular expressions for PHP syntax highlighting
- * By J. Nick Koston
  */
 
 syntax = [ // PHP
