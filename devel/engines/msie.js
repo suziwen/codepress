@@ -166,20 +166,21 @@ CodePress = {
 		if (event=='tab') var bundle = Language.snippets;
 		if (event=='key') var bundle = Language.complete;
 		for (var i=0; i<bundle.length; i++) {
-			if(bundle[i].input == trigger) {
+			if(bundle[i].input.toLowerCase() == trigger.toLowerCase()) {
 				var preParse = this.prepareParsing("generic");
 				var x = preParse[0];
 				var z = preParse[1];
 	
 				content = bundle[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
-				content = content.replace(/\$0/g,cc);
+				if(content.indexOf("$0")<0) content+=cc;
+				else content = content.replace(/\$0/g,cc);
 				content = content.replace(/\n/g,'</P><P>');
 				
 				var removeTab = (event=='tab') ? "\t" : "";
 				var escape = (event=='key') ? "\\" : "";
 
-				var pattern = new RegExp(escape+trigger+removeTab+cc,"g");
+				var pattern = new RegExp(escape+trigger+removeTab+cc,"gi");
 
 				x = x.replace(pattern,content);
 
