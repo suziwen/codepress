@@ -21,12 +21,26 @@ Language.syntax = [ // PHP
 // activated with tab
 Language.snippets = [
 	{ input : 'if', output : 'if($0){\n\t\n}' },
+	{ input : 'ifelse', output : 'if($0){\n\t\n}\nelse{\n\t\n}' },
+	{ input : 'else', output : '}\nelse {\n\t' },
+	{ input : 'elseif', output : '}\nelseif($0) {\n\t' },
 	{ input : 'do', output : 'do{\n\t$0\n}\nwhile();' },
 	{ input : 'inc', output : 'include_once("$0");' },
+	{ input : 'fun', output : 'function $0(){\n\t\n}' },	
 	{ input : 'func', output : 'function $0(){\n\t\n}' },	
 	{ input : 'while', output : 'while($0){\n\t\n}' },
+	{ input : 'for', output : 'for($0,,){\n\t\n}' },
+	{ input : 'fore', output : 'foreach($0 as ){\n\t\n}' },
+	{ input : 'foreach', output : 'foreach($0 as ){\n\t\n}' },
 	{ input : 'echo', output : 'echo \'$0\';' },
 	{ input : 'switch', output : 'switch($0) {\n\tcase "": break;\n\tdefault: ;\n}' },
+	{ input : 'case', output : 'case "$0" : break;' },
+	{ input : 'ret0', output : 'return false;' },
+	{ input : 'retf', output : 'return false;' },
+	{ input : 'ret1', output : 'return true;' },
+	{ input : 'rett', output : 'return true;' },
+	{ input : 'ret', output : 'return $0;' },
+	{ input : 'def', output : 'define(\'$0\',\'\');' },
 	{ input : '<?', output : 'php\n$0\n?>' }
 ],
 

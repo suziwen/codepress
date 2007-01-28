@@ -207,13 +207,14 @@ CodePress = {
 	snippets : function(evt) {
 		var trigger = this.getLastWord();
 		for (var i=0; i<Language.snippets.length; i++) {
-			if(Language.snippets[i].input == trigger) {
+			if(Language.snippets[i].input.toLowerCase() == trigger.toLowerCase()) {
 				var content = Language.snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
-				content = content.replace(/\$0/g,cc);
+				if(content.indexOf("$0")<0) content+=cc;
+				else content = content.replace(/\$0/g,cc);
 				content = content.replace(/\n/g,"\n"+this.getIndent(x)); // indentation
 				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,"g");
+				var pattern = new RegExp(trigger+cc,"gi");
 				evt.preventDefault(); // prevent the tab key from being added
 				return x.replace(pattern,content);
 			}

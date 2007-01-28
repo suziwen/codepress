@@ -25,7 +25,10 @@ Language.syntax = [ // JavaScript
 ]
 
 Language.snippets = [
-	{ input : 'dw', output : 'document.write(\'$0\');' }
+	{ input : 'dw', output : 'document.write(\'$0\');' },
+	{ input : 'getid', output : 'document.getElementById(\'$0\')' },
+	{ input : 'fun', output : 'function $0(){\n\t\n}' },
+	{ input : 'func', output : 'function $0(){\n\t\n}' }
 ];
 
 Language.complete = [ // Auto complete only for 1 character
