@@ -81,16 +81,13 @@ CodePress = {
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
-			range.select(); // the second select() display correctly the carret
+			range.select();
 		}
 	},
 	
 	// split big files, highlighting parts of it
 	split : function(code,flag) {
-		if(flag=='scroll') {
-			this.scrolling = true;
-			return code;
-		}
+		if(flag=='scroll') { this.scrolling = true; return code; }
 		else {
 			this.scrolling = false;
 			mid = code.indexOf(cc);
@@ -104,20 +101,15 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-		if(flag!='init' && flag!='snippets') {
-			range = document.selection.createRange();
-			range.text = cc;}	
-		
-		o = this.getCode();
+		if(flag!='init' && flag!='snippets')
+			document.selection.createRange().text = cc;
+			
+		var o = this.parseCode();
 		x = z = this.split(o,flag);
 		
 		if(flag=="newline") {
 			var indent = this.getIndent(x);
-			if(!indent) {
-				range.findText(cc);
-				range.select();
-				range.text = '';
-				return this.findString();}
+			if(!indent) return this.findString();
 			else {
 				arguments[1].returnValue = false;
 				x = x.replace(cc,"</P><P>"+indent+cc);}
@@ -133,24 +125,21 @@ CodePress = {
 	},
 
 	snippets : function(evt) {
-	
 		var snippets = Language.snippets;
 		var trigger = this.getLastWord();
 		document.selection.createRange().text = cc;
-		for (var i=0; i<snippets.length; i++) {
+		for (var i=0; i<snippets.length; i++)
 			if(snippets[i].input == trigger) {
 				var content = snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
-				content = content.replace(/\n/g,"\n"+this.getIndent(this.getCode()));
+				content = content.replace(/\n/g,"\n"+this.getIndent(this.parseCode()));
 				content = content.replace(/\n/g,'</P><P>');
 				var pattern = new RegExp(trigger+cc);
 				this.syntaxHighlight('snippets',pattern,content);
 				return true;
 			}
-		}
-		evt.returnValue = true;
 		this.syntaxHighlight('snippets',cc,"\t"+cc);
 	},
 	
@@ -184,7 +173,7 @@ CodePress = {
 	
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
+		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
 		words = words.replace(/[\s\r\);]/g,"\n").split("\n");
 		return words[words.length-1];
 	},
@@ -203,8 +192,8 @@ CodePress = {
 		var repdeb = "";
 		var repfin = "";
 		
-		if(replaceCursorBefore) { repfin = code; }
-		else { repdeb = code; }
+		if(replaceCursorBefore) repfin = code;
+		else repdeb = code;
 		
 		if(typeof document.selection != 'undefined') {
 			var range = document.selection.createRange();
@@ -230,9 +219,8 @@ CodePress = {
 		return indent;
 	},
 	
-	getCode : function() {
-	
-		o = editor.innerHTML;
+	parseCode : function() {
+		var o = editor.innerHTML;
 		o = o.replace(/&nbsp;/g,'');			
 		o = o.replace(/<P>/g,'\n');
 		o = o.replace(/<\/P>/g,'\r');
@@ -244,14 +232,12 @@ CodePress = {
 		o = o.replace(/<P>(<P>)+/,'<P>');
 		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
 		return o.replace(/<P><\/P>/g,'<P><BR/></P>');
-		
 	},
 	
 	// undo and redo methods
 	actions : {
 		pos : -1, // actual history position
 		history : [], // history vector
-		
 		undo : function() {
 			if(editor.innerHTML.indexOf(cc)==-1){
 				document.selection.createRange().text = cc;
@@ -261,15 +247,13 @@ CodePress = {
 			if(typeof(this.history[this.pos])=='undefined') this.pos++;
 			editor.innerHTML = this.history[this.pos];
 			CodePress.findString();
-		},
-		
+		},	
 		redo : function() {
 			this.pos++;
 			if(typeof(this.history[this.pos])=='undefined') this.pos--;
 			editor.innerHTML = this.history[this.pos];
 			CodePress.findString();
-		},
-		
+		},	
 		next : function() { // get next vector position and clean old ones
 			if(this.pos>20) this.history[this.pos-21] = undefined;
 			return ++this.pos;
