@@ -37,10 +37,14 @@ CodePress = {
 	// treat key bindings
 	keyHandler : function(evt) {
 		charCode = evt.keyCode;
+		
+		if(charCode==13 && !evt.ctrlKey && !evt.metaKey && !evt.shiftKey) {
+			CodePress.syntaxHighlight('newline',evt);
+		}
 		if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
 			CodePress.complete(String.fromCharCode(charCode))
 		}
-	    else if(chars.indexOf('|'+charCode+'|')!=-1||charCode==13) { // syntax highlighting
+	    else if(chars.indexOf('|'+charCode+'|')!=-1) { // syntax highlighting
 		 	CodePress.syntaxHighlight('generic');
 		}
 		else if(charCode==46||charCode==8) { // save to history when delete or backspace pressed
@@ -56,15 +60,17 @@ CodePress = {
 	},
 
 	metaHandler : function(evt) {
-		if(evt.keyCode==9 || evt.tabKey) { 
-			CodePress.snippets();
-		}
-		else if(evt.keyCode==34||evt.keyCode==33) { // handle page up/down for IE
-			self.scrollBy(0, (evt.keyCode==34) ? 200 : -200); 
+		charCode = evt.keyCode;
+		if(charCode==9 || evt.tabKey) { 
+			CodePress.snippets(evt);
 			evt.returnValue = false;
 		}
-		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && evt.keyCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
-			CodePress.shortcuts(evt.keyCode);
+		else if(charCode==34||charCode==33) { // handle page up/down for IE
+			self.scrollBy(0, (charCode==34) ? 200 : -200); 
+			evt.returnValue = false; // TODO: fix the parent scrolling
+		}
+		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
+			CodePress.shortcuts(charCode);
 			evt.returnValue = false;
 		}
 	},
@@ -75,6 +81,7 @@ CodePress = {
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
+			range.select(); // the second select() display correctly the carret
 		}
 	},
 	
@@ -97,44 +104,54 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-		if(flag!='init') document.selection.createRange().text = cc;
-		o = editor.innerHTML;
-		o = o.replace(/<P>/g,'\n');
-		o = o.replace(/<\/P>/g,'\r');
-		o = o.replace(/<.*?>/g,'');
-		o = o.replace(/&nbsp;/g,'');			
-		o = '<PRE><P>'+o+'</P></PRE>';
-		o = o.replace(/\n\r/g,'<P></P>');
-		o = o.replace(/\n/g,'<P>');
-		o = o.replace(/\r/g,'<\/P>');
-		o = o.replace(/<P>(<P>)+/,'<P>');
-		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
-		o = o.replace(/<P><\/P>/g,'<P><BR/></P>');
+		if(flag!='init' && flag!='snippets') {
+			range = document.selection.createRange();
+			range.text = cc;}	
+		
+		o = this.getCode();
 		x = z = this.split(o,flag);
-
+		
+		if(flag=="newline") {
+			var indent = this.getIndent(x);
+			if(!indent) {
+				range.findText(cc);
+				range.select();
+				range.text = '';
+				return this.findString();}
+			else {
+				arguments[1].returnValue = false;
+				x = x.replace(cc,"</P><P>"+indent+cc);}
+		}
+		
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
 	
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
-			
+		
 		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.replace(z,x);
 		if(flag!='init') this.findString();
 	},
 
 	snippets : function(evt) {
+	
 		var snippets = Language.snippets;
 		var trigger = this.getLastWord();
+		document.selection.createRange().text = cc;
 		for (var i=0; i<snippets.length; i++) {
 			if(snippets[i].input == trigger) {
 				var content = snippets[i].output.replace(/</g,'&lt;');
 				content = content.replace(/>/g,'&gt;');
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
+				content = content.replace(/\n/g,"\n"+this.getIndent(this.getCode()));
 				content = content.replace(/\n/g,'</P><P>');
 				var pattern = new RegExp(trigger+cc);
 				this.syntaxHighlight('snippets',pattern,content);
+				return true;
 			}
 		}
+		evt.returnValue = true;
+		this.syntaxHighlight('snippets',cc,"\t"+cc);
 	},
 	
 	complete : function(trigger) {
@@ -167,7 +184,8 @@ CodePress = {
 	
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
+		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
+		words = words.replace(/[\s\r\);]/g,"\n").split("\n");
 		return words[words.length-1];
 	},
 
@@ -177,6 +195,7 @@ CodePress = {
 		range = parent.CodePress.getCode();
 		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
+		range = range.replace(/&shy;/gi,'');
 		return [range.toString(),caret];
 	},
 	
@@ -194,6 +213,38 @@ CodePress = {
 			range.move('character', -repfin.length);
 			range.select();	
 		}	
+	},
+	
+	getIndent : function(code) {
+		var lines = code.split("</P><P>");
+		var indent = currentLine = "";
+		for (k=1;k<lines.length;k++) {
+		  if(lines[k].indexOf(cc)!=-1) {
+			currentLine = lines[k];
+			break;}}
+		if(!currentLine) return "";
+		for (l=0;l<currentLine.length;l++) {
+		  if(currentLine.split('')[l]=="\t") indent+="\t";
+		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
+		  else break; }	
+		return indent;
+	},
+	
+	getCode : function() {
+	
+		o = editor.innerHTML;
+		o = o.replace(/&nbsp;/g,'');			
+		o = o.replace(/<P>/g,'\n');
+		o = o.replace(/<\/P>/g,'\r');
+		o = o.replace(/<.*?>/g,'');
+		o = '<PRE><P>'+o+'</P></PRE>';
+		o = o.replace(/\n\r/g,'<P></P>');
+		o = o.replace(/\n/g,'<P>');
+		o = o.replace(/\r/g,'<\/P>');
+		o = o.replace(/<P>(<P>)+/,'<P>');
+		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
+		return o.replace(/<P><\/P>/g,'<P><BR/></P>');
+		
 	},
 	
 	// undo and redo methods
