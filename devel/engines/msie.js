@@ -176,7 +176,7 @@ CodePress = {
 		var range = document.selection.createRange();
 		var caret = Math.abs(range.moveStart("character", -1000000)+1);
 		range = parent.CodePress.getCode();
-		range = range.replace(/\n\r/gi,' ');
+		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
 		return [range.toString(),caret];
 	},
