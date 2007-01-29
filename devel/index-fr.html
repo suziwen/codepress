@@ -22,11 +22,20 @@
 	#default {font-weight:bold;color:red;}
 	#codepress-load-code, #load-this {display:none;}
 	#myTextAreaId {display:none;}
-	
+	.h {display:none;background:#eee;padding:10px;margin:10px 0;-moz-border-radius:4px;border:2px solid silver;}
 	code#codepress, code.codepress { visibility:hidden; }
 	</style>
 	
 	<script>
+	// common ////
+function $(id) {
+	return document.getElementById(id);
+}
+
+function showContent(id) {
+	$(id).style.display = ($(id).style.display =='block') ? 'none' : 'block' ;
+
+}
 	last = null;
 	function edit(file,obj) {
 		if(last == null) last = document.getElementById('default');
@@ -61,7 +70,7 @@
 	
 	<p>Visitez <strong><a href="http://codepress.fermads.net/">http://codepress.fermads.net/</a></strong> pour les mises &agrave; jours.</p>
 
-<h3>Demo</h3>
+<h3><a name="demo"></a>Demo</h3>
 <div id="languages">
 	<em>Testez un exemple en:</em> 
 	<button onclick="edit('codepress.php',this)" id="default">PHP</button> 
@@ -90,10 +99,38 @@ for (i=0;i<10;i++) {
 <button onclick="CodePress.edit('FromHiddenArea.js','myTextAreaId')"><strong>Modifier le code</strong></button> :: l'exemple colorise un code plac&eacute; dans un textarea cach&eacute;
 
 
-<h3>Comment l'utiliser</h3>
+<h3><a name="features"></a>Fonctionalit&eacute;s</h3>
 
-[how to use it text here]
-
+<p>Voici une liste exhaustive des fonctionalit&eacute;s de CodePress version Devel
+<ul>
+	<li>Coloration syntaxique des languages : PHP, JavaScript, Perl, CSS, HTML, Java et SQL</li>
+	<li>Coloration syntaxique g&eacute;n&eacute;rique</li>
+	<li>Menu contextuel permettant de choisir le type de coloration</li>
+	<li>Auto-fermeture des caract&egrave;res suivants : " , ' , ( , { et [</li>
+	<li>Insertion de codes pr&eacute;d&eacute;finis par pression de la touche tabulation. Au niveau d'indentation courant sous Firefox. <a href=javascript:showContent('examplesnippets')>Exemples</a>&darr;
+			<div id="examplesnippets" class="h">
+			html + [tab] va ins&eacute;rer dans un code html<br/><code>&lt;html&gt;&lt;/html&gt;</code><br/>
+			head + [tab] va ins&eacute;rer dans un code html<br/>
+			<code>&lt;head&gt;<br />&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;&lt;/title&gt;<br />&lt;/head&gt;</code><br/>
+			if + [tab] va ins&eacute;rer dans un code php<br/><code>if() { }</code><br/>
+			func + [tab] va ins&eacute;rer dans un code php<br/><code>function () { }</code><br/>
+			<br/>
+			Pleins d'autres "raccourcis" sont &agrave; d&eacute;couvrir.
+			</div></li>
+	<li>Replacement du curseur d'insertion apr&egrave;s insertion d'un extrait d'un code pr&eacute;d&eacute;fini</li>
+	<li>Maintient du niveau d'indentation du code &agrave; chaque retour &agrave; la ligne. (sous Firefox uniquement pour l'instant)</li>
+	<li>Mode plein &eacute;cran</li>
+	<li>Prise en charge d'un historique de modifications (utilisation des raccourcis traditionels [ctrl] + z pour annuler et [ctrl] + y pour r&eacute;tablir)</li>
+	<li>Menu contextuel permettant l'activation de certaines fonctionalit&eacute;s</li>
+	<li>Prise en charge des gros fichiers</li>
+	<li>Raccourcis clavier personalisable. <a href=javascript:showContent('exampleshortcuts')>Exemples</a>&darr;
+			<div id="exampleshortcuts" class="h">
+			[ctrl]+[shift]+[espace] insert <code>&amp;nbsp;</code><br/>
+			[ctrl]+[shift]+[enter] insert <code>&lt;br/&gt;</code><br/>
+			</div></li>
+</ul>
+</p>
 
 <h3>&Agrave; Propos</h3>
 
