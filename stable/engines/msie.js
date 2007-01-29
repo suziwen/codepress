@@ -168,7 +168,6 @@ CodePress = {
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
-		alert(words)
 		return words[words.length-1];
 	},
 
