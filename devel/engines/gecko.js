@@ -31,59 +31,38 @@ CodePress = {
 		parent.CodePress.initialize();
 		this.language = parent.CodePress.language;
 	},
-
-	getCompleteChars : function() {
-		var cChars = '';
-		for(var i=0;i<Language.complete.length;i++)
-			cChars += '|'+Language.complete[i].input;
-		return cChars+'|';
-	},
-
-	shortcuts : function() {
-		var cCode = arguments[0];
-		if(cCode==13) cCode = '[enter]';
-		else if(cCode==32) cCode = '[space]';
-		else cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
-		for(var i=0;i<Language.shortcuts.length;i++)
-			if(Language.shortcuts[i].input == cCode)
-				this.insertCode(Language.shortcuts[i].output,false);
-	},
 	
 	// treat key bindings
 	keyHandler : function(evt) {
-	  	if(evt) {
-	    	keyCode = evt.keyCode;	
-			charCode = evt.charCode;
-			top.document.title = 'charCode='+charCode+' keyCode='+keyCode;
-			
-			if(keyCode==13 && !evt.ctrlKey && !evt.metaKey && !evt.shiftKey) {
-				evt.preventDefault();
-				CodePress.syntaxHighlight('newline');
-			}
-			else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
-				CodePress.shortcuts(charCode?charCode:keyCode);
-			}
-			else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
-				window.getSelection().getRangeAt(0).deleteContents();
-				CodePress.syntaxHighlight('complete',String.fromCharCode(charCode),evt);
-			}
-		    else if(chars.indexOf('|'+charCode+'|')!=-1) { // syntax highlighting
-			 	CodePress.syntaxHighlight('generic');
-			}
-			else if(keyCode==9 || evt.tabKey) { // tab Event
-				if(!window.getSelection().toString().length) CodePress.syntaxHighlight('snippets',evt);
-				else CodePress.syntaxHighlight('indentBlock'); // TODO
-			}
-			else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
-			 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
-			}
-			else if((charCode==122||charCode==121||charCode==90) && evt.ctrlKey) { // undo and redo
-				(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
-				evt.preventDefault();
-			}
-			else if(keyCode==86 && evt.ctrlKey)  { // paste
-				// TODO: pasted text should be parsed and highlighted
-			}
+    	keyCode = evt.keyCode;	
+		charCode = evt.charCode;
+		top.document.title = 'charCode='+charCode+' keyCode='+keyCode;
+		if(keyCode==13 && !evt.ctrlKey && !evt.metaKey && !evt.shiftKey) {
+			evt.preventDefault();
+			CodePress.syntaxHighlight('newline');
+		}
+		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
+			CodePress.shortcuts(charCode?charCode:keyCode);
+		}
+		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
+			CodePress.complete(String.fromCharCode(charCode));
+		}
+	    else if(chars.indexOf('|'+charCode+'|')!=-1) { // syntax highlighting
+		 	CodePress.syntaxHighlight('generic');
+		}
+		else if(keyCode==9 || evt.tabKey) { // tab Event
+			if(!window.getSelection().toString().length) CodePress.snippets(evt);
+			else CodePress.syntaxHighlight('indentBlock'); // TODO
+		}
+		else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
+		 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
+		}
+		else if((charCode==122||charCode==121||charCode==90) && evt.ctrlKey) { // undo and redo
+			(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
+			evt.preventDefault();
+		}
+		else if(keyCode==86 && evt.ctrlKey)  { // paste
+			// TODO: pasted text should be parsed and highlighted
 		}
 	},
 
@@ -123,8 +102,7 @@ CodePress = {
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 		
-		if(flag=='snippets') x = this.snippets(arguments[1]);
-		if(flag=='complete') x = this.complete(arguments[1],arguments[2]);
+		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
 		if(flag=='newline')  x = x.replace(cc,"<br>"+this.getIndent(x)+cc);
 	
 		for(i=0;i<Language.syntax.length;i++) 
@@ -134,6 +112,100 @@ CodePress = {
 		if(flag!='init') this.findString();
 	},
 
+	getLastWord : function() {
+		var rangeAndCaret = CodePress.getRangeAndCaret();
+		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
+		return words[words.length-1].replace(/_/g,'');
+	},
+	
+	snippets : function(evt) {
+		var snippets = Language.snippets;	
+		var trigger = this.getLastWord();
+		for (var i=0; i<snippets.length; i++) {
+			if(snippets[i].input == trigger) {
+				var content = snippets[i].output.replace(/</g,'&lt;');
+				content = content.replace(/>/g,'&gt;');
+				if(content.indexOf('$0')<0) content += cc;
+				else content = content.replace(/\$0/,cc);
+				content = content.replace(/\n/g,'<br>');
+				var pattern = new RegExp(trigger+cc,"g");
+				evt.preventDefault(); // prevent the tab key from being added
+				this.syntaxHighlight('snippets',pattern,content);
+			}
+		}
+	},
+
+	complete : function(trigger) {
+		window.getSelection().getRangeAt(0).deleteContents();
+		var complete = Language.complete;
+		for (var i=0; i<complete.length; i++) {
+			if(complete[i].input == trigger) {
+				var pattern = new RegExp('\\'+trigger+cc);
+				var content = complete[i].output.replace(/\$0/g,cc);
+				parent.setTimeout(function () { CodePress.syntaxHighlight('complete',pattern,content)},0); // wait for char to appear on screen
+			}
+		}
+	},
+
+	getCompleteChars : function() {
+		var cChars = '';
+		for(var i=0;i<Language.complete.length;i++)
+			cChars += '|'+Language.complete[i].input;
+		return cChars+'|';
+	},
+
+	shortcuts : function() {
+		var cCode = arguments[0];
+		if(cCode==13) cCode = '[enter]';
+		else if(cCode==32) cCode = '[space]';
+		else cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
+		for(var i=0;i<Language.shortcuts.length;i++)
+			if(Language.shortcuts[i].input == cCode)
+				this.insertCode(Language.shortcuts[i].output,false);
+	},	
+	
+	
+	getRangeAndCaret : function() {	
+		var range = window.getSelection().getRangeAt(0);
+		var range2 = range.cloneRange();
+		var node = range.endContainer;			
+		var caret = range.endOffset;
+		range2.selectNode(node);	
+		return [range2.toString(),caret];
+	},
+	
+	insertCode : function(code,replaceCursorBefore) {
+		var range = window.getSelection().getRangeAt(0);
+		var node = window.document.createTextNode(code);
+		var selct = window.getSelection();
+		var range2 = range.cloneRange();
+		// Insert text at cursor position
+		selct.removeAllRanges();
+		range.deleteContents();
+		range.insertNode(node);
+		// Move the cursor to the end of text
+		range2.selectNode(node);		
+		range2.collapse(replaceCursorBefore);
+		selct.removeAllRanges();
+		selct.addRange(range2);
+	},
+
+	getIndent : function(code) {
+		var lines = code.split("<br>");
+		var indent = currentLine = "";
+		for (k=1;k<lines.length;k++) {
+		  if(lines[k].indexOf(cc)!=-1) {
+			currentLine = lines[k];
+			break;}}
+		if(!currentLine) return "";
+		for (l=0;l<currentLine.length;l++) {
+		  if(currentLine.split('')[l]=="\t") indent+="\t";
+		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
+		  else break; }	
+		return indent;
+	},
+
+	
 	// undo and redo methods
 	actions : {
 		pos : -1, // actual history position
@@ -163,99 +235,8 @@ CodePress = {
 		}
 	},
 
-/*
-	getLastChar : function() {
-		var rangeAndCaret = CodePress.getRangeAndCaret();
-		alert(rangeAndCaret)
-		return rangeAndCaret[0].substr(rangeAndCaret[1]-1,1);
-	},
-*/
 
-	getIndent : function(code) {
-		var lines = code.split("<br>");
-		var indent = currentLine = "";
-		for (k=1;k<lines.length;k++) {
-		  if(lines[k].indexOf(cc)!=-1) {
-			currentLine = lines[k];
-			break;}}
-		if(!currentLine) return "";
-		for (l=0;l<currentLine.length;l++) {
-		  if(currentLine.split('')[l]=="\t") indent+="\t";
-		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
-		  else break; }	
-		return indent;
-	},
 	
-	getLastWord : function() {
-		var rangeAndCaret = this.getRangeAndCaret();
-		var s = rangeAndCaret[0].substr(0,rangeAndCaret[1]);
-
-		s = s.replace(/<.*?>/g,' ');
-		s = s.replace(/\'/g,' ');
-		s = s.replace(/\"/g,' ');
-		s = s.replace(/\n/g,' ');
-		s = s.replace(/\r/g,' ');
-		s = (s.substr(s.length-1,1)=="\t") ? s.substr(0,s.length-1) : s;
-		s = s.replace(/\t/g,' ');
-		
-		// use a char who is never used in as snippet
-		sentence = s.replace(/ /g,'\u2008');
-		words = sentence.split('\u2008');
-		return words[words.length-1];
-	},
-	
-	snippets : function(evt) {
-		var trigger = this.getLastWord();
-		for (var i=0; i<Language.snippets.length; i++) {
-			if(Language.snippets[i].input.toLowerCase() == trigger.toLowerCase()) {
-				var content = Language.snippets[i].output.replace(/</g,'&lt;');
-				content = content.replace(/>/g,'&gt;');
-				if(content.indexOf("$0")<0) content+=cc;
-				else content = content.replace(/\$0/g,cc);
-				content = content.replace(/\n/g,"\n"+this.getIndent(x)); // indentation
-				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,"gi");
-				evt.preventDefault(); // prevent the tab key from being added
-				return x.replace(pattern,content);
-			}
-		}
-		return x;
-	},
-
-	complete : function(trigger,evt) {
-		for (var i=0; i<Language.complete.length; i++) {
-			if(Language.complete[i].input == trigger) {
-				evt.preventDefault(); // prevent the key from being added
-				return x.replace(cc,Language.complete[i].output.replace(/\$0/g,cc));
-			}
-		}
-		return x;
-	},
-	
-	getRangeAndCaret : function() {	
-		var range = window.getSelection().getRangeAt(0);
-		var range2 = range.cloneRange();
-		var node = range.endContainer;			
-		var caret = range.endOffset;
-		range2.selectNode(node);	
-		return [range2.toString(),caret];
-	},
-	
-	insertCode : function(code,replaceCursorBefore) {
-		var range = window.getSelection().getRangeAt(0);
-		var node = window.document.createTextNode(code);
-		var selct = window.getSelection();
-		var range2 = range.cloneRange();
-		// Insert text at cursor position
-		selct.removeAllRanges();
-		range.deleteContents();
-		range.insertNode(node);
-		// Move the cursor to the end of text
-		range2.selectNode(node);		
-		range2.collapse(replaceCursorBefore);
-		selct.removeAllRanges();
-		selct.addRange(range2);
-	}
 }
 
 Language={};
