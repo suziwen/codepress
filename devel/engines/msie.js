@@ -62,10 +62,6 @@ CodePress = {
 
 	metaHandler : function(evt) {
 		charCode = evt.keyCode;
-		if(charCode==18) {
-			alert(CodePress.parseCode());
-			alert(editor.innerHTML);
-		}
 		if(charCode==9 || evt.tabKey) { 
 			CodePress.snippets(evt);
 			evt.returnValue = false;
@@ -115,7 +111,6 @@ CodePress = {
 		if(flag=="newline") {
 			var indent = this.getIndent(x);
 			if(!indent) {
-				x = x.replace(/&nbsp;/g,"<BR/>");
 				x = x.replace(cc,"</P><P>"+cc);
 				x = x.replace(new RegExp('<P>'+cc+'<\/P>','g'),'<P>'+cc+'&nbsp;</P>');
 				x = x.replace(/<P><\/P>/g,'<P><BR/></P>');
@@ -222,7 +217,6 @@ CodePress = {
 		if(!currentLine) return "";
 		for (l=0;l<currentLine.length;l++) {
 		  if(currentLine.split('')[l]=="\t") indent+="\t";
-		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
 		  else break; }	
 		return indent;
 	},
