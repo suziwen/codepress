@@ -127,6 +127,7 @@ CodePress = {
 				content = content.replace(/>/g,'&gt;');
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
+				content = content.replace(/\n/g,"\n"+this.getIndent(x));
 				content = content.replace(/\n/g,'<br>');
 				var pattern = new RegExp(trigger+cc,"g");
 				evt.preventDefault(); // prevent the tab key from being added
