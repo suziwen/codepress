@@ -101,6 +101,9 @@ CodePress = {
 			cpWindow.className = 'fullscreen-on'; 
 			pgBody.style.height = pgBody.style.width = '100px';
 			pgBody.style.overflow = 'hidden';
+//			cpWindow.style.top = - cpWindow.offsetParent.offsetTop-3 +'px';
+//			cpWindow.style.left = - cpWindow.offsetParent.offsetLeft-3 +'px';			
+//			cpWindow.offsetParent.style.position = 'static';
 			this.resizeFullScreen();
 	    }
 	    else {
@@ -184,6 +187,5 @@ CodePress = {
 
 CodePress.detect();
 Content={};
-onload = function () {
-	CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); });
-}
+onload = function () { CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); }); }
+onresize = function() { CodePress.resizeFullScreen(); };
