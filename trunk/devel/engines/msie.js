@@ -39,6 +39,7 @@ CodePress = {
 		charCode = evt.keyCode;
 		
 		if(charCode==13 && !evt.ctrlKey && !evt.metaKey && !evt.shiftKey) {
+			evt.returnValue = false;
 			CodePress.syntaxHighlight('newline',evt);
 		}
 		if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
@@ -61,6 +62,10 @@ CodePress = {
 
 	metaHandler : function(evt) {
 		charCode = evt.keyCode;
+		if(charCode==18) {
+			alert(CodePress.parseCode());
+			alert(editor.innerHTML);
+		}
 		if(charCode==9 || evt.tabKey) { 
 			CodePress.snippets(evt);
 			evt.returnValue = false;
@@ -109,10 +114,13 @@ CodePress = {
 		
 		if(flag=="newline") {
 			var indent = this.getIndent(x);
-			if(!indent) return this.findString();
-			else {
-				arguments[1].returnValue = false;
-				x = x.replace(cc,"</P><P>"+indent+cc);}
+			if(!indent) {
+				x = x.replace(/&nbsp;/g,"<BR/>");
+				x = x.replace(cc,"</P><P>"+cc);
+				x = x.replace(new RegExp('<P>'+cc+'<\/P>','g'),'<P>'+cc+'&nbsp;</P>');
+				x = x.replace(/<P><\/P>/g,'<P><BR/></P>');
+			}
+			else x = x.replace(cc,"</P><P>"+indent+cc);
 		}
 		
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
