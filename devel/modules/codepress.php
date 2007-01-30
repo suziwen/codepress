@@ -61,7 +61,7 @@ if(isset($_GET['file'])) {
 	<script type="text/javascript" src="../engines/<?=$engine?>.js?timestamp=<?=time()?>"></script>
 	<script type="text/javascript" src="../languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
 </head>
-<? 
+<?PHP
 if ($engine == "gecko") echo "<body id='code'>".$code."</body>";
 else if($engine == "msie") echo "<body><pre id='code'>".$code."</pre></body>";
 ?>
