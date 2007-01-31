@@ -145,6 +145,7 @@ CodePress = {
 
 		cpWindowHeight = $('codepress').clientHeight;
 		cpEditorHeight = ($('codepress').className.match('hideMenu')) ? cpWindowHeight : cpWindowHeight-20 ;
+		if(cpWindowHeight==0) { setTimeout(function(){CodePress.setContent();},10); return; } // if css is not loaded yet, try again
 		
 		$('codepress').innerHTML = '<div id="cp-window">'+
 			'<iframe id="cp-editor" src="'+cpPath+'modules/codepress.php?engine='+cpEngine+'&file='+ (onLoadEdit ? 'null' : this.fileName) +'&language='+this.language+'" style="height:'+ cpEditorHeight +'px"></iframe>'+
@@ -190,7 +191,5 @@ CodePress = {
 
 CodePress.detect();
 Content={};
-//onload = function () { 
 CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); }); 
-//}
 onresize = function() { CodePress.resizeFullScreen(); };
