@@ -242,4 +242,3 @@ CodePress = {
 
 Language={};
 window.addEventListener('load', function() { CodePress.initialize('new'); }, true);
-parent.window.addEventListener('resize', function() { parent.CodePress.resizeFullScreen(); }, true);

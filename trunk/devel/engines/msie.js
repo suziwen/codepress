@@ -265,4 +265,3 @@ CodePress = {
 
 Language={};
 window.attachEvent('onload', function() { CodePress.initialize('new');});
-parent.attachEvent('onresize',function() { parent.CodePress.resizeFullScreen();});
