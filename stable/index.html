@@ -11,7 +11,10 @@
 	select {background:#ffffe1;}
 	button {margin-top:5px;}
 	h1 {color:#7f0055;margin:0;padding:0;font-size:42px;font-weight:normal;}
-	h2 {font-size:22px;margin:0;color:black;font-weight:normal;}
+	h1 a {text-decoration:none;}
+	h2 {margin:0;}
+	h2 a {text-decoration:none;font-weight:normal;font-size:22px;color:black !important;}
+
 	h3 {font-size:20px;font-weight:normal;padding:0;margin:25px 0 5px 0;color:#7f0055;font-weight:bold;border-bottom:2px dotted #d8d8d8;}
 	code {color:#0080c0;font-size:13px;font-weight:bold;}
 	#logo {text-align:center;background-color:#d6d6d6;padding:10px;-moz-border-radius:5px;border:1px solid silver;}
@@ -23,6 +26,10 @@
 	#codepress-load-code, #load-this {display:none;}
 	#myTextAreaId {display:none;}
 	
+	#menu { width:100%;background:#7f0055;-moz-border-radius:4px;}
+	#menu a {font:bold 17px georgia;color:white;padding:4px;display:block;border-left:1px solid white;text-align:center;text-decoration:none;}
+	#menu a:hover {background:#b9669e;} 
+
 	code#codepress, code.codepress { visibility:hidden; }
 	</style>
 	
@@ -44,10 +51,24 @@
 <body>
 <div id="container">
 
+
 <div id="logo">
-	<h1>CodePress</h1>
-	<h2>Online Real Time Syntax Highlighting Editor</h2>
+	<h1><a href="http://codepress.fermads.net/">CodePress</a></h1>
+	<h2><a href="http://codepress.fermads.net/">Online Real Time Syntax Highlighting Editor</a></h2>
 </div>
+
+<br />
+
+<table cellpadding="0" cellspacing="0" id="menu">
+<tr>
+	<td><a href="http://codepress.fermads.net/index.php" id="home">Home/Download</a></td>
+	<td><a href="http://codepress.fermads.net/menu_how_to_help.php" id="howtohelp">To do/How to help</a></td>
+	<td><a href="http://sourceforge.net/forum/?group_id=186981" class="forum">Forum</a></td>	
+	<td><a href="http://codepress.fermads.net/menu_how_to_use_it.php" id="howtouseit">How to use it</a></td>
+
+	<td><a href="http://codepress.fermads.net/menu_about.php" id="about">&nbsp;About&nbsp;</a></td>
+</tr>
+</table>
 
 <div id="main">
 	<h4>
@@ -83,7 +104,7 @@ for (i=0;i<10;i++) {
 
 <!-- [options here] class below = any or all of the following: hideMenu, hideFileName, hideLanguage, hideOptions -->
 <code id="codepress" title="codepress.php" class="cp [options here]"></code>
-
+<script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
 <p style="margin-top:10px">
 <button onclick="alert(CodePress.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
 <button onclick="CodePress.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
@@ -103,7 +124,7 @@ Considering you already have a PHP capable webserver (http://yourserver/)</p>
 	<code>$path['files'] = "files";</code> will open files from <strong>[yourserver root path]/codepress/files/</strong>
 	</p>
 </li>
-<li>Insert CodePress script inside the <code>&lt;head&gt;</code> of you page.<br><br>
+<li>Insert CodePress script at the bottom of your page, above the <code>&lt;/body&gt;</code> tag.<br><br>
 
 <p>
 <code>&lt;script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"&gt; &lt;/script&gt;</code>
@@ -145,7 +166,7 @@ Call <code>CodePress.edit('[filename]','[id of the element containing the code]'
 
 <strong>Things to consider:</strong>
 <ul>
-<li>Options allowed to the <code>&lt;code ... class="cp ..."&gt;</code> are <strong>hideMenu</strong>, <strong>hideFileName</strong>, <strong>hideLanguage</strong>, <strong>hideOptions</strong>. "<strong>cp</strong>" is mandatory.</li>
+<li>Options (classes) allowed to <code>class="cp ..."</code> are <strong>hideMenu</strong>, <strong>hideFileName</strong>, <strong>hideLanguage</strong>, <strong>hideOptions</strong>. The "<strong>cp</strong>" class is mandatory.</li>
 <li>If file does not exist on server, CodePress will open a new file with the name specified</li>
 <li>You can change CodePress window width/height and other attributes overwriting the css properties. Example: <code>code.cp { width:500px;height:800px }</code></li>
 </ul>
@@ -155,7 +176,10 @@ Call <code>CodePress.edit('[filename]','[id of the element containing the code]'
 <br />
 
 <strong>Getting code from CodePress window</strong><br />
+<p>
 Considering you have done the steps above and have CodePress up and running.
+</p>
+
 <ol>
 	<li>Just call CodePress.getCode()<br>
 	Example 1: <code>alert(CodePress.getCode())</code><br>
@@ -163,11 +187,11 @@ Considering you have done the steps above and have CodePress up and running.
 	Example 3: <code>document.getElementById('MyTextArea').value = CodePress.getCode()</code></li>	
 	</li>
 </ol>
-
+You may want to use CodePress.getCode() to get the content code from CodePress window and save it to your server since CodePress only open/edit files and do not save them.
 
 <h3>License</h3>
 <p>
-	CodePress is distributed under the <a href="http://www.opensource.org/licenses/lgpl-license.php">LGPL</a>. If your software is <a href="http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses">compatible</a> with this licence or it is under <a href="http://creativecommons.org/">Creative Commons</a>, you can use it as you want. Just keep my credits somewhere around.
+	CodePress is distributed under the <a href="http://www.opensource.org/licenses/lgpl-license.php">LGPL</a>. If your software is <a href="http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses">compatible</a> with this licence or it is under <a href="http://creativecommons.org/">Creative Commons</a>, you can use it as you want. Just keep the credits somewhere around.
 </p>
 <p>
 Thanks.
@@ -178,6 +202,6 @@ Thanks.
 
 </div><!--/container-->
 
-<script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
+
 </body>
 </html>
