@@ -167,8 +167,8 @@ CodePress = {
 	
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
-		alert(words)
+		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
+		words = words.replace(/[\s\r\);]/g,"\n").split("\n");
 		return words[words.length-1];
 	},
 
@@ -176,7 +176,7 @@ CodePress = {
 		var range = document.selection.createRange();
 		var caret = Math.abs(range.moveStart("character", -1000000)+1);
 		range = parent.CodePress.getCode();
-		range = range.replace(/\n\r/gi,' ');
+		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
 		return [range.toString(),caret];
 	},
@@ -229,4 +229,4 @@ CodePress = {
 
 Language={};
 window.attachEvent('onload', function() { CodePress.initialize('new');});
-parent.attachEvent('onresize',function() { parent.CodePress.resizeFullScreen();});
+//parent.attachEvent('onresize',function() { parent.CodePress.resizeFullScreen();});
