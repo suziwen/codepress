@@ -92,26 +92,29 @@ CodePress = {
 			cpEditor.style.height = cH-22 + 'px';
 			cpWindow.style.height = cH-2 + 'px';
 			cpWindow.style.width = cW-2 + 'px';
+			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) {
+				cpWindow.style.top = - cpWindow.offsetParent.offsetTop-3 +'px';
+				cpWindow.style.left = - cpWindow.offsetParent.offsetLeft-3 +'px';
+			}
+
 		}
 	},
 	
 	toggleFullScreen : function() {
-		var pgBody = document.getElementsByTagName('body')[0];
 	    if($('cp-fullscreen').checked) {
-			cpWindow.className = 'fullscreen-on'; 
-			pgBody.style.height = pgBody.style.width = '100px';
-			pgBody.style.overflow = 'hidden';
-//			cpWindow.style.top = - cpWindow.offsetParent.offsetTop-3 +'px';
-//			cpWindow.style.left = - cpWindow.offsetParent.offsetLeft-3 +'px';			
-//			cpWindow.offsetParent.style.position = 'static';
+			cpWindow.className = 'fullscreen-on';
+			document.getElementsByTagName('html')[0].style.overflow = 'hidden';
+			self.scrollTo(0,0); 
 			this.resizeFullScreen();
 	    }
 	    else {
 			cpWindow.className = 'fullscreen-off';
-			pgBody.style.height = pgBody.style.width = pgBody.style.overflow = 'auto';
+			document.getElementsByTagName('html')[0].style.overflow = 'auto';
 			cpWindow.style.width = '100%';
 			cpWindow.style.height = cpWindowHeight+'px';
 			cpEditor.style.height = cpEditorHeight+'px';
+			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) 
+			cpWindow.style.top = cpWindow.style.left = 'auto'
 	    }
 		this.hideAllMenu();
 	},
@@ -187,5 +190,7 @@ CodePress = {
 
 CodePress.detect();
 Content={};
-onload = function () { CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); }); }
+//onload = function () { 
+CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.setContent(); }); 
+//}
 onresize = function() { CodePress.resizeFullScreen(); };
