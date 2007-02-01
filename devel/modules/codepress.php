@@ -56,12 +56,12 @@ if(isset($_GET['file'])) {
 <head>
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<meta name="description" content="CodePress source code editor window" />
-	<link type="text/css" href="../themes/default/codepress.css?timestamp=<?=time()?>" rel="stylesheet" />
-	<link type="text/css" href="../languages/<?=$language?>.css?timestamp=<?=time()?>" rel="stylesheet" id="cp-lang-style" />
-	<script type="text/javascript" src="../engines/<?=$engine?>.js?timestamp=<?=time()?>"></script>
-	<script type="text/javascript" src="../languages/<?=$language?>.js?timestamp=<?=time()?>"></script>
+	<link type="text/css" href="../themes/default/codepress.css?timestamp=<?php echo time();?>" rel="stylesheet" />
+	<link type="text/css" href="../languages/<?php echo $language;?>.css?timestamp=<?php echo time(); ?>" rel="stylesheet" id="cp-lang-style" />
+	<script type="text/javascript" src="../engines/<?php echo $engine;?>.js?timestamp=<?php echo time();?>"></script>
+	<script type="text/javascript" src="../languages/<?php echo $language;?>.js?timestamp=<?php echo time();?>"></script>
 </head>
-<?PHP
+<?php
 if ($engine == "gecko") echo "<body id='code'>".$code."</body>";
 else if($engine == "msie") echo "<body><pre id='code'>".$code."</pre></body>";
 ?>
