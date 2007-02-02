@@ -1,13 +1,13 @@
 Content.languages = {
 	css        : { name : 'CSS',        extensions : 'css'     },
-	generic    : { name : 'Allgemein',   extensions : ''      },
+	generic    : { name : 'Allgemein',  extensions : ''      },
 	html       : { name : 'HTML',       extensions : 'html,htm,xhtml' },
 	java       : { name : 'Java',       extensions : 'java'           },
 	javascript : { name : 'JavaScript', extensions : 'js'             },
 	perl       : { name : 'Perl',       extensions : 'pl,cgi'         },
 	php        : { name : 'PHP',        extensions : 'php,phtml'      },
-	sql        : { name : 'SQL',     extensions : 'sql'      },
-	text       : { name : 'Text',      extensions : 'txt'          }
+	sql        : { name : 'SQL',     	extensions : 'sql'      	},
+	text       : { name : 'Text',       extensions : 'txt'          }
 }
 
 Content.messages =  {
@@ -20,7 +20,7 @@ Content.menu = {
 	options      : 'Optionen',
 	languages    : 'Sprachen',
 	autoComplete : 'Autoausfüllung',
-	autoIndent   : 'Autoidentierung',
+	autoIndent   : 'Autoindentierung',
 	fullScreen   : 'Vollschirm',
 	lineNumbers  : 'Linien Nummern',
 	save         : 'Speichern unter',
