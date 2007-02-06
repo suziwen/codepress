@@ -114,6 +114,8 @@ CodePress = {
 				x = x.replace(cc,"</P><P>"+cc);
 				x = x.replace(new RegExp('<P>'+cc+'<\/P>','g'),'<P>'+cc+'&nbsp;</P>');
 				x = x.replace(/<P><\/P>/g,'<P><BR/></P>');
+				//x = x.replace(/<P><\/P>/g,'');
+				//x = x.replace(/<P>\r\n<\/P>/g,'<P><BR/></P>');
 			}
 			else x = x.replace(cc,"</P><P>"+indent+cc);
 		}
@@ -208,26 +210,30 @@ CodePress = {
 	},
 	
 	getIndent : function(code) {
-		var lines = code.split("</P><P>");
+		var lines = code.split("<P>");
 		var indent = currentLine = "";
-		for (k=1;k<lines.length;k++) {
-		  if(lines[k].indexOf(cc)!=-1) {
-			currentLine = lines[k];
-			break;}}
+		for (k=1;k<lines.length;k++)
+			if(lines[k].indexOf(cc)!=-1) {
+				currentLine = lines[k];
+				break;
+			}
 		if(!currentLine) return "";
 		for (l=0;l<currentLine.length;l++) {
-		  if(currentLine.split('')[l]=="\t") indent+="\t";
-		  else break; }	
+			if(currentLine.split('')[l]=="\t") indent+="\t";
+			else break;
+		}	
 		return indent;
 	},
 	
 	parseCode : function() {
 		var o = editor.innerHTML;
+		o = o.replace(/<P>&nbsp;<\/P>/g,'<P><BR/></P>');
 		o = o.replace(/&nbsp;/g,'');			
 		o = o.replace(/<P>/g,'\n');
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');
 		o = '<PRE><P>'+o+'</P></PRE>';
+		//o = o.replace(/\n(\n)+/g,'\r');
 		o = o.replace(/\n\r/g,'<P></P>');
 		o = o.replace(/\n/g,'<P>');
 		o = o.replace(/\r/g,'<\/P>');
