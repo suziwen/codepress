@@ -64,6 +64,9 @@ Language.snippets = [
 	{input : 'script', output : '<script type="text/javascript" language="javascript" charset="utf-8">\n\t$0\t\n</script>' },
 	{input : 'scriptsrc', output : '<script src="$0" type="text/javascript" language="javascript" charset="utf-8"></script>' },
 	{input : 'span', output : '<span>$0</span>' },
+	{input : 'reset', output : '<input name="reset" type="reset" value="$0" />' },
+	{input : 'submit', output : '<input name="submit" type="submit" value="$0" />' },
+	{input : 'textarea', output : '<textarea name="$0" ></textarea>' },
 	{input : 'table', output : '<table border="$0" cellspacing="" cellpadding="">\n\t<tr><th></th></tr>\n\t<tr><td></td></tr>\n</table>' },
 	{input : 'style', output : '<style type="text/css" media="screen">\n\t$0\n</style>' }
 ];
@@ -76,4 +79,10 @@ Language.complete = [ // Auto complete only for 1 character
 	{input : '{', output : '{\n\t$0\n}' }		
 ];
 
-Language.shortcuts = [];
+// ctrl+shift+inputKey
+Language.shortcuts = [
+	{ input : '[space]', output : '&nbsp;' },
+	{ input : '[enter]', output : '<br />' } ,
+	{ input : '[j]', output : 'testing' },
+	{ input : '[7]', output : '&amp;' }
+]
