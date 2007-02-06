@@ -198,7 +198,7 @@ CodePress = {
 		  if(lines[k].indexOf(cc)!=-1) {
 			currentLine = lines[k];
 			break;}}
-		if(!currentLine) return "";
+		if(!currentLine) currentLine = code;
 		for (l=0;l<currentLine.length;l++) {
 		  if(currentLine.split('')[l]=="\t") indent+="\t";
 		  // else if(currentLine.split('')[l]==" ") indent+=" "; // optional
