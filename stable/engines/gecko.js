@@ -15,8 +15,9 @@
 
 
 CodePress = {
-	language : null,
+//	language : null,
 	scrolling : false,
+	autocomplete : true,
 
 	// set initial vars and start sh
 	initialize : function() {
@@ -28,8 +29,9 @@ CodePress = {
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-		parent.CodePress.initialize();
-		this.language = parent.CodePress.language;
+//		parent.CodePress.initialize();
+		CodePress.syntaxHighlight('init');
+//		this.language = parent.CodePress.language;
 	},
 
 	// treat key bindings
@@ -40,7 +42,7 @@ CodePress = {
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			CodePress.shortcuts(charCode?charCode:keyCode);
 		}
-		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && parent.CodePress.complete) { // auto complete
+		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.autocomplete) { // auto complete
 			CodePress.complete(String.fromCharCode(charCode));
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
@@ -179,6 +181,31 @@ CodePress = {
 		range2.collapse(replaceCursorBefore);
 		selct.removeAllRanges();
 		selct.addRange(range2);
+	},
+	
+	getCode : function() {
+		var code = editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix
+		code = code.replace(/<p>/gi,'\n');
+		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
+	},
+
+	// put some code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');		
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		editor.innerHTML = "<pre>"+code+"</pre>";
 	},
 
 	// undo and redo methods
