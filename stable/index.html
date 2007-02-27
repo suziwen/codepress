@@ -30,7 +30,7 @@
 	#menu a {font:bold 17px georgia;color:white;padding:4px;display:block;border-left:1px solid white;text-align:center;text-decoration:none;}
 	#menu a:hover {background:#b9669e;} 
 
-	#codepress2 {height:300px;}
+	#codepress2 {height:300px;visibility:hidden;}
 	</style>
 	
 	<script>
@@ -110,7 +110,7 @@ for (i=0;i<10;i++) {
 <br />
 <br />
 
-<code id="codepress2" title="codepress.js" class="cp bla">
+<code id="codepress2" title="codepress-test.js" class="cp bla">
 // loading code directly from page
 this.setLanguage = function() {
 	if(arguments[0]) {
@@ -137,7 +137,7 @@ this.setLanguage = function() {
 <code id="codepress3" title="styles.css" class="cp hideFileName"></code>
 
 <p style="margin-top:10px">
-<button onclick="alert(codepress2.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
+<button onclick="alert(cp1.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
 <button onclick="codepress3.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> :: Example setting code from a hidden textarea to CodePress window
 </p>
 

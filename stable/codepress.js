@@ -12,7 +12,6 @@
 CodePress = function(id) {
 	var id,filename,language,editor,cpBody,cpWindow,cpEditor,cpMenu,cpWindowHeight,cpEditorHeight,img,cpFilename,cpLanguage,cpMenuOptions,cpMenuLanguages,cpFullscreen;
 
-	
 	this.init = function(i) {
 		cpWindow = document.createElement("div");
 		cpWindow.className = 'cp-window fullscreen-off';
@@ -25,7 +24,6 @@ CodePress = function(id) {
 		this.setContent(i);
 		setTimeout(function(){eval(id+'.setHeight()')},10); // FF needs a delay
 
-
 		cpEditor = cpWindow.firstChild;
 		cpMenu = cpWindow.getElementsByTagName('div')[0];
 		cpMenuLanguages = cpMenu.getElementsByTagName('div')[1];
@@ -34,12 +32,9 @@ CodePress = function(id) {
 		cpFilename = cpWindow.getElementsByTagName('em')[0];
 		cpLanguage = cpWindow.getElementsByTagName('span')[2];
 		cpBody = cpEditor.contentWindow;
-
 		
 		this.setFilename(filename);
-
-		var onLoadEdit = (pgCode.match(/\w/)) ? true : false ;
-		if(onLoadEdit)CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); });
+		if(pgCode.match(/\w/)) CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); });
 		CodePress.addEvent(window,'resize', function() { eval(id+'.resizeFullScreen()'); });
 	}
 	
@@ -61,7 +56,7 @@ CodePress = function(id) {
 		if(!arguments[1]||arguments[1]=='') { // file name of the source code (to open from server)
 			cpEditor.src = cpPath+'modules/codepress.php?action=edit&file='+filename+'&language='+language+'&engine='+cpEngine
 		}
-		else {
+		else { // open code from textarea or directly from parameter
 			this.setLanguage(language);
 			if($(arguments[1])) this.setCode($(arguments[1]).firstChild.nodeValue); // id name of the source code
 			else if(arguments[1].match(/\w/)) this.setCode(arguments[1]);  // text of the source code
@@ -173,7 +168,7 @@ CodePress = function(id) {
 				'<div class="cp-languages-menu hide">'+allLanguages+'</div>'+
 			'</div></form>';
 			
-		document.getElementById('cp_'+id).appendChild(cpWindow);
+		$('cp_'+id).appendChild(cpWindow);
 	}
 
 	// get code from editor
@@ -186,7 +181,6 @@ CodePress = function(id) {
 		cpBody.CodePress.setCode(code);
 	}
 	
-//return self;
 this.init(id);
 }
 
@@ -222,7 +216,7 @@ CodePress.run = function() {
 CodePress.addEvent = function(element,event,callback) {
 	if (element.addEventListener) element.addEventListener (event,callback,false);
 	else if (element.attachEvent) element.attachEvent ("on"+event,callback);
-	else eval('element.'+event+' = callback'); // not tested
+	else eval('element.'+event+' = callback');
 }
 
 CodePress.loadStyle = function(href) {
