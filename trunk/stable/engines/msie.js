@@ -216,6 +216,7 @@ CodePress = {
 
 	// put some code inside editor
 	setCode : function() {
+		alert(arguments[0])
 		var code = arguments[0];
 		code = code.replace(/\u2009/gi,'');
 		code = code.replace(/&/gi,'&amp;');		
