@@ -34,7 +34,7 @@ CodePress = function(id) {
 		cpBody = cpEditor.contentWindow;
 		
 		this.setFilename(filename);
-		if(pgCode.match(/\w/)) onload = function() { CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); }); }
+		if(pgCode.match(/\w/)) CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); }); 
 		CodePress.addEvent(window,'resize', function() { eval(id+'.resizeFullScreen()'); });
 	}
 	
@@ -43,7 +43,7 @@ CodePress = function(id) {
 		if(cpWindowHeight) {
 			cpEditorHeight = ($('cp_'+id).className.match('hideMenu')) ? cpWindowHeight : cpWindowHeight-20 ;
 			cpEditor.style.height = cpEditorHeight + 'px';
-		} 
+		}
 		else {
 			setTimeout(function(){eval(id+'.setHeight()')},10);
 		}
@@ -202,11 +202,13 @@ CodePress.loadScript = function(target, src, callback) {
 	node = null;
 }
 
-CodePress.run = function() { 
+CodePress.run = function() {
 	codes = document.getElementsByTagName('code');
 	for(var i=0;i<codes.length;i++) {
 		if(codes[i].className.match("cp")) {
 			id = codes[i].id;
+			codes[i].style.color = 'silver';
+//			codes[i].style.overflow = 'visible';
 			$(codes[i].id).id = 'cp_'+codes[i].id;	
 			eval(id+' = new CodePress("'+id+'")');
 		}
@@ -219,11 +221,13 @@ CodePress.addEvent = function(element,event,callback) {
 	else eval('element.'+event+' = callback');
 }
 
-CodePress.loadStyle = function(href) {
+CodePress.loadStyle = function(href,callback) {
 	var node = document.createElement("link");
 	node.href = href;
 	node.rel = 'stylesheet';
 	document.getElementsByTagName("head").item(0).appendChild(node);
+	if (node.addEventListener) callback.call();
+	else node.onload = function() { callback.call();}
 	node = null;
 }
 
@@ -232,5 +236,7 @@ Content={};
 $ = function() { return document.getElementById(arguments[0]); }
 var cpPath = $('cp-script').src.replace('codepress.js','');
 
-CodePress.loadStyle(cpPath+'themes/default/codepress-editor.css');
-CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.run(); }); 
+// load css then load script
+CodePress.loadStyle(cpPath+'themes/default/codepress-editor.css', function() {
+	setTimeout(function() {	CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.run(); }); },500)
+});
