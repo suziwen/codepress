@@ -34,7 +34,7 @@ CodePress = function(id) {
 		cpBody = cpEditor.contentWindow;
 		
 		this.setFilename(filename);
-		if(pgCode.match(/\w/)) CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); });
+		if(pgCode.match(/\w/)) onload = function() { CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); }); }
 		CodePress.addEvent(window,'resize', function() { eval(id+'.resizeFullScreen()'); });
 	}
 	
