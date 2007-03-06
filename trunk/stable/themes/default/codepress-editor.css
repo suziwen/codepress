@@ -15,5 +15,5 @@
 .cp-window.fullscreen-on { position:absolute;top:0;left:0;z-index:1001; }
 .cp-window.fullscreen-off { position:relative;top:auto;left:auto;width:100%; }
 
-code.cp, .cp { width:700px;height:400px;display:block;overflow:visible;background:white;font:normal 13px monospace;white-space:pre;line-height:16px;color:white;padding:0;margin:0;visibility:visible; }
+code.cp, .cp { width:700px;height:400px;display:block;overflow:visible;_overflow:hidden;background:white;font:normal 13px monospace;white-space:pre;line-height:16px;color:white;padding:0;margin:0;visibility:visible; }
 code.hideFileName .cp-filename, code.hideLanguage .cp-language, code.hideOptions .cp-options, code.hideMenu .cp-menu { display:none; }
