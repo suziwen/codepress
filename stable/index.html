@@ -29,8 +29,11 @@
 	#menu { width:100%;background:#7f0055;-moz-border-radius:4px;}
 	#menu a {font:bold 17px georgia;color:white;padding:4px;display:block;border-left:1px solid white;text-align:center;text-decoration:none;}
 	#menu a:hover {background:#b9669e;} 
+	code.cp {color:white;}
 
+	/*
 	#codepress2 {height:300px;visibility:hidden;}
+	*/
 	</style>
 	
 	<script>
@@ -104,13 +107,13 @@ for (i=0;i<10;i++) {
 
 
 <!-- [options here] class below = any or all of the following: hideMenu, hideFileName, hideLanguage, hideOptions -->
-<code id="cp1" title="codepress.php" class="cp">
+<code id="cp1" title="codepress.php" class="cp" style="width:700px;height:400px;">
 </code>
 
 <br />
 <br />
 
-<code id="codepress2" title="codepress-test.js" class="cp bla">
+<code id="codepress2" title="codepress-test.js" class="cp" style="width:700px;height:350px;">
 // loading code directly from page
 this.setLanguage = function() {
 	if(arguments[0]) {
@@ -134,7 +137,7 @@ this.setLanguage = function() {
 </code>
 <br />
 <br />
-<code id="codepress3" title="styles.css" class="cp hideFileName"></code>
+<code id="codepress3" title="styles.css" class="cp hideFileName" style="width:700px;height:300px;"></code>
 
 <p style="margin-top:10px">
 <button onclick="alert(cp1.getCode())"><strong>get code from editor</strong></button> :: Example getting (<code>alert()</code>) original code from CodePress window<br />
