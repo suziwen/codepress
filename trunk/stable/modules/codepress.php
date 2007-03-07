@@ -1,6 +1,6 @@
 <?php
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript -  http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript -  http://codepress.org/
  *
  * Copyright (C) 2006 Fernando M.A.d.S. <fermads@gmail.com>
  *
