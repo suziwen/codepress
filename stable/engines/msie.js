@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -15,7 +15,6 @@
 
 
 CodePress = {
-//	language : null,
 	scrolling : false,
 	autocomplete : true,
 	
@@ -30,8 +29,6 @@ CodePress = {
 		document.attachEvent('onkeypress', this.keyHandler);
 		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') });
 		completeChars = this.getCompleteChars();
-//		parent.CodePress.initialize();
-//		this.language = parent.CodePress.language;
 		CodePress.syntaxHighlight('init');
 		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top
 	},
@@ -170,13 +167,13 @@ CodePress = {
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
-		words = words.replace(/[\s\r\);]/g,"\n").split("\n");
+		words = words.replace(/[\s\r\);]/g,'\n').split('\n');
 		return words[words.length-1];
 	},
 
 	getRangeAndCaret : function() {	
 		var range = document.selection.createRange();
-		var caret = Math.abs(range.moveStart("character", -1000000)+1);
+		var caret = Math.abs(range.moveStart('character', -1000000)+1);
 		range = this.getCode();
 		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
@@ -184,8 +181,8 @@ CodePress = {
 	},
 	
 	insertCode : function(code,replaceCursorBefore) {
-		var repdeb = "";
-		var repfin = "";
+		var repdeb = '';
+		var repfin = '';
 		
 		if(replaceCursorBefore) { repfin = code; }
 		else { repdeb = code; }
@@ -198,7 +195,8 @@ CodePress = {
 			range.select();	
 		}	
 	},
-	
+
+	// get code from editor	
 	getCode : function() {
 		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
@@ -214,14 +212,14 @@ CodePress = {
 		return code;
 	},
 
-	// put some code inside editor
+	// put code inside editor
 	setCode : function() {
 		var code = arguments[0];
 		code = code.replace(/\u2009/gi,'');
 		code = code.replace(/&/gi,'&amp;');		
        	code = code.replace(/</g,'&lt;');
         code = code.replace(/>/g,'&gt;');
-		editor.innerHTML = "<pre>"+code+"</pre>";
+		editor.innerHTML = '<pre>'+code+'</pre>';
 	},
 
 	
@@ -257,4 +255,3 @@ CodePress = {
 
 Language={};
 window.attachEvent('onload', function() { CodePress.initialize('new');});
-//parent.attachEvent('onresize',function() { parent.CodePress.resizeFullScreen();});

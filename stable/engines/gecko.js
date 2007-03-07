@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -15,7 +15,6 @@
 
 
 CodePress = {
-//	language : null,
 	scrolling : false,
 	autocomplete : true,
 
@@ -29,9 +28,7 @@ CodePress = {
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-//		parent.CodePress.initialize();
 		CodePress.syntaxHighlight('init');
-//		this.language = parent.CodePress.language;
 	},
 
 	// treat key bindings
@@ -122,7 +119,7 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,"g");
+				var pattern = new RegExp(trigger+cc,'g');
 				evt.preventDefault(); // prevent the tab key from being added
 				this.syntaxHighlight('snippets',pattern,content);
 			}
@@ -183,13 +180,14 @@ CodePress = {
 		selct.addRange(range2);
 	},
 	
+	// get code from editor
 	getCode : function() {
 		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
-		code = code.replace(/<\/p>/gi,'\r');
-		code = code.replace(/<p>/i,''); // IE first line fix
-		code = code.replace(/<p>/gi,'\n');
-		code = code.replace(/&nbsp;/gi,'');
+//		code = code.replace(/<\/p>/gi,'\r');
+//		code = code.replace(/<p>/i,''); // IE first line fix
+//		code = code.replace(/<p>/gi,'\n');
+//		code = code.replace(/&nbsp;/gi,'');
 		code = code.replace(/\u2009/g,'');
 		code = code.replace(/<.*?>/g,'');
 		code = code.replace(/&lt;/g,'<');
@@ -198,14 +196,14 @@ CodePress = {
 		return code;
 	},
 
-	// put some code inside editor
+	// put code inside editor
 	setCode : function() {
 		var code = arguments[0];
 		code = code.replace(/\u2009/gi,'');
-		code = code.replace(/&/gi,'&amp;');		
+		code = code.replace(/&/gi,'&amp;');
        	code = code.replace(/</g,'&lt;');
         code = code.replace(/>/g,'&gt;');
-		editor.innerHTML = "<pre>"+code+"</pre>";
+		editor.innerHTML = '<pre>'+code+'</pre>';
 	},
 
 	// undo and redo methods
@@ -240,4 +238,3 @@ CodePress = {
 
 Language={};
 window.addEventListener('load', function() { CodePress.initialize('new'); }, true);
-//parent.window.addEventListener('resize', function() { parent.CodePress.resizeFullScreen(); }, true);

@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
  * 
  * Copyright (C) 2006 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -13,7 +13,7 @@ CodePress = function(id) {
 	var id,filename,language,editor,cpBody,cpWindow,cpEditor,cpMenu,cpWindowHeight,cpEditorHeight,img,cpFilename,cpLanguage,cpMenuOptions,cpMenuLanguages,cpFullscreen;
 
 	this.init = function(i) {
-		cpWindow = document.createElement("div");
+		cpWindow = document.createElement('div');
 		cpWindow.className = 'cp-window fullscreen-off';
 		filename = $('cp_'+id).title;
 
@@ -77,9 +77,9 @@ CodePress = function(id) {
 		if(cpFullscreen.checked) {
 			cH = cpWindow.innerHeight ? cpWindow.innerHeight : document.documentElement.clientHeight;
 			cW = cpWindow.innerWidth ? cpWindow.innerWidth : document.documentElement.clientWidth;
-			cpEditor.style.height = cH-22 + 'px';
-			cpWindow.style.height = cH-2 + 'px';
-			cpWindow.style.width = cW-2 + 'px';
+			cpEditor.style.height = cH-20 + 'px';
+			cpWindow.style.height = cH + 'px';
+			cpWindow.style.width = cW + 'px';
 			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) {
 				cpWindow.style.top = - cpWindow.offsetParent.offsetTop-3 +'px';
 				cpWindow.style.left = - cpWindow.offsetParent.offsetLeft-3 +'px';
@@ -101,7 +101,7 @@ CodePress = function(id) {
 			cpWindow.style.height = cpWindowHeight+'px';
 			cpEditor.style.height = cpEditorHeight+'px';
 			if(cpWindow.offsetParent.offsetTop!=0||cpWindow.offsetParent.offsetLeft!=0) 
-			cpWindow.style.top = cpWindow.style.left = 'auto'
+				cpWindow.style.top = cpWindow.style.left = 'auto'
 	    }
 		this.hideMenu();
 	}
@@ -194,21 +194,20 @@ CodePress.detect = function() {
 }
 
 CodePress.loadScript = function(target, src, callback) {
-	var node = target.createElement("script");
-	if (node.addEventListener) node.addEventListener("load", callback, false);
-	else node.onreadystatechange = function() { if (this.readyState == "loaded") { callback.call(this);} }
+	var node = target.createElement('script');
+	if (node.addEventListener) node.addEventListener('load', callback, false);
+	else node.onreadystatechange = function() { if (this.readyState == 'loaded') { callback.call(this);} }
 	node.src = src;
-	target.getElementsByTagName("head").item(0).appendChild(node);
+	target.getElementsByTagName('head').item(0).appendChild(node);
 	node = null;
 }
 
 CodePress.run = function() {
 	codes = document.getElementsByTagName('code');
 	for(var i=0;i<codes.length;i++) {
-		if(codes[i].className.match("cp")) {
+		if(codes[i].className.match('cp')) {
 			id = codes[i].id;
 			codes[i].style.color = 'silver';
-//			codes[i].style.overflow = 'visible';
 			$(codes[i].id).id = 'cp_'+codes[i].id;	
 			eval(id+' = new CodePress("'+id+'")');
 		}
@@ -217,15 +216,15 @@ CodePress.run = function() {
 
 CodePress.addEvent = function(element,event,callback) {
 	if (element.addEventListener) element.addEventListener (event,callback,false);
-	else if (element.attachEvent) element.attachEvent ("on"+event,callback);
+	else if (element.attachEvent) element.attachEvent ('on'+event,callback);
 	else eval('element.'+event+' = callback');
 }
 
 CodePress.loadStyle = function(href,callback) {
-	var node = document.createElement("link");
+	var node = document.createElement('link');
 	node.href = href;
 	node.rel = 'stylesheet';
-	document.getElementsByTagName("head").item(0).appendChild(node);
+	document.getElementsByTagName('head').item(0).appendChild(node);
 	if (node.addEventListener) callback.call();
 	else node.onload = function() { callback.call();}
 	node = null;
