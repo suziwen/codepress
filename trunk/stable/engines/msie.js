@@ -27,7 +27,7 @@ CodePress = {
 		editor.contentEditable = 'true';
 		document.attachEvent('onkeydown', this.metaHandler);
 		document.attachEvent('onkeypress', this.keyHandler);
-		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') });
+		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) setTimeout(function(){CodePress.syntaxHighlight('scroll')},1)});
 		completeChars = this.getCompleteChars();
 		CodePress.syntaxHighlight('init');
 		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top

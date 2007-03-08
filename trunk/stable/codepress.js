@@ -196,7 +196,7 @@ CodePress.detect = function() {
 CodePress.loadScript = function(target, src, callback) {
 	var node = target.createElement('script');
 	if (node.addEventListener) node.addEventListener('load', callback, false);
-	else node.onreadystatechange = function() { if (this.readyState == 'loaded') { callback.call(this);} }
+	else node.onreadystatechange = function() { if (this.readyState=='loaded'||this.readyState=='complete') { callback.call(this);} }
 	node.src = src;
 	target.getElementsByTagName('head').item(0).appendChild(node);
 	node = null;
