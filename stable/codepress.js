@@ -10,9 +10,9 @@
  */
  
 CodePress = function(id) {
-	var id,filename,language,editor,cpBody,cpWindow,cpEditor,cpMenu,cpWindowHeight,cpEditorHeight,img,cpFilename,cpLanguage,cpMenuOptions,cpMenuLanguages,cpFullscreen;
+	var id,filename,language,img,cpBody,cpWindow,cpEditor,cpMenu,cpWindowHeight,cpEditorHeight,cpFilename,cpLanguage,cpMenuOptions,cpMenuLanguages,cpFullscreen;
 
-	this.init = function(i) {
+	this.initialize = function(i) {
 		cpWindow = document.createElement('div');
 		cpWindow.className = 'cp-window fullscreen-off';
 		filename = $('cp_'+id).title;
@@ -38,6 +38,7 @@ CodePress = function(id) {
 		CodePress.addEvent(window,'resize', function() { eval(id+'.resizeFullScreen()'); });
 	}
 	
+	// set height for codepress window
 	this.setHeight = function() {
 		cpWindowHeight = $('cp_'+id).clientHeight;
 		if(cpWindowHeight) {
@@ -181,7 +182,7 @@ CodePress = function(id) {
 		cpBody.CodePress.setCode(code);
 	}
 	
-this.init(id);
+this.initialize(id);
 }
 
 CodePress.detect = function() {
