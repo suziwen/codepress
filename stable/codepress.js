@@ -34,6 +34,7 @@ CodePress = function(id) {
 		cpBody = cpEditor.contentWindow;
 		
 		this.setFilename(filename);
+
 		if(pgCode.match(/\w/)) CodePress.addEvent(cpEditor,'load', function() { eval(id+'.edit(filename,pgCode)'); }); 
 		CodePress.addEvent(window,'resize', function() { eval(id+'.resizeFullScreen()'); });
 	}
@@ -90,12 +91,14 @@ CodePress = function(id) {
 	
 	this.toggleFullScreen = function(obj) {
 	    if(obj.checked) {
+			for(var i=0,n=codes.length;i<n;i++) if(cpWindow.parentNode!=codes[i]&&codes[i]!='')codes[i].style.visibility = 'hidden';
 			cpWindow.className = 'cp-window fullscreen-on';
 			document.getElementsByTagName('html')[0].style.overflow = 'hidden';
 			window.scrollTo(0,0); 
 			this.resizeFullScreen(obj);
 	    }
 	    else {
+			for(var i=0,n=codes.length;i<n;i++) if(codes[i]!='')codes[i].style.visibility = 'visible';
 			cpWindow.className = 'cp-window fullscreen-off';
 			document.getElementsByTagName('html')[0].style.overflow = 'auto';
 			cpWindow.style.width = '100%';
@@ -211,7 +214,7 @@ CodePress.run = function() {
 			codes[i].style.color = 'silver';
 			$(codes[i].id).id = 'cp_'+codes[i].id;	
 			eval(id+' = new CodePress("'+id+'")');
-		}
+		} else {codes[i] = '';}
 	}
 }
 
