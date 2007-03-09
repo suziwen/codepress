@@ -35,7 +35,7 @@ $code = "";
 $engine = $_GET['engine'];
 $language = (isset($_GET['language'])) ? $_GET['language'] : "generic" ;
 
-if(isset($_GET['file'])) {
+if(isset($_GET['file'])&&$_GET['file']!="") {
     $file = preg_replace("/\.\.\//","",$_GET['file']); // don't let users go up with ../../
 	if($path['files']{0}=="/") $full_file = $path['server'].'/'.$path['files']."/".$file; // absolute path
 	else $full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file; // relative path
