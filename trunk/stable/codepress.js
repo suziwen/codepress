@@ -8,6 +8,9 @@
  * 
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
+
+var cpTheme = 'default';
+var cpModule = 'php';
  
 CodePress = function(id) {
 	var id,filename,language,img,cpBody,cpWindow,cpEditor,cpMenu,cpWindowHeight,cpEditorHeight,cpFilename,cpLanguage,cpMenuOptions,cpMenuLanguages,cpFullscreen;
@@ -56,7 +59,7 @@ CodePress = function(id) {
 		this.setFilename(arguments[0]);
 		this.setLanguage();
 		if(!arguments[1]||arguments[1]=='') { // file name of the source code (to open from server)
-			cpEditor.src = cpPath+'modules/codepress.php?action=edit&file='+filename+'&language='+language+'&engine='+cpEngine
+			cpEditor.src = cpPath+'modules/codepress.'+cpModule+'?action=edit&file='+filename+'&language='+language+'&engine='+cpEngine+'&theme='+cpTheme;
 		}
 		else { // open code from textarea or directly from parameter
 			this.setLanguage(language);
@@ -140,14 +143,14 @@ CodePress = function(id) {
 		var img = obj.getElementsByTagName('img')[1];
 		var menu = obj.nextSibling;
 		menu.className = menu.className.match('hide') ? menu.className.replace('hide','show') : menu.className.replace('show','hide') ;
-		img.src = menu.className.match('show') ? cpPath+'themes/default/menu-arrow-down.gif' : cpPath+'themes/default/menu-arrow-up.gif' ;
+		img.src = menu.className.match('show') ? cpPath+'themes/'+cpTheme+'/menu-arrow-down.gif' : cpPath+'themes/'+cpTheme+'/menu-arrow-up.gif' ;
 	}	
 	
 	this.hideMenu = function() {
 		cpMenuOptions.className = 'cp-options-menu hide';
-		cpMenu.getElementsByTagName('img')[1].src = cpPath+'themes/default/menu-arrow-up.gif';
+		cpMenu.getElementsByTagName('img')[1].src = cpPath+'themes/'+cpTheme+'/menu-arrow-up.gif';
 		cpMenuLanguages.className = 'cp-languages-menu hide';
-		cpMenu.getElementsByTagName('img')[3].src = cpPath+'themes/default/menu-arrow-up.gif';		
+		cpMenu.getElementsByTagName('img')[3].src = cpPath+'themes/'+cpTheme+'/menu-arrow-up.gif';		
 	}
 
 	this.setContent = function(i) {
@@ -155,11 +158,11 @@ CodePress = function(id) {
 		var allLanguages = '';
 		for(lang in Content.languages) allLanguages += '<input type=radio name=lang id="'+i+'-language-'+lang+'" onclick="'+i+'.setLanguage(\''+lang+'\',this)" '+( lang==language ? 'checked="checked"' : ''  )+' /><label for="'+i+'-language-'+lang+'">'+Content.languages[lang].name+'</label><br />';
 
-		cpWindow.innerHTML = '<iframe class="cp-editor" src="'+cpPath+'modules/codepress.php?engine='+cpEngine+'&language='+language+'&file='+filename+'"></iframe>'+
+		cpWindow.innerHTML = '<iframe class="cp-editor" src="'+cpPath+'modules/codepress.'+cpModule+'?engine='+cpEngine+'&language='+language+'&file='+filename+'&theme='+cpTheme+'"></iframe>'+
 			'<form><div class="cp-menu">'+
 				'<em class="cp-filename"></em>'+
 				'<span class="cp-options" onclick="'+i+'.toogleMenu(this)">'+
-					'<img src="'+cpPath+'themes/default/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align="top" class="cp-arrow-options" />'+
+					'<img src="'+cpPath+'themes/'+cpTheme+'/menu-icon-options.gif" align="top" /> '+Content.menu.options+' <img src="'+cpPath+'themes/'+cpTheme+'/menu-arrow-up.gif" align="top" class="cp-arrow-options" />'+
 			    '</span>'+
 				'<div class="cp-options-menu hide">'+
    					'<input type="checkbox" id="'+i+'-fullscreen" onclick="'+i+'.toggleFullScreen(this)"><label for="'+i+'-fullscreen">'+Content.menu.fullScreen+'</label><br>'+
@@ -167,7 +170,7 @@ CodePress = function(id) {
 					'<input type=checkbox id="'+i+'-complete" onclick="'+i+'.toggleComplete(this)" checked="checked"><label for="'+i+'-complete">'+Content.menu.autoComplete+'</label>'+
 				'</div>'+
 				'<span class="cp-language" onclick="'+i+'.toogleMenu(this)">'+
-					'<img src="'+cpPath+'themes/default/menu-icon-languages.gif" align="top" /> <span class="cp-language-name">'+Content.languages[language].name+'</span> <img src="'+cpPath+'themes/default/menu-arrow-up.gif" align=top class="cp-arrow-languages" />'+
+					'<img src="'+cpPath+'themes/'+cpTheme+'/menu-icon-languages.gif" align="top" /> <span class="cp-language-name">'+Content.languages[language].name+'</span> <img src="'+cpPath+'themes/'+cpTheme+'/menu-arrow-up.gif" align=top class="cp-arrow-languages" />'+
 				'</span>'+
 				'<div class="cp-languages-menu hide">'+allLanguages+'</div>'+
 			'</div></form>';
@@ -241,6 +244,6 @@ $ = function() { return document.getElementById(arguments[0]); }
 var cpPath = $('cp-script').src.replace('codepress.js','');
 
 // load css then load script
-CodePress.loadStyle(cpPath+'themes/default/codepress-editor.css', function() {
+CodePress.loadStyle(cpPath+'themes/'+cpTheme+'/codepress-editor.css', function() {
 	setTimeout(function() {	CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.run(); }); },500)
 });
