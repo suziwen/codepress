@@ -33,6 +33,7 @@ $path['server'] = $_SERVER['DOCUMENT_ROOT'];
 
 $code = "";
 $engine = $_GET['engine'];
+$theme = (isset($_GET['theme'])) ? $_GET['theme'] : "default" ;
 $language = (isset($_GET['language'])) ? $_GET['language'] : "generic" ;
 
 if(isset($_GET['file'])&&$_GET['file']!="") {
@@ -45,7 +46,6 @@ if(isset($_GET['file'])&&$_GET['file']!="") {
 	    $code = preg_replace("/&/","&amp;",$code);
 	    $code = preg_replace("/</","&lt;",$code);
 	    $code = preg_replace("/>/","&gt;",$code);
-		//$code = preg_replace("/\r\n/","<br>",$code); // opera and khtml engines
 	}
 }
 
@@ -56,7 +56,7 @@ if(isset($_GET['file'])&&$_GET['file']!="") {
 <head>
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<meta name="description" content="CodePress source code editor window" />
-	<link type="text/css" href="../themes/default/codepress.css?timestamp=<?php echo time();?>" rel="stylesheet" />
+	<link type="text/css" href="../themes/<?php echo $theme;?>/codepress.css?timestamp=<?php echo time();?>" rel="stylesheet" />
 	<link type="text/css" href="../languages/<?php echo $language;?>.css?timestamp=<?php echo time(); ?>" rel="stylesheet" id="cp-lang-style" />
 	<script type="text/javascript" src="../engines/<?php echo $engine;?>.js?timestamp=<?php echo time();?>"></script>
 	<script type="text/javascript" src="../languages/<?php echo $language;?>.js?timestamp=<?php echo time();?>"></script>
