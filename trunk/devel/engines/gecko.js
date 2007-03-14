@@ -15,8 +15,8 @@
 
 
 CodePress = {
-	language : null,
 	scrolling : false,
+	autocomplete : true,
 
 	// set initial vars and start sh
 	initialize : function() {
@@ -28,8 +28,7 @@ CodePress = {
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-		parent.CodePress.initialize();
-		this.language = parent.CodePress.language;
+		CodePress.syntaxHighlight('init');
 	},
 	
 	// treat key bindings
@@ -206,6 +205,31 @@ CodePress = {
 		return indent;
 	},
 
+	// get code from editor
+	getCode : function() {
+		var code = editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+//		code = code.replace(/<\/p>/gi,'\r');
+//		code = code.replace(/<p>/i,''); // IE first line fix
+//		code = code.replace(/<p>/gi,'\n');
+//		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
+	},
+
+	// put code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		editor.innerHTML = '<pre>'+code+'</pre>';
+	},
 	
 	// undo and redo methods
 	actions : {
