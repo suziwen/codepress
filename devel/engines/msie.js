@@ -1,5 +1,5 @@
 /*
- * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.fermads.net/
+ * CodePress - Real Time Syntax Highlighting Editor written in JavaScript - http://codepress.org/
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
@@ -15,8 +15,8 @@
 
 
 CodePress = {
-	language : null,
 	scrolling : false,
+	autocomplete : true,
 
 	// set initial vars and start sh
 	initialize : function() {
@@ -27,10 +27,9 @@ CodePress = {
 		editor.contentEditable = 'true';
 		document.attachEvent('onkeydown', this.metaHandler);
 		document.attachEvent('onkeypress', this.keyHandler);
-		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') });
+		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) setTimeout(function(){CodePress.syntaxHighlight('scroll')},1)});
 		completeChars = this.getCompleteChars();
-		parent.CodePress.initialize();
-		this.language = parent.CodePress.language;
+		CodePress.syntaxHighlight('init');
 		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top
 	},
 	
@@ -186,7 +185,7 @@ CodePress = {
 	getRangeAndCaret : function() {	
 		var range = document.selection.createRange();
 		var caret = Math.abs(range.moveStart("character", -1000000)+1);
-		range = parent.CodePress.getCode();
+		range = this.getCode();		
 		range = range.replace(/\n\r/gi,'  ');
 		range = range.replace(/\n/gi,'');
 		range = range.replace(/&shy;/gi,'');
@@ -240,6 +239,32 @@ CodePress = {
 		o = o.replace(/<P>(<P>)+/,'<P>');
 		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
 		return o.replace(/<P><\/P>/g,'<P><BR/></P>');
+	},
+
+	// get code from editor	
+	getCode : function() {
+		var code = editor.innerHTML;
+		code = code.replace(/<br>/g,'\n');
+		code = code.replace(/<\/p>/gi,'\r');
+		code = code.replace(/<p>/i,''); // IE first line fix
+		code = code.replace(/<p>/gi,'\n');
+		code = code.replace(/&nbsp;/gi,'');
+		code = code.replace(/\u2009/g,'');
+		code = code.replace(/<.*?>/g,'');
+		code = code.replace(/&lt;/g,'<');
+		code = code.replace(/&gt;/g,'>');
+		code = code.replace(/&amp;/gi,'&');
+		return code;
+	},
+
+	// put code inside editor
+	setCode : function() {
+		var code = arguments[0];
+		code = code.replace(/\u2009/gi,'');
+		code = code.replace(/&/gi,'&amp;');		
+       	code = code.replace(/</g,'&lt;');
+        code = code.replace(/>/g,'&gt;');
+		editor.innerHTML = '<pre>'+code+'</pre>';
 	},
 	
 	// undo and redo methods
