@@ -4,23 +4,33 @@
 <head>
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<style>
-		body {color:#000;background-color:white;font:15px georgia, "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; letter-spacing:0.01em;margin:15px;}
-		code.cp {visibility:hidden;}
+		body {color:#000;background-color:white;font:15px georgia, "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; letter-spacing:0.01em;margin:20px 40px;}
+		.cptag {padding:10px;border:1px dotted gray;margin:10px 0;font-family:fixedsys;background:#eaeaf4;color:#000080;}
+		.cp {visibility:hidden;height:300px;width:100%;}
 	</style>
 </head>
 <body>
 
 
-Full CodePress window loading code from server:<br />
-<code id="cp1" title="codepress.php" class="cp" style="width:700px;height:400px;"></code>
+CodePress loading file codepress.php from server:<br />
+<div class="cptag">&lt;code id="cp1" title="codepress.php" class="cp"&gt;&lt;/code&gt;</div>
+<code id="cp1" title="codepress.php" class="cp"></code>
 <br />
-
 <button onclick="alert(cp1.getCode())">Get code from above editor</button> or <button onclick="cp1.edit('example.pl')">load another file</button>
-<br /><br />
+
+<br /><br /><br /><br />
 
 
-CodePress window loading code directly from this page without language chooser:<br />
-<code id="codepress2" title="codepress-test.js" class="cp hideLanguage" style="width:700px;height:300px;">
+CodePress loading inline code directly from this page naming file as codepress-test.js without language chooser:<br />
+
+<div class="cptag">
+&lt;code id="codepress2" title="codepress-test.js" class="cp hideLanguage"&gt;<br />
+&nbsp;&nbsp;&nbsp;[inline code to be opened]<br />
+&lt;/code"&gt;
+</div>
+
+
+<code id="codepress2" title="codepress-test.js" class="cp hideLanguage">
 // loading code directly from page
 this.setLanguage = function() {
 	if(arguments[0]) {
@@ -42,13 +52,16 @@ this.setLanguage = function() {
 	}
 }
 </code>
-<br />
+
+<br /><br /><br /><br />
 
 
+CodePress loading code on demand from hidden textarea without menu: <button onclick="cp3.edit('test.js','myTextAreaId')">Click to load JavaScript code on demand</button><br />
+<div class="cptag">
+&lt;code id="cp3" class="cp hideMenu"&gt;&lt;/code&gt;
+</div>
+<code id="cp3" class="cp hideMenu"></code>
 
-CodePress window loading code on demand from hidden textarea and without menu: <button onclick="cp3.edit('test.js','myTextAreaId')">Load code</button><br />
-
-<code id="cp3" class="cp hideMenu" style="width:700px;height:250px;"></code>
 
 <form><textarea id="myTextAreaId" class="codepress" style="display:none;">/* CodePress example */
 for (i=0;i<10;i++) {
@@ -56,11 +69,16 @@ for (i=0;i<10;i++) {
 	document.write("Test");
 }
 </textarea></form>
-<br />
+
+<br /><br /><br /><br />
 
 
-Empty codepress window without file name:<br />
-<code id="cp4" class="cp hideFileName" style="width:700px;height:250px;"></code>
+Empty CodePress:<br />
+<div class="cptag">
+&lt;code id="cp4" class="cp"&gt;&lt;/code&gt;
+</div>
+
+<code id="cp4" class="cp hideFileName"></code>
 
 
 <script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
