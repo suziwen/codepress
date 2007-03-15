@@ -94,10 +94,6 @@ this.setLanguage = function() {
 	<button onclick="codepress2.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> &raquo; Example setting code from a hidden textarea to CodePress window
 </p>
 
-<p>
-	<a href="codepress/examples.html">See more examples</a>
-</p>
-
 <?php include("includes/changelog_last.php"); ?>
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
@@ -109,6 +105,9 @@ this.setLanguage = function() {
 	<ul>
 		<li>
 			<a href="how_to_use_it.php" class="button">Installation</a>
+		</li>
+		<li>
+			<a href="codepress/examples.html" class="button">Examples of use</a>
 		</li>
 		<li>
 			<a href="changelog.php" class="button">Changelog</a>
