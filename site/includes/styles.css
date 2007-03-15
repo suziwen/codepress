@@ -3,45 +3,42 @@ h1 {color:#7f0055;margin:0;padding:0;font-size:42px;font-weight:normal;}
 h1 a {text-decoration:none;}
 h2 {margin:0;}
 h2 a {text-decoration:none;font-weight:normal;font-size:22px;color:black !important;}
-h3 {font-size:20px;font-weight:normal;padding:0;margin:25px 0 5px 0;color:#7f0055;font-weight:bold;border-bottom:2px dotted #d8d8d8;}
+h3 {font-size:20px;font-weight:normal;padding:0;margin:20px 0 5px 0;color:#7f0055;font-weight:bold;border-bottom:2px dotted #d8d8d8;}
 h4 {font-size:18px;font-weight:normal;z-index:0;}
-
-p {margin:0 0 15px 0;}
+h5 {font-size:17px;padding:0;margin:0;}
+p {margin:8px 0 8px 0;}
 a,a:visited {color:#7f0055;}
 select {background:#ffffe1;}
 button {margin-top:5px;}
-.fixed {color:darkgreen;}
+form {padding:0;margin:0;}
+ol, ul {padding:5px 0 5px 25px;margin:0;}
+ol li, ul li {margin:8px 0 8px 0;}
+code {color:#0080c0;font-size:13px;font-weight:bold;}
+dd {margin-left:20px;padding:0}
+dt {font-weight:bold;margin-top:14px;font-size:15px; }
+
 #container {width:700px;margin:20px auto;padding:25px;border:3px solid #d9d9d9;-moz-border-radius:10px;background:#f8f8f8;position:relative;}
 #logo {text-align:center;background-color:#d6d6d6;padding:10px;-moz-border-radius:5px;border:1px solid silver;}
 #default {font-weight:bold;color:red;}
 #languages {margin:5px 0;}
-
-#main {width:400px;_margin-top:20px;}
-#adsense {position:absolute;top:192px;right:35px;}
-#codepress-ondemand, .ns {display:none;}
-
+#footer {text-align:center;}
+#footer a {margin:0 10px;}
+#adsense {float:right;padding:10px;background:#f8f8f8;}
 #menu { width:100%;background:#7f0055;-moz-border-radius:4px;}
 #menu a {font:bold 17px georgia;color:white;padding:4px;display:block;border-left:1px solid white;text-align:center;text-decoration:none;}
 #menu a:hover {background:#b9669e;} 
-
-ol {padding:0 0 15px 30px;margin:0;}
-ol li {margin:5px 0 10px 0;}
-
+#download {font-size:17px;}
 
 .h {display:none;background:#eee;padding:10px;margin:10px 0;-moz-border-radius:4px;border:2px solid silver;}
 .hc {display:none;}
-code {color:#0080c0;font-size:13px;font-weight:bold;}
+#myTextAreaId {display:none;}
 
-dd {margin-left:20px;padding:0}
-dt {font-weight:bold;}
-#changelog ul {margin-top:2px}
 
 /* comments */
 h3 #addnewcomment a {font-size:13px;color:gray;}
 #comments {position:relative;}
 #comments .name {color:#7f0055}
 #comments .me { background-color:#ecdde8;}
-form {padding:0;margin:0;}
 #comment-msg { padding:2px 10px;position:absolute;left:200px;width:290px;top:251px;color:white;-moz-border-radius:4px;font-weight:bold;text-align:center;}
 #postcomment {background:#eee;padding:15px;position:relative;-moz-border-radius:6px;}
 #postcomment input {background:white;border:1px solid gray;width:300px;margin:5px 0;}
@@ -51,12 +48,9 @@ form {padding:0;margin:0;}
 #yourcomment {background:#cecece;}
 #previewimg {position:absolute;top:-75px;left:340px;}
 
+/* footer */
 #sflogo { float:right;margin-top:-34px; }
 
-.button { padding:4px 8px; background:#eee;-moz-border-radius:1px;margin-right:20px;color:black;border:1px solid #ddd;text-decoration:none;font-size:16px; }
-.button:hover { background:silver;-moz-border-radius:1px; }
+.cp {width:700px;height:400px;}
 
-.hold {width:400px;}
-#myTextAreaId {display:none;}
 
-.cp {width:700px;height:400px;display:block}

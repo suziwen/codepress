@@ -22,7 +22,7 @@ while ($row = mysql_fetch_assoc($rst)) {
 			$comment .= "<br />";
 		}
 		if($total_lines>7) $comment .= "</span>";
-		echo ' :: <strong>'.preg_replace("/ .*/","",$row['datetime']).'</strong><p>'. $comment.'</p></div>';
+		echo ' &raquo; <strong>'.preg_replace("/ .*/","",$row['datetime']).'</strong><p>'. $comment.'</p></div>';
 		echo "\n";
 	}
 }
