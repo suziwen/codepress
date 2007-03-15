@@ -12,7 +12,7 @@ function query($sql,$dbh) {
 
 
 if($_SERVER['HTTP_HOST']!="localhost") { 
-	$dbh=mysql_connect ("mysql4-c", "c186981rw", "sfmysqlrw") or die ('I cannot connect to the database because: ' . mysql_error());
+	$dbh=mysql_connect ("mysql4-c", "c186981rw", "[hiddenvalue]") or die ('I cannot connect to the database because: ' . mysql_error());
 	mysql_select_db ("c186981_site");
 }
 else {
