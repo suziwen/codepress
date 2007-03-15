@@ -15,6 +15,9 @@
 		dynamic line numbers
 	</li>
 	<li>
+		also handle textarea for code loading (besides the code tag)
+	</li>
+	<li>
 		syntax highlighting for:
 		<ul>
 			<li>C</li>

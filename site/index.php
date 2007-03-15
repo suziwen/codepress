@@ -111,6 +111,9 @@ this.setLanguage = function() {
 			<a href="how_to_use_it.php" class="button">Installation</a>
 		</li>
 		<li>
+			<a href="changelog.php" class="button">Changelog</a>
+		</li>
+		<li>
 			<a href="http://sourceforge.net/tracker/?func=add&group_id=186981&atid=919467">Bug report</a>
 		</li>
 		<li>
@@ -120,12 +123,6 @@ this.setLanguage = function() {
 </ul>
 
 
-<h3>Changelog</h3>
-<?php getLastChangeLog($changelog); ?>
-<p>
-	<a href="changelog.php"><strong>View changelog for old versions</strong></a>
-</p>
-
 <h3>License</h3>
 <p>
 	CodePress is distributed under the <a href="http://www.opensource.org/licenses/lgpl-license.php">LGPL</a>. If your software is <a href="http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses">compatible</a> with this licence or it is under <a href="http://creativecommons.org/">Creative Commons</a>, you can use it as you want. Just keep the credits somewhere around.
@@ -133,6 +130,8 @@ this.setLanguage = function() {
 <p>
 	To know a little more about this project, go to the <a href="menu_about.php">about section</a>.
 </p>
+
+
 
 <h3>Comments <span style="color:black;">(<a href="javascript:scrollBottom()" style="color:black;">add new comment</a>)</span></h3>
 <p>

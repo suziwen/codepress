@@ -25,15 +25,6 @@ $changelog = array(
 	)
 );
 
-function getLastChangeLog($changelog){
-//	echo '<h5>'. $changelog[0]['v'] .' / '. $changelog[0]['d'] .'</h5>';
-	echo '<ul>';
-	for($n=0;$n<count($changelog[0]['i']);$n++) {
-		echo '<li>'. $changelog[0]['i'][$n] .'</li>';		
-	}
-	echo '</ul>';
-}
-
 function getAllChangeLog($changelog) {
 	for($i=0;$i<count($changelog);$i++) {
 		echo '<h5>'. $changelog[$i]['v'] .' / '. $changelog[$i]['d'] .'</h5><ul>';
