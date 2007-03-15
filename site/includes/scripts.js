@@ -66,18 +66,6 @@ function versionExpand(id) {
 }
 
 
-// open examples
-last = null;
-function edit(file,obj) {
-	if(last == null) last = document.getElementById('default');
-	last.style.fontWeight = 'normal';
-	last.style.color = 'black';
-	obj.style.fontWeight = 'bold';
-	obj.style.color = 'red';
-	last = obj;
-	CodePress.edit(file)
-}
-
 // blog comments ////
 function commentPreview() {
 	$('comment-msg').style.display = 'none';

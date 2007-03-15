@@ -15,7 +15,7 @@ Considering you already have a PHP capable webserver (http://yourserver/)
 <ol>
 	<li>
 		<p>
-			<a href="index.php">Download</a> and uncompress CodePress under a directory inside your webserver.<br>
+			<a href="http://codepress.org/">Download</a> and uncompress CodePress under a directory inside your webserver.<br>
 			Example:<strong> http://yourserver/codepress/</strong>
 		</p>
 	</li>
@@ -81,7 +81,8 @@ Considering you already have a PHP capable webserver (http://yourserver/)
 		Example 3: <code>document.getElementById('MyTextArea').value = cp2.getCode()</code>
 	</li>
 </ol>
-You may want to use CodePress.getCode() to get the content code from CodePress window and save it to your server since CodePress only open/edit files and do not save them.
-
+<p>
+	You may want to use CodePress.getCode() to get the content code from CodePress window and save it to your server since CodePress only open/edit files and do not save them.
+</p>
 
 <? include("includes/footer.php"); ?>
