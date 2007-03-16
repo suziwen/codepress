@@ -36,6 +36,8 @@
 
 <h3>Contributors</h3>
 <dl>
+	<dt>Daemach</dt>
+		<dd>ColdFusion module</dd>
 	<dt>J. Nick Koston</dt>
 		<dd>Syntax highlighting for PERL</dd>
 	<dt>Merlin Moncure</dt>
