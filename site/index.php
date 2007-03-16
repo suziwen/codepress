@@ -104,7 +104,7 @@ this.setLanguage = function() {
 	</li>
 	<ul>
 		<li>
-			<a href="how_to_use_it.php" class="button">Installation</a>
+			<a href="install.php" class="button">Installation</a>
 		</li>
 		<li>
 			<a href="codepress/examples.html" class="button">Examples of use</a>
