@@ -127,7 +127,7 @@ this.setLanguage = function() {
 	CodePress is distributed under the <a href="http://www.opensource.org/licenses/lgpl-license.php">LGPL</a>. If your software is <a href="http://www.gnu.org/philosophy/license-list.html#GPLCompatibleLicenses">compatible</a> with this licence or it is under <a href="http://creativecommons.org/">Creative Commons</a>, you can use it as you want. Just keep the credits somewhere around.
 </p>
 <p>
-	To know a little more about this project, go to the <a href="menu_about.php">about section</a>.
+	To know a little more about this project, go to the <a href="about.php">about section</a>.
 </p>
 
 
