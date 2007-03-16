@@ -76,7 +76,7 @@ function commentPreview() {
 	commtxt = commtxt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 	commtxt = commtxt.replace(/\n/g,'<br>');
 	$('yourtext').innerHTML = commtxt;
-	if(arguments[0]!=1)scrollBottom();
+	//if(arguments[0]!=1)scrollBottom();
 }
 
 function commentMsg(msg,type) {
@@ -89,11 +89,12 @@ function commentAdd() {
 	cName = document.comm.cname.value;
 	cUrl = document.comm.curl.value;
 	cComment = document.comm.ccomment.value;
+	cOrder = document.comm.corderdate.value;	
 	if(cName==''||cName=='Your name') commentMsg('Name is a required','error');
 	else if(cComment==''||cComment=='Your comment') commentMsg('Comment is a required','error');
 	else {
 		AJAX.get('comment_add.php', { 
-			parameters: 'name='+cName+'&url='+cUrl+'&comment='+ encodeURIComponent(cComment),
+			parameters: 'name='+cName+'&url='+cUrl+'&order='+cOrder+'&comment='+ encodeURIComponent(cComment),
 			method:'post',
 			onEnd:'commentMsg("Comment posted","info");commentUpdate(xmlDoc);', 
 			onError:'commentMsg("Error posting comment, try again","error");'
@@ -105,12 +106,40 @@ function commentAdd() {
 	return false;
 }
 
+var z = 0;
+var d = '';
+function reply(n) {
+	if (z==0) z = document.getElementById('n1');
+	d = n.nextSibling;
+	if(d.innerHTML == '') {
+		document.getElementById('postnewcomment').style.display = (arguments[1]!='') ? 'block' : 'none';
+		document.comm.corderdate.value = arguments[1];
+		d.innerHTML = document.getElementById('n1').innerHTML;
+		d.style.marginLeft = (arguments[1]!='') ? '25px' : '0';
+		document.getElementById('n1').innerHTML = '';
+		document.getElementById('n1').id = '';
+		d.id = 'n1';
+	}
+}
+
 function commentUpdate(x) {
 	newCommentAdded = $('yourcomment').innerHTML.replace(/id=\"your.*?\"/g,'');
 	if(newCommentAdded.indexOf('"http:\/\/"')!=-1)  newCommentAdded = newCommentAdded.replace(/<a.*?>/,'');
 	$('newcomments').innerHTML = $('newcomments').innerHTML + '<div class="comment">'+newCommentAdded+'</div>';
 	$('yourcomment').style.display = 'none';
 	$('previewimg').style.display = 'none';
+
+	d.id = '';
+	z.id = 'n1';
+	
+	d.innerHTML = $('newcomments').innerHTML;
+	$('newcomments').innerHTML ='';
+
+	$('yourname').innerHTML = 'Your name';
+	$('yoururl').href = 'http://';
+	$('yourtext').innerHTML = 'Your comment';
+
+	
 }
 
 function commentExpand(id,obj) {

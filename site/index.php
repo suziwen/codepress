@@ -140,14 +140,13 @@ this.setLanguage = function() {
 	
 <?php include_once("includes/comment_list.php"); ?>
 
-These are the last 25 comments. <a href="comment_list_all.php">See everything.</a>
-
+<a href="javascript:void(0)" onclick="reply(this.nextSibling,'')" id="postnewcomment">Post a new comment</a>
+<div id="n1">
 	<div id="newcomments"></div>
     <div id="yourcomment" class="comment">
 		<a href="http://" id="yoururl"><strong id="yourname" class="name">Your name</strong></a> &raquo; <strong id="yourdate"><?= date('Y-m-d') ?></strong>
 	    <p id="yourtext">Your comment</p>
 	</div>
-</div><!--/comments-->
 
 	<h3>Post a comment</h3>
 	<div id="postcomment">
@@ -156,10 +155,16 @@ These are the last 25 comments. <a href="comment_list_all.php">See everything.</
 		<input type="text" name="cname" value="Your name" onkeyup="commentPreview()" onclick="if(this.value=='Your name')this.value=''" /><br />
 		<input type="text" name="curl" value="http://" onkeyup="commentPreview()" /><br />
 		<textarea name="ccomment" onkeyup="commentPreview()" onclick="if(this.value=='Your comment')this.value=''" onfocus="if(this.value=='Your comment')this.value=''">Your comment</textarea><br />
+		<input type="hidden" name="corderdate" value="">
 		<div id="comment-msg"></div>
 		</form>
 		<button onclick="commentAdd()">submit your comment</button>
 		<script type="text/javascript">commentPreview(1)</script>
 	</div>
+</div>
+</div><!--/comments-->
+
+
+
 
 <? include("includes/footer.php"); ?>
