@@ -32,6 +32,7 @@ there are 2 ways to set the file directory. See examples below, edit and comment
 <cfparam name="url.engine" default="gecko">
 <cfparam name="url.action" default="edit">
 <cfparam name="url.file" default="codepress.js">
+<cfparam name="url.theme" default="default">
 
 <cfif left(path,1) is "/">
 	<!---absolute--->
@@ -56,15 +57,15 @@ there are 2 ways to set the file directory. See examples below, edit and comment
 <head>
 	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
 	<meta name="description" content="CodePress source code editor window" />
-	<link type="text/css" href="../themes/default/codepress.css?timestamp=#GetHttpTimeString(now())#" rel="stylesheet" />
+	<link type="text/css" href="../themes/#url.theme#/codepress.css?timestamp=#GetHttpTimeString(now())#" rel="stylesheet" />
 	<link type="text/css" href="../languages/#url.language#.css?timestamp=#GetHttpTimeString(now())#" rel="stylesheet" id="cp-lang-style" />
 	<script type="text/javascript" src="../engines/#url.engine#.js?timestamp=#GetHttpTimeString(now())#"></script>
 	<script type="text/javascript" src="../languages/#url.language#.js?timestamp=#GetHttpTimeString(now())#"></script>
 </head>
 <cfif url.engine is "gecko">
-	<body id='code'>This is a ColdFusion backend!<hr />#htmlEditFormat(code)#</body>
+	<body id='code'>#htmlEditFormat(code)#</body>
 <cfelse>
-	<body><pre id='code'>This is a ColdFusion backend!<hr />#htmlEditFormat(code)#</pre></body>
+	<body><pre id='code'>#htmlEditFormat(code)#</pre></body>
 </cfif>
 </html>
 </cfoutput>
