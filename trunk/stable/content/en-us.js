@@ -24,8 +24,8 @@ Content.menu = {
 	fullScreen   : 'Full screen',
 	lineNumbers  : 'Line numbers',
 	save         : 'Save',
-	saved        : 'Salvo',
-	about        : 'Sobre',
+	saved        : 'Salved',
+	about        : 'About',
 	snippets     : 'Snippets',
 	help         : 'Help',
 	website      : 'Website'
