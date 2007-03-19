@@ -26,7 +26,7 @@ while ($row = mysql_fetch_assoc($rst)) {
 		if($total_lines>7) $comment .= "</span>";
 		echo ' &raquo; <strong>'.preg_replace("/ .*/","",$row['datetime']).'</strong><p>'. $comment.'</p>';
 		echo '<a href=javascript:void(0) class="reply" onclick="reply(this.parentNode,\''.$row['orderdate'].'\')">reply</a>';
-		echo '</div><div></div><a name="commentanchor"></a>';
+		echo '</div><div></div>';
 	}
 }
 ?>

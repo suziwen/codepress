@@ -67,6 +67,17 @@ function versionExpand(id) {
 
 
 // blog comments ////
+function replyPreview() {
+	$('r-comment-msg').style.display = 'none';
+	$('r-yourcomment').style.display = $('r-previewimg').style.display = 'block';
+	$('r-yoururl').href = document.comm.curl.value.replace(/[<>]/g,'');
+	$('r-yourname').innerHTML = document.comm.cname.value.replace(/[<>]/g,'');
+	commtxt = document.comm.ccomment.value;
+	commtxt = commtxt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+	commtxt = commtxt.replace(/\n/g,'<br>');
+	$('r-yourtext').innerHTML = commtxt;
+}
+
 function commentPreview() {
 	$('comment-msg').style.display = 'none';
 	$('yourcomment').style.display = $('previewimg').style.display = 'block';
@@ -76,7 +87,7 @@ function commentPreview() {
 	commtxt = commtxt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 	commtxt = commtxt.replace(/\n/g,'<br>');
 	$('yourtext').innerHTML = commtxt;
-	//if(arguments[0]!=1)scrollBottom();
+	if(arguments[0]!=1)scrollBottom();
 }
 
 function commentMsg(msg,type) {
@@ -108,17 +119,21 @@ function commentAdd() {
 
 var z = 0;
 var d = '';
+
 function reply(n) {
-	if (z==0) z = document.getElementById('n1');
 	d = n.nextSibling;
 	if(d.innerHTML == '') {
-		document.getElementById('postnewcomment').style.display = (arguments[1]!='') ? 'block' : 'none';
-		document.comm.corderdate.value = arguments[1];
-		d.innerHTML = document.getElementById('n1').innerHTML;
-		d.style.marginLeft = (arguments[1]!='') ? '25px' : '0';
-		document.getElementById('n1').innerHTML = '';
-		document.getElementById('n1').id = '';
-		d.id = 'n1';
+//		document.comm.corderdate.value = arguments[1];
+		//d.innerHTML = "teste"
+		div = document.createElement('div');
+		div.innerHTML = $('r-reply').innerHTML
+		$('r-reply').id = 'r-deleted'
+//		$('r-deleted').parentNode.removeChild($('r-deleted'));
+		$('r-deleted').innerHTML = '';
+		d.appendChild(div);
+			
+		d.style.marginLeft = '25px';
+		div.id = 'r-reply';;
 	}
 }
 

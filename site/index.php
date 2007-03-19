@@ -139,9 +139,6 @@ this.setLanguage = function() {
 <div id="comments">
 	
 <?php include_once("includes/comment_list.php"); ?>
-
-<a href="javascript:void(0)" onclick="reply(this.nextSibling,'')" id="postnewcomment">Post a new comment</a>
-<div id="n1">
 	<div id="newcomments"></div>
     <div id="yourcomment" class="comment">
 		<a href="http://" id="yoururl"><strong id="yourname" class="name">Your name</strong></a> &raquo; <strong id="yourdate"><?= date('Y-m-d') ?></strong>
@@ -161,7 +158,29 @@ this.setLanguage = function() {
 		<button onclick="commentAdd()">submit your comment</button>
 		<script type="text/javascript">commentPreview(1)</script>
 	</div>
-</div>
+	
+	<div id="r-reply">
+		<div id="r-newcomments"></div>
+	    <div id="r-yourcomment" class="comment">
+			<a href="http://" id="yoururl"><strong id="r-yourname" class="name">Your name</strong></a> &raquo; <strong id="r-yourdate"><?= date('Y-m-d') ?></strong>
+		    <p id="r-yourtext">Your comment</p>
+		</div>
+	
+		<h3>Comment reply</h3>
+		<div id="r-postcomment">
+			<img src=images/preview.gif id="previewimg">
+			<form name="comm">
+			<input type="text" name="cname" value="Your name" onkeyup="replyPreview()" onclick="if(this.value=='Your name')this.value=''" /><br />
+			<input type="text" name="curl" value="http://" onkeyup="replyPreview()" /><br />
+			<textarea name="ccomment" onkeyup="replyPreview()" onclick="if(this.value=='Your comment')this.value=''" onfocus="if(this.value=='Your comment')this.value=''">Your comment</textarea><br />
+			<input type="hidden" name="corderdate" value="">
+			<div id="r-comment-msg"></div>
+			</form>
+			<button onclick="commentAdd()">submit your comment</button>
+			<script type="text/javascript">//replyPreview()</script>
+		</div>
+	</div><!--/r-reply-->
+	
 </div><!--/comments-->
 
 

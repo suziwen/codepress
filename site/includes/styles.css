@@ -49,7 +49,7 @@ h3 #addnewcomment a {font-size:13px;color:gray;}
 .replymsg {margin-left:25px;}
 .reply {bottom:5px;right:5px;position:absolute;font-family:verdana;font-size:10px;text-decoration:none;background:white;padding:2px 3px;-moz-border-radius:7px;color:#b1b1b1;}
 .reply:hover {color:black;}
-#postnewcomment {display:none;font-size:18px;}
+#r-reply {display:none;}
 /* footer */
 #sflogo { float:right;margin-top:-34px; }
 
