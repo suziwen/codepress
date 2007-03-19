@@ -6,20 +6,22 @@
 
 	<style>
 	body {color:#000;background-color:white;font:15px georgia, "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; letter-spacing:0.01em;margin:15px;}
-	.cp {width:700px;height:300px;border:1px solid gray;margin:0;display:block;}
+	.cp {width:700px;height:300px;border:1px solid gray;margin:0;display:block;overflow:hidden;background:white;padding:14px 0 0 32px;}
+
 	</style>
-	
 </head>
 
 <body>
 
-<textarea class="cp javascript" id="cpx">
+<textarea class="cp php" id="cpx">
+<?
 function bla () {
 	return false;
 }
 
 document.getElementById('bla').innerHTML = "teste";
 alert(1);
+?>
 </textarea>
 
 <button onclick="alert(cpx.getCode())">pega</button>

@@ -20,55 +20,70 @@ CodePress = function(obj) {
 	self.style.border = '1px solid gray'; 	
 	self.language = obj.className.replace(/cp +/,'');
 	self.src = cpPath+'modules/codepress.html?engine='+cpEngine+'&theme='+cpTheme+'&language='+self.language;
-	
-	self.onload = function () {
-		self.contentWindow.CodePress.setCode(obj.value);
-		self.contentWindow.CodePress.syntaxHighlight('init');
+
+	self.initialize = function () {
+		self.editor = self.contentWindow.CodePress;	
+		self.editor.setCode(obj.value);
+		self.editor.syntaxHighlight('init');
 	}
 	
 	self.getCode = function() {
-		return self.contentWindow.CodePress.getCode();
+		return self.editor.getCode();
 	}
 
-	self.setCode = function() {
-		// TO DO 
+	self.setCode = function(code) {
+		self.editor.setCode(code);
 	}
-	
+
+	self.attachEvent ? self.attachEvent('onload',self.initialize) : self.addEventListener('load',self.initialize,false);
 	return self;
 }
 
-CodePress.detect = function() {
-	cpEngine = 'older';
-	var ua = navigator.userAgent;
-	if(ua.match('MSIE')) cpEngine = 'msie';
-	else if(ua.match('KHTML')) cpEngine = 'khtml'; 
-	else if(ua.match('Opera')) cpEngine = 'opera'; 
-	else if(ua.match('Gecko')) cpEngine = 'gecko';
-}
-
-CodePress.loadScript = function(src) {
-	var node = document.createElement('script');
-	node.src = src;
-	document.getElementsByTagName('head').item(0).appendChild(node);
-	node = null;
-}
-
-CodePress.initialize = function() {
-	Content = {};
-	$ = function() { return document.getElementById(arguments[0]); }
-	cpPath = $('cp-script').src.replace('codepress-lite.js',''); // last index of here
-	CodePress.detect();
-	CodePress.loadScript(cpPath+'content/'+$('cp-script').lang+'.js');
-
-	t = document.getElementsByTagName('textarea');
-	for(var i=0,n=t.length;i<n;i++) {
-		if(t[0].className.match('cp')) {
-			eval(t[0].id+' = new CodePress(t[0])');
-			t[0].parentNode.insertBefore(eval(t[0].id), t[0]);
-			t[0].parentNode.removeChild(t[0]);
-		} 
+CodePress.tools = {
+	detect : function() {
+		cpEngine = 'older';
+		var ua = navigator.userAgent;
+		if(ua.match('MSIE')) cpEngine = 'msie';
+		else if(ua.match('KHTML')) cpEngine = 'khtml'; 
+		else if(ua.match('Opera')) cpEngine = 'opera'; 
+		else if(ua.match('Gecko')) cpEngine = 'gecko';
+	},
+/*
+	createRule : function(selector, declarations) {
+		var style = document.createElement('style');
+		style.type = 'text/css';
+		document.getElementsByTagName('head')[0].appendChild(style);
+		sheet = document.styleSheets[document.styleSheets.length-1];
+		if (sheet.insertRule) sheet.insertRule(selector+' { '+declarations+' }', sheet.cssRules.length);
+		else if (sheet.addRule) sheet.addRule(selector, declarations);
+	}, */
+	
+	loadScript : function(src) {
+		var node = document.createElement('script');
+		node.src = src;
+		document.getElementsByTagName('head').item(0).appendChild(node);
+		node = null;
+	},
+	
+	set : function() {
+		Content = {};
+		$ = function() { return document.getElementById(arguments[0]); }
+		cpPath = $('cp-script').src.replace('codepress-lite.js',''); // last index of here
+		this.detect();
+		this.loadScript(cpPath+'content/'+$('cp-script').lang+'.js');
+	
+		t = document.getElementsByTagName('textarea');
+		for(var i=0,n=t.length;i<n;i++) {
+			if(t[0].className.match('cp')) {
+				id = t[0].id;
+				t[0].id = id+'_cp';
+				eval(id+' = new CodePress(t[0])');
+				t[0].parentNode.insertBefore(eval(id), t[0]);
+				t[0].parentNode.removeChild(t[0]);
+			} 
+		}
 	}
 }
 
-CodePress.initialize();
+CodePress.tools.set();
 
