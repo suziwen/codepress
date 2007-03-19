@@ -13,12 +13,11 @@ var cpTheme = 'default';
 
 CodePress = function(obj) {
 	var self = document.createElement('iframe');
-//	self.className = 'cp-editor'
 	self.style.height = obj.clientHeight +'px';
 	self.style.width = obj.clientWidth +'px';
 	self.style.display = 'block';
 	self.style.border = '1px solid gray'; 	
-	self.language = obj.className.replace(/cp +/,'');
+	self.language = obj.className.replace(/cp ?/,'');
 	self.src = cpPath+'modules/codepress.html?engine='+cpEngine+'&theme='+cpTheme+'&language='+self.language;
 
 	self.initialize = function () {
@@ -48,21 +47,27 @@ CodePress.tools = {
 		else if(ua.match('Opera')) cpEngine = 'opera'; 
 		else if(ua.match('Gecko')) cpEngine = 'gecko';
 	},
-/*
-	createRule : function(selector, declarations) {
+
+	loadStyle : function(selector, declarations) {
 		var style = document.createElement('style');
 		style.type = 'text/css';
 		document.getElementsByTagName('head')[0].appendChild(style);
 		sheet = document.styleSheets[document.styleSheets.length-1];
 		if (sheet.insertRule) sheet.insertRule(selector+' { '+declarations+' }', sheet.cssRules.length);
 		else if (sheet.addRule) sheet.addRule(selector, declarations);
-	}, */
+	},
 	
 	loadScript : function(src) {
 		var node = document.createElement('script');
 		node.src = src;
 		document.getElementsByTagName('head').item(0).appendChild(node);
 		node = null;
+	},
+
+	start : function(ini) { // on dom load
+		(!ini) ? this.c=0 : this.c++ ;
+		if(typeof(document.getElementsByTagName)!='undefined' && document.getElementsByTagName('body')[0]!=null) CodePress.tools.set()
+		else if(this.c < 50) setTimeout('CodePress.tools.start(1)', 200);
 	},
 	
 	set : function() {
@@ -71,19 +76,24 @@ CodePress.tools = {
 		cpPath = $('cp-script').src.replace('codepress-lite.js',''); // last index of here
 		this.detect();
 		this.loadScript(cpPath+'content/'+$('cp-script').lang+'.js');
-	
 		t = document.getElementsByTagName('textarea');
-		for(var i=0,n=t.length;i<n;i++) {
-			if(t[0].className.match('cp')) {
-				id = t[0].id;
-				t[0].id = id+'_cp';
-				eval(id+' = new CodePress(t[0])');
-				t[0].parentNode.insertBefore(eval(id), t[0]);
-				t[0].parentNode.removeChild(t[0]);
+		for(var i=0,z=0,n=t.length;i<n;i++) {
+			if(t[z].className.match('cp')) {
+				id = t[z].id;
+				t[z].id = id+'_cp';
+				eval(id+' = new CodePress(t[z])');
+				t[z].parentNode.insertBefore(eval(id), t[z]);
+				t[z].parentNode.removeChild(t[z]);
 			} 
+			else {
+				z++;
+			}
 		}
 	}
 }
 
-CodePress.tools.set();
+CodePress.tools.loadStyle('.cp','border:1px solid gray;overflow:auto;background:white;');
+if(window.attachEvent) window.attachEvent('onload',function(){CodePress.tools.set()});
+else window.addEventListener('DOMContentLoaded',function(){CodePress.tools.set()},false);
 
+//CodePress.tools.start();
