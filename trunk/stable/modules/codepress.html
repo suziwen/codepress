@@ -12,6 +12,8 @@
 	v=c[i].split("="); if(v.length>1)
 	eval(v[0]+"=unescape('"+v[1].replace(/\+/g," ")+"')");} 
 	
+	if(language==null||language=='') language = 'generic';
+	
 	ts = (new Date).getTime();
 	document.write('<link type="text/css" href="../themes/'+theme+'/codepress.css?timestamp='+ts+'" rel="stylesheet" />');
 	document.write('<link type="text/css" href="../languages/'+language+'.css?timestamp='+ts+'" rel="stylesheet" id="cp-lang-style" />');
