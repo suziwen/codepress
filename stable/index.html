@@ -30,6 +30,8 @@
 	#menu a {font:bold 17px georgia;color:white;padding:4px;display:block;border-left:1px solid white;text-align:center;text-decoration:none;}
 	#menu a:hover {background:#b9669e;} 
 	</style>
+
+	<script src="codepress-lite.js" type="text/javascript" id="cp-script"></script>
 	
 </head>
 
@@ -88,18 +90,20 @@
 </div>
 
 <!-- [options here] class below = any or all of the following: hideMenu, hideFileName, hideLanguage, hideOptions -->
-<code id="cp1" title="codepress.php" class="cp" style="width:700px;height:400px;"></code>
-
-<form><textarea id="myTextAreaId" class="codepress">/* CodePress example */
+<textarea id="cp1" class="cp php" style="width:700px;height:300px;">
 for (i=0;i<10;i++) {
 	alert(10);
 	document.write("Test");
 }
-</textarea></form>
+</textarea>
+
+<textarea id="myTextAreaId" class="codepress">/* CodePress example */
+
+</textarea>
 
 <br>
 
-<code id="codepress2" title="codepress-test.js" class="cp" style="width:700px;height:300px;">
+<textarea id="codepress2" class="cp javascript" style="width:700px;height:200px;">
 // loading code directly from page
 this.setLanguage = function() {
 	if(arguments[0]) {
@@ -120,11 +124,11 @@ this.setLanguage = function() {
 		language = (aux) ? aux : 'generic';
 	}
 }
-</code>
+</textarea>
 
 <p>
 	<button onclick="alert(cp1.getCode())"><strong>get code from editor</strong></button> &raquo; Example getting (<code>alert()</code>) original code from CodePress window<br />
-	<button onclick="codepress2.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> &raquo; Example setting code from a hidden textarea to CodePress window
+	<button onclick="codepress2.edit('myTextAreaId','javascript')"><strong>set code to editor</strong></button> &raquo; Example setting code from a hidden textarea to CodePress window
 </p>
 
 <p>
@@ -218,6 +222,5 @@ Considering you already have a PHP capable webserver (http://yourserver/)
 
 </div><!--/container-->
 
-<script src="codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
 </body>
 </html>
