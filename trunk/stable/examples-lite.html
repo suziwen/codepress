@@ -22,11 +22,11 @@ document.getElementById('bla').innerHTML = "teste";
 alert(1);
 ?>
 </textarea>
-
+<br />
 <button onclick="alert(cpx.getCode())">getCode</button>
 <button onclick="cpx.toogleEditor()">toogleEditor</button>
 <button onclick="cpx.toogleLinenumbers()">toogleLinenumbers</button>
-<button onclick="cpx.edit('cpz','perl')">edit</button>
+<button onclick="cpx.edit('perl','perl')">edit</button>
 <br />
 <br />
 <textarea class="cp java" id="cpz">
@@ -35,6 +35,15 @@ public static void main(String args[])  {
 
 }
 
+</textarea>
+
+<textarea id="perl" style="display:none">
+#!/usr/bin/perl
+print "teste";
+
+sub testing() {
+	return true;
+}
 </textarea>
 
 
