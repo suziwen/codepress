@@ -13,6 +13,7 @@ var cpTheme = 'default';
 
 CodePress = function(obj) {
 	var self = document.createElement('iframe');
+	self.id = obj.id;
 	self.style.height = obj.clientHeight +'px';
 	self.style.width = obj.clientWidth +'px';
 	self.style.display = 'block';
@@ -32,6 +33,12 @@ CodePress = function(obj) {
 
 	self.setCode = function(code) {
 		self.editor.setCode(code);
+	}
+	
+	self.swap = function() {
+		self.style.display = 'none';
+		alert(self.id)
+		document.getElementById(self.id).style.display = 'block';
 	}
 
 	self.attachEvent ? self.attachEvent('onload',self.initialize) : self.addEventListener('load',self.initialize,false);
@@ -78,17 +85,19 @@ CodePress.tools = {
 		this.loadScript(cpPath+'content/'+$('cp-script').lang+'.js');
 		t = document.getElementsByTagName('textarea');
 		for(var i=0,z=0,n=t.length;i<n;i++) {
-			if(t[z].className.match('cp')) {
-				id = t[z].id;
-				t[z].id = id+'_cp';
-				eval(id+' = new CodePress(t[z])');
-				t[z].parentNode.insertBefore(eval(id), t[z]);
-				t[z].parentNode.removeChild(t[z]);
+			if(t[i].className.match('cp')) {
+				id = t[i].id;
+				t[i].id = id+'_cp';
+				eval(id+' = new CodePress(t[i])');
+				t[i].parentNode.insertBefore(eval(id), t[i]);
+				t[i].style.display='none';
+//				t[z].parentNode.removeChild(t[z]);
 			} 
-			else {
-				z++;
-			}
+//			else {
+//				z++;
+//			}
 		}
+//		CodePress.tools.loadStyle('.cp','display:none;');
 	}
 }
 
