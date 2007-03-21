@@ -31,7 +31,7 @@ CodePress = function(obj) {
 		if(id) self.textarea.value = document.getElementById(id).value;
 		if(!self.textarea.disabled) return;
 		self.language = (language) ? language : self.textarea.className.replace(/ ?cp ?/,'');
-		self.src = cpPath+'modules/codepress.html?engine='+self.getEngine()+'&language='+self.language;
+		self.src = 'codepress.html?engine='+self.getEngine()+'&language='+self.language;
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
 		else self.addEventListener('load',self.initialize,false);
 	}
@@ -83,7 +83,6 @@ CodePress.languages = {	css:'CSS', generic:'Generic', html:'HTML', java:'Java', 
 
 
 CodePress.run = function() {
-	cpPath = document.getElementById('cp-script').src.replace('codepress-lite.js',''); // last index of here
 	t = document.getElementsByTagName('textarea');
 	for(var i=0,n=t.length;i<n;i++) {
 		if(t[i].className.match('cp')) {
