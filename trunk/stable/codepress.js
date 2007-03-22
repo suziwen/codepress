@@ -16,7 +16,7 @@ CodePress = function(obj) {
 	self.textarea.style.overflow = 'hidden';
 	self.style.height = self.textarea.clientHeight +'px';
 	self.style.width = self.textarea.clientWidth +'px';
-	self.textarea.style.overflow = 'auto';	
+	self.textarea.style.overflow = 'auto';
 	self.style.display = 'inline';
 	self.style.border = '1px solid gray';
 	
@@ -32,13 +32,13 @@ CodePress = function(obj) {
 		if(!self.textarea.disabled) return;
 		self.language = (language) ? language : self.textarea.className.replace(/ ?codepress ?/,'');
 		if(!CodePress.languages[self.language]) self.language = 'generic';
-		self.src = 'codepress.html?engine='+self.getEngine()+'&language='+self.language;
+		self.src = CodePress.path+'codepress.html?engine='+CodePress.engine+'&language='+self.language+'&ts='+(new Date).getTime();
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
 		else self.addEventListener('load',self.initialize,false);
 	}
 	
 	self.getCode = function() {
-		return self.textarea.disabled ? self.editor.getCode() : self.textarea.value ;
+		return self.textarea.disabled ? self.editor.getCode() : self.textarea.value;
 	}
 
 	self.setCode = function(code) {
@@ -65,25 +65,15 @@ CodePress = function(obj) {
 			self.textarea.style.display = 'none';
 		}
 	}
-	
-	self.getEngine = function()	{
-		var engine = 'older';
-		var ua = navigator.userAgent;
-		if(ua.match('MSIE')) engine = 'msie';
-		else if(ua.match('KHTML')) engine = 'khtml'; 
-		else if(ua.match('Opera')) engine = 'opera'; 
-		else if(ua.match('Gecko')) engine = 'gecko';
-		return engine;
-	}
-	
+
 	self.edit();
 	return self;
 }
 
 CodePress.languages = {	
 	css : 'CSS', 
-	generic : 'Generic', 
-	html : 'HTML', 
+	generic : 'Generic',
+	html : 'HTML',
 	java : 'Java', 
 	javascript : 'JavaScript', 
 	perl : 'Perl', 
@@ -92,8 +82,25 @@ CodePress.languages = {
 	sql : 'SQL'
 }
 
+CodePress.getEngine = function()	{
+	var engine = 'older';
+	var ua = navigator.userAgent;
+	if(ua.match('MSIE')) engine = 'msie';
+	else if(ua.match('KHTML')) engine = 'khtml'; 
+	else if(ua.match('Opera')) engine = 'opera'; 
+	else if(ua.match('Gecko')) engine = 'gecko';
+	return engine;
+}
+
 CodePress.run = function() {
+	CodePress.engine = CodePress.getEngine();
 	t = document.getElementsByTagName('textarea');
+	s = document.getElementsByTagName('script');
+	for(var i=0,n=s.length;i<n;i++) {
+		if(s[i].src.match('codepress.js')) {
+			CodePress.path = s[i].src.replace('codepress.js','');
+		}
+	}
 	for(var i=0,n=t.length;i<n;i++) {
 		if(t[i].className.match('codepress')) {
 			id = t[i].id;
