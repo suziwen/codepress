@@ -6,7 +6,7 @@ h2 a {text-decoration:none;font-weight:normal;font-size:22px;color:black !import
 h3 {font-size:20px;font-weight:normal;padding:0;margin:20px 0 5px 0;color:#7f0055;font-weight:bold;border-bottom:2px dotted #d8d8d8;}
 h4 {font-size:18px;font-weight:normal;z-index:0;}
 h5 {font-size:17px;padding:0;margin:0;}
-p {margin:8px 0 8px 0;}
+p {margin:0 0 16px 0;}
 a,a:visited {color:#7f0055;}
 select {background:#ffffe1;}
 button {margin-top:5px;}
@@ -30,8 +30,8 @@ dt {font-weight:bold;margin-top:14px;font-size:15px; }
 
 .h {display:none;background:#eee;padding:10px;margin:10px 0;-moz-border-radius:4px;border:2px solid silver;}
 .hc {display:none;}
-#myTextAreaId {display:none;}
-
+.hidden-code {display:none;}
+.copycode {border:1px dotted gray;padding:10px;background:white;font-family:monospace;color:gray}
 
 /* comments */
 h3 #addnewcomment a {font-size:13px;color:gray;}
@@ -50,9 +50,8 @@ h3 #addnewcomment a {font-size:13px;color:gray;}
 .reply {bottom:5px;right:5px;position:absolute;font-family:verdana;font-size:10px;text-decoration:none;background:white;padding:2px 3px;-moz-border-radius:7px;color:#b1b1b1;}
 .reply:hover {color:black;}
 #r-reply {display:none;}
+
 /* footer */
 #sflogo { float:right;margin-top:-34px; }
-
-.cp {width:700px;height:400px;}
 
 

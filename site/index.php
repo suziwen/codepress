@@ -20,9 +20,6 @@ You can try some features with the demo below.
 		<strong>Real-time syntax highlighting</strong> &raquo; just write some code
 	</li>
 	<li>
-		<strong>Fullscreen</strong> &raquo; under "options" menu
-	</li>
-	<li>
 		<strong>Code snippets</strong> &raquo; on PHP example type "if" and press [tab]
 	</li>
 	<li>
@@ -34,38 +31,57 @@ You can try some features with the demo below.
 	<li>
 		<strong>Multiple windows</strong> &raquo; you can add multiple CodePress windows to the same page
 	</li>	
+	<li>
+		<strong>Supported languages</strong> &raquo; PHP, JavaScript, Java, HTML, CSS, Perl and SQL
+	</li>	
 </ul>
 
 <h3>Demo</h3>
-<p>
-	The first example below is opening code from files on the server. The second example is opening code directly embeded on this page. 
-</p>
 <div id="languages">
 	<em>choose example in:</em> 
-	<button onclick="cp1.edit('codepress.php')" id="default">PHP</button> 
-	<button onclick="cp1.edit('codepress.js')">JavaScript</button> 
-	<button onclick="cp1.edit('testdir/FileManager.java')">Java</button>
-	<button onclick="cp1.edit('example.pl')">Perl</button>
-	<button onclick="cp1.edit('example.sql')">SQL</button>	
-	<button onclick="cp1.edit('index.html')">HTML</button> 
-	<button onclick="cp1.edit('styles.css')">CSS</button> 	
-	<button onclick="cp1.edit('loremipsum.txt')">plain text</button><br />
+	<button onclick="cp1.edit('cp-php','php')">PHP</button> 
+	<button onclick="cp1.edit('cp-javascript','javascript')">JavaScript</button> 
+	<button onclick="cp1.edit('cp-java','java')">Java</button>
+	<button onclick="cp1.edit('cp-perl','perl')">Perl</button>
+	<button onclick="cp1.edit('cp-sql','sql')">SQL</button>	
+	<button onclick="cp1.edit('cp-html','html')">HTML</button> 
+	<button onclick="cp1.edit('cp-css','css')">CSS</button> 	
 </div>
 
-<!-- [options here] class below = any or all of the following: hideMenu, hideFileName, hideLanguage, hideOptions -->
-<code id="cp1" title="codepress.php" class="cp"></code>
+<textarea id="cp1" class="codepress php" style="width:700px;height:350px;">
+&lt;?php
+// Very simple implementation of server side script
 
-<form><textarea id="myTextAreaId" class="codepress">/* CodePress example */
-for (i=0;i<10;i++) {
-	alert(10);
-	document.write("Test");
+if(isset($_GET['file'])) {
+	$file = basename($_GET['file']);
+	$full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file;
+	if(file_exists($full_file)) {
+		$code = file_get_contents($full_file);
+		$code = preg_replace("/>/","&amp;gt;",$code);
+		$code = preg_replace("/</","&amp;lt;",$code);
+		$language = getLanguage($file);
+	}
 }
-</textarea></form>
+?&gt;
 
-<br>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
+	<link type="text/css" href="languages/codepress-&lt;?=$language?&gt;.css" rel="stylesheet" id="cp-lang-style" />
+	<script type="text/javascript" src="codepress.js"></script>
+	<script type="text/javascript">
+		CodePress.language = '&lt;?=$language?&gt;';
+	</script>
+</head>
+<body id="ffedt"><pre id="ieedt">&lt;?=$code?&gt;</pre></body>
+</html>
+</textarea>
 
-<code id="codepress2" title="codepress-test.js" class="cp" style="width:700px;height:300px;">
-// loading code directly from page
+<br /><br />
+
+<textarea id="codepress2" class="codepress javascript" style="width:700px;height:225px;" wrap="off">
+//set language
 this.setLanguage = function() {
 	if(arguments[0]) {
 		language = (typeof(Content.languages[arguments[0]])!='undefined') ? arguments[0] : this.setLanguage();
@@ -85,19 +101,20 @@ this.setLanguage = function() {
 		language = (aux) ? aux : 'generic';
 	}
 }
-</code>
-
-<script src="codepress/codepress.js" type="text/javascript" id="cp-script" lang="en-us"></script>
+</textarea>
 
 <p>
-	<button onclick="alert(cp1.getCode())"><strong>get code from editor</strong></button> &raquo; Example getting (<code>alert()</code>) original code from CodePress window<br />
-	<button onclick="codepress2.edit('FromHiddenArea.js','myTextAreaId')"><strong>set code to editor</strong></button> &raquo; Example setting code from a hidden textarea to CodePress window
+<button onclick="alert(codepress2.getCode())">get code from editor</button>
+<button onclick="codepress2.toogleEditor()">turn on/off CodePress</button>
+<button onclick="codepress2.toogleLinenumbers()">show/hide line numbers</button>
 </p>
 
 <?php include("includes/changelog_last.php"); ?>
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
-
+<p>
+Since this version, CodePress is more like a lib then a standalone editor.
+</p>
 <ul>
 	<li>
 		<a href="download/codepress-v.<?=$changelog[0]['v']?>.zip" id="download"><strong>codepress-v.<?=$changelog[0]['v']?>.zip</strong></a> &raquo; Package with CodePress and examples
@@ -105,9 +122,6 @@ this.setLanguage = function() {
 	<ul>
 		<li>
 			<a href="install.php" class="button">Installation</a>
-		</li>
-		<li>
-			<a href="codepress/examples.html" class="button">Examples of use</a>
 		</li>
 		<li>
 			<a href="changelog.php" class="button">Changelog</a>
@@ -184,6 +198,206 @@ this.setLanguage = function() {
 </div><!--/comments-->
 
 
+<script src="codepress/codepress.js" type="text/javascript"></script>
+
+
+<!-- hidden codes for loading -->
+<textarea id="cp-php" class="hidden-code">
+&lt;?php
+// Very simple implementation of server side script
+
+if(isset($_GET['file'])) {
+	$file = basename($_GET['file']);
+	$full_file = $path['server'].'/'.$path['webdocs'].'/'.$path['files']."/".$file;
+	if(file_exists($full_file)) {
+		$code = file_get_contents($full_file);
+		$code = preg_replace("/>/","&amp;gt;",$code);
+		$code = preg_replace("/</","&amp;lt;",$code);
+		$language = getLanguage($file);
+	}
+}
+?&gt;
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
+	<link type="text/css" href="languages/codepress-&lt;?=$language?&gt;.css" rel="stylesheet" id="cp-lang-style" />
+	<script type="text/javascript" src="codepress.js"></script>
+	<script type="text/javascript">
+		CodePress.language = '&lt;?=$language?&gt;';
+	</script>
+</head>
+<body id="ffedt"><pre id="ieedt">&lt;?=$code?&gt;</pre></body>
+</html>
+</textarea>
+
+<textarea id="cp-javascript" class="hidden-code">
+CodePress = function(obj) {
+	var self = document.createElement('iframe');
+	self.textarea = obj;
+	self.textarea.disabled = true;
+	self.style.height = self.textarea.clientHeight +'px';
+	self.style.width = self.textarea.clientWidth +'px';
+	
+	self.initialize = function() {
+		self.editor = self.contentWindow.CodePress;
+		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
+		self.editor.setCode(self.textarea.value);
+		self.editor.syntaxHighlight('init');
+	}
+	
+	self.edit = function(id,language) {
+		self.language = (language) ? language : self.textarea.className.replace(/ ?codepress ?/,'');
+		self.src = cpPath+'modules/codepress.html?engine='+self.getEngine()+'&language='+self.language;
+		if(self.attachEvent) self.attachEvent('onload',self.initialize);
+		else self.addEventListener('load',self.initialize,false);
+	}
+}
+</textarea>
+
+
+<textarea id="cp-java" class="hidden-code">
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * Project ECCO - File manager class
+ * @author Fernando M.A.d.S.
+ */
+public class FileManager extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+	private static String login = "feanndor"; // session var should come here
+	private static String usersPath = System.getProperty("user.dir")+File.separator+"htdocs"+File.separator+"ecco"+File.separator+"users"+File.separator;
+	private static File dir = new File(usersPath+login+File.separator);
+	static boolean existDirectories = false;
+	static int isDirectory = 0;
+
+	public FileFilter filterFiles(File dir) {
+		return (new FileFilter() {
+			public boolean accept(File pathname) {
+				return !(pathname.isDirectory());
+			}
+		});
+	}
+}
+</textarea>
+
+<textarea id="cp-perl" class="hidden-code">
+#!/usr/bin/perl      
+# The first line of the script envokes Perl 
+
+# Scalar variables
+$var1 = "Hello World";   
+$var2 = 14.6;
+
+# Array variables
+@arr1 = ("zero","one","two","three","four");
+
+# Hash variable, or associative array
+%hash1 = ("one","Monday","two", "Tuesday","three", "Wednesday","four","Thursday");
+
+# Some simple printing
+print $var1; 
+
+# Subroutine
+sub test() {
+	print "ok";
+}
+</textarea>
+
+<textarea id="cp-sql" class="hidden-code">
+--
+-- simple select example
+-- 
+SELECT * FROM books
+	WHERE price > 100.00 and price < 150.00
+	ORDER BY title
+
+SELECT books.title, count(*) AS Authors
+	FROM books
+	JOIN book_authors 
+		ON books.book_number = book_authors.book_number
+	GROUP BY books.title
+
+-- insert, update and delete examples
+	
+INSERT INTO my_table (field1, field2, field3) VALUES ('test', 'N', NULL);
+
+BEGIN WORK;
+	UPDATE inventory SET quantity = quantity - 3 WHERE item = 'pants';
+COMMIT;
+</textarea>
+
+<textarea id="cp-html" class="hidden-code">
+
+<html>
+<head>
+	<title>CodePress - Online Real Time Syntax Highlighting Editor</title>
+
+	<style type="text/css">
+	@import url(styles.css);	
+	</style>
+	
+	<script type="text/javascript">
+	function getCode() {
+		alert(textWithoutHighlighting);
+	}
+	</script>
+</head>
+<body>
+<div id="container">
+
+<div id="logo">
+	<h1><a href="http://codepress.org/">CodePress</a></h1>
+	<h2>Online Real Time Syntax Highlighting Editor</h2>
+	<img src="testimage.gif" />
+</div>
+
+
+<div id="languages">
+	<em>choose language:</em> 
+	<button onclick="edit('codepress.php',this)" id="default">PHP</button> 
+	<button onclick="edit('FileManager.java',this)">Java</button> 
+</div>
+
+</div><!--/container-->
+</body>
+</html>
+</textarea>
+
+<textarea id="cp-css" class="hidden-code">
+/* CSS comment */
+
+body {
+	color:#000;
+	background-color:white;
+	font:15px Georgia, "Lucida Grande", Arial, sans-serif; 
+	letter-spacing:0.01em;
+	margin:15px;
+}
+
+p { 
+	margin:0 0 15px 0; 
+}
+
+a,a:visited {
+	color:#7f0055;
+}
+
+select {
+	background:#ffffe1;
+}
+
+h1 {
+	color:#7f0055;
+	margin:0;
+	padding:0;
+	font-size:42px;
+}
+</textarea>
 
 
 <? include("includes/footer.php"); ?>

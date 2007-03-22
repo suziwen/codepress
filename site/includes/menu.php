@@ -4,16 +4,13 @@
 		<a href="index.php">Home/Download</a>
 	</td>
 	<td>
-		<a href="install.php">&nbsp;Install&nbsp;</a>
+		<a href="install.php">&nbsp;&nbsp;Install&nbsp;&nbsp;</a>
 	</td>
 	<td>
-		<a href="codepress/examples.html">Examples of use</a>
+		<a href="to-do.php">&nbsp;&nbsp;To-do&nbsp;&nbsp;</a>
 	</td>
 	<td>
-		<a href="to-do.php">&nbsp;To-do&nbsp;</a>
-	</td>
-	<td>
-		<a href="about.php" id="about">&nbsp;About&nbsp;</a>
+		<a href="about.php" id="about">&nbsp;&nbsp;About&nbsp;&nbsp;</a>
 	</td>
 </tr>
 </table>
