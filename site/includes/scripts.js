@@ -8,6 +8,11 @@ function showContent(id) {
 
 }
 
+function reply(date) {
+	document.comm.corderdate.value = date;
+	alert('ok')
+}
+
 // ajax ////
 AJAX = {
 	xmlDoc : Object,
@@ -67,17 +72,6 @@ function versionExpand(id) {
 
 
 // blog comments ////
-function replyPreview() {
-	$('r-comment-msg').style.display = 'none';
-	$('r-yourcomment').style.display = $('r-previewimg').style.display = 'block';
-	$('r-yoururl').href = document.comm.curl.value.replace(/[<>]/g,'');
-	$('r-yourname').innerHTML = document.comm.cname.value.replace(/[<>]/g,'');
-	commtxt = document.comm.ccomment.value;
-	commtxt = commtxt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-	commtxt = commtxt.replace(/\n/g,'<br>');
-	$('r-yourtext').innerHTML = commtxt;
-}
-
 function commentPreview() {
 	$('comment-msg').style.display = 'none';
 	$('yourcomment').style.display = $('previewimg').style.display = 'block';
@@ -117,44 +111,16 @@ function commentAdd() {
 	return false;
 }
 
-var z = 0;
-var d = '';
-
-function reply(n) {
-	d = n.nextSibling;
-	if(d.innerHTML == '') {
-//		document.comm.corderdate.value = arguments[1];
-		//d.innerHTML = "teste"
-		div = document.createElement('div');
-		div.innerHTML = $('r-reply').innerHTML
-		$('r-reply').id = 'r-deleted'
-//		$('r-deleted').parentNode.removeChild($('r-deleted'));
-		$('r-deleted').innerHTML = '';
-		d.appendChild(div);
-			
-		d.style.marginLeft = '25px';
-		div.id = 'r-reply';;
-	}
-}
-
 function commentUpdate(x) {
 	newCommentAdded = $('yourcomment').innerHTML.replace(/id=\"your.*?\"/g,'');
 	if(newCommentAdded.indexOf('"http:\/\/"')!=-1)  newCommentAdded = newCommentAdded.replace(/<a.*?>/,'');
 	$('newcomments').innerHTML = $('newcomments').innerHTML + '<div class="comment">'+newCommentAdded+'</div>';
 	$('yourcomment').style.display = 'none';
 	$('previewimg').style.display = 'none';
-
-	d.id = '';
-	z.id = 'n1';
 	
-	d.innerHTML = $('newcomments').innerHTML;
-	$('newcomments').innerHTML ='';
-
 	$('yourname').innerHTML = 'Your name';
 	$('yoururl').href = 'http://';
 	$('yourtext').innerHTML = 'Your comment';
-
-	
 }
 
 function commentExpand(id,obj) {
