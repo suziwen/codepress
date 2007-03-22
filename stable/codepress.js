@@ -30,7 +30,8 @@ CodePress = function(obj) {
 	self.edit = function(id,language) {
 		if(id) self.textarea.value = document.getElementById(id).value;
 		if(!self.textarea.disabled) return;
-		self.language = (language) ? language : self.textarea.className.replace(/ ?cp ?/,'');
+		self.language = (language) ? language : self.textarea.className.replace(/ ?codepress ?/,'');
+		if(!CodePress.languages[self.language]) self.language = 'generic';
 		self.src = 'codepress.html?engine='+self.getEngine()+'&language='+self.language;
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
 		else self.addEventListener('load',self.initialize,false);
@@ -79,13 +80,22 @@ CodePress = function(obj) {
 	return self;
 }
 
-CodePress.languages = {	css:'CSS', generic:'Generic', html:'HTML', java:'Java', javascript:'JavaScript', perl:'Perl', php:'PHP', text:'Text', sql:'SQL' }
-
+CodePress.languages = {	
+	css : 'CSS', 
+	generic : 'Generic', 
+	html : 'HTML', 
+	java : 'Java', 
+	javascript : 'JavaScript', 
+	perl : 'Perl', 
+	php : 'PHP', 
+	text : 'Text', 
+	sql : 'SQL'
+}
 
 CodePress.run = function() {
 	t = document.getElementsByTagName('textarea');
 	for(var i=0,n=t.length;i<n;i++) {
-		if(t[i].className.match('cp')) {
+		if(t[i].className.match('codepress')) {
 			id = t[i].id;
 			t[i].id = id+'_cp';
 			eval(id+' = new CodePress(t[i])');
