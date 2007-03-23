@@ -77,6 +77,7 @@ CodePress.languages = {
 	java : 'Java', 
 	javascript : 'JavaScript', 
 	perl : 'Perl', 
+	ruby : 'Ruby',	
 	php : 'PHP', 
 	text : 'Text', 
 	sql : 'SQL'
