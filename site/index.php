@@ -31,9 +31,6 @@ You can try some features with the demo below.
 	<li>
 		<strong>Multiple windows</strong> &raquo; you can add multiple CodePress windows to the same page
 	</li>	
-	<li>
-		<strong>Supported languages</strong> &raquo; PHP, JavaScript, Java, HTML, CSS, Perl and SQL
-	</li>	
 </ul>
 
 <h3>Demo</h3>
@@ -48,7 +45,7 @@ You can try some features with the demo below.
 	<button onclick="cp1.edit('cp-css','css')">CSS</button> 	
 </div>
 
-<textarea id="cp1" class="codepress php" style="width:700px;height:350px;">
+<textarea id="cp1" class="codepress php" style="width:700px;height:350px;" wrap="off">
 &lt;?php
 // Very simple implementation of server side script
 
@@ -142,7 +139,7 @@ Since version 0.9.2 CodePress is more like a lib then a standalone editor.
 		Line numbers do not resize with browser font size (because it's a bg image)
 	</li>
 	<li>
-		Cut and paste not working. Should be parsed and highlighted
+		Cut and paste not working correctly. Should be parsed and highlighted
 	</li>
 
 </ol>
