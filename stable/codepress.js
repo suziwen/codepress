@@ -17,14 +17,19 @@ CodePress = function(obj) {
 	self.style.height = self.textarea.clientHeight +'px';
 	self.style.width = self.textarea.clientWidth +'px';
 	self.textarea.style.overflow = 'auto';
-	self.style.display = 'inline';
 	self.style.border = '1px solid gray';
+	self.style.visibility = 'hidden';
+	self.style.position = 'absolute';
 	
 	self.initialize = function() {
 		self.editor = self.contentWindow.CodePress;
 		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
 		self.editor.setCode(self.textarea.value);
 		self.editor.syntaxHighlight('init');
+		self.textarea.style.display = 'none';
+		self.style.position = 'static';
+		self.style.visibility = 'visible';
+		self.style.display = 'inline';
 	}
 	
 	self.edit = function(id,language) {
@@ -95,20 +100,19 @@ CodePress.getEngine = function()	{
 
 CodePress.run = function() {
 	CodePress.engine = CodePress.getEngine();
-	t = document.getElementsByTagName('textarea');
 	s = document.getElementsByTagName('script');
 	for(var i=0,n=s.length;i<n;i++) {
 		if(s[i].src.match('codepress.js')) {
 			CodePress.path = s[i].src.replace('codepress.js','');
 		}
 	}
+	t = document.getElementsByTagName('textarea');
 	for(var i=0,n=t.length;i<n;i++) {
 		if(t[i].className.match('codepress')) {
 			id = t[i].id;
 			t[i].id = id+'_cp';
 			eval(id+' = new CodePress(t[i])');
 			t[i].parentNode.insertBefore(eval(id), t[i]);
-			t[i].style.display = 'none';
 		} 
 	}
 }
