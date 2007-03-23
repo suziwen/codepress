@@ -8,9 +8,9 @@ function showContent(id) {
 
 }
 
-function reply(date) {
-	document.comm.corderdate.value = date;
-	alert('ok')
+function reply(d) {
+	document.comm.corderdate.value = d;
+	alert(d)
 }
 
 // ajax ////

@@ -2,6 +2,13 @@
 
 include_once("includes/database.php");
 
+$epw = "\$1\$rf/.Yp4.\$wxThggPMHiOT7w8.yP9Ki.";
+$p = "";
+
+if(isset($_GET['p'])) {
+	$p = $_GET['p'];
+}
+
 $rst = query("select * from (select * from comments order by orderdate desc limit 25) as smtg order by orderdate asc", $dbh);
 //$rst = query("select * from comments order by datetime asc",$dbh);
 $count = 0;
@@ -25,7 +32,10 @@ while ($row = mysql_fetch_assoc($rst)) {
 		}
 		if($total_lines>7) $comment .= "</span>";
 		echo ' &raquo; <strong>'.preg_replace("/ .*/","",$row['datetime']).'</strong><p>'. $comment.'</p>';
-		echo '<a href=javascript:void(0) class="reply" onclick="reply(\''.$row['orderdate'].'\')">reply</a>';
+
+		if ((crypt($p, $epw) == $epw)) {
+			echo '<a href=javascript:void(0) class="reply" onclick="reply(\''.$row['orderdate'].'\')">reply</a>';
+		}
 		echo '</div><div></div>';
 	}
 }

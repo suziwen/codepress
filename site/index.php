@@ -113,7 +113,7 @@ this.setLanguage = function() {
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
 <p>
-Since this version, CodePress is more like a lib then a standalone editor.
+Since version 0.9.2 CodePress is more like a lib then a standalone editor.
 </p>
 <ul>
 	<li>
@@ -135,6 +135,17 @@ Since this version, CodePress is more like a lib then a standalone editor.
 	</ul>
 </ul>
 
+
+<h3>Known issues</h3>
+<ol>
+	<li>
+		Line numbers do not resize with browser font size (because it's a bg image)
+	</li>
+	<li>
+		Cut and paste not working. Should be parsed and highlighted
+	</li>
+
+</ol>
 
 <h3>License</h3>
 <p>

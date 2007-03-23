@@ -1,17 +1,16 @@
 <?php
 
 $changelog = array(
-/*	array(
+	array(
 		'v' => '0.9.2',
 		'd' => '14 mar 07',
 		'i' => array(
-			'CSS fixes',
-			'Better examples added to the distribution package',
-			'Beginning of themes and modules configuration',
-			'Fix to horizontal scroll problem for IE which deleted all code',
-			'Fix to the "forward and back" problem on IE'
+			'CodePress package remade. No more server side scripts. Lots of simplifications',
+			'codepress.js remade. No more menu. Only methods to be called from outside',
+			'CodePress tag \'code\' changed to \'textarea\'',
+			'Not using the $ anymore (conflicts with so many other js libs)'
 		)
-	),*/
+	),
 	array(	
 		'v' => '0.9.1',		
 		'd' => '11 mar 07',

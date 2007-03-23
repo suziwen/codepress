@@ -36,16 +36,10 @@
 
 <h3>Contributors</h3>
 <dl>
-	<dt>Daemach</dt>
-		<dd>ColdFusion module</dd>
 	<dt>J. Nick Koston</dt>
 		<dd>Syntax highlighting for PERL</dd>
 	<dt>Merlin Moncure</dt>
 		<dd>Syntax highlighting for SQL</dd>
-	<dt>Jan Schnurle</dt>
-		<dd>Deutsch translation</dd>
-	<dt>Daniele Deplano</dt>
-		<dd>Italian translation</dd>
 	<dt>And lots of other people...</dt>
 		<dd>who reported bugs and sent code insights and ideas</dd>
 </dl>
