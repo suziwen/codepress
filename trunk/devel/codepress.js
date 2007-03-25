@@ -245,5 +245,9 @@ var cpPath = $('cp-script').src.replace('codepress.js','');
 
 // load css then load script
 CodePress.loadStyle(cpPath+'themes/'+cpTheme+'/codepress-editor.css', function() {
-	setTimeout(function() {	CodePress.loadScript(document, cpPath+'content/'+$('cp-script').lang+'.js', function() { CodePress.run(); }); },500)
+	setTimeout(function() {
+			if ($('cp-script').lang) var lang = $('cp-script').lang;
+			else var lang = "en-us"; // default lang
+			CodePress.loadScript(document, cpPath+'content/'+lang+'.js', function() { CodePress.run(); });
+		},500)
 });
