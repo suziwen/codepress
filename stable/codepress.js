@@ -56,9 +56,9 @@ CodePress = function(obj) {
 	}
 	
 	self.toogleEditor = function() {
-		if(self.style.display=='inline') {
-			self.textarea.disabled = false;
+		if(self.textarea.disabled) {
 			self.textarea.value = self.getCode();
+			self.textarea.disabled = false;
 			self.style.display = 'none';
 			self.textarea.style.display = 'inline';
 		}
