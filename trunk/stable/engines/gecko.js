@@ -23,12 +23,13 @@ CodePress = {
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementById('code');
+		editor = document.getElementsByTagName('code')[0];
+//		editor.lines = document.getElementsByTagName('input')[0];
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-		CodePress.syntaxHighlight('init');
+		//CodePress.syntaxHighlight('init');
 	},
 
 	// treat key bindings
@@ -91,6 +92,7 @@ CodePress = {
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
+//		editor.lines.value = this.getLineNumbers();
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 
@@ -107,6 +109,13 @@ CodePress = {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
 		return words[words.length-1].replace(/_/g,'');
+	},
+	
+	getLineNumbers : function() {
+		var out = '';
+		for(i=1,n=o.split('\n').length;i<n;i++) out += i+'\r\n';
+		return out;
+		
 	},
 	
 	snippets : function(evt) {
