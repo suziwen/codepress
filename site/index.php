@@ -110,7 +110,12 @@ this.setLanguage = function() {
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
 <p>
-Since version 0.9.2 CodePress is more like a lib then a standalone editor.
+	Since version 0.9.2 CodePress is more like a lib then a standalone editor. 
+	Its now easier to integrate with another systems but is more difficult to use it as a standalone editor.
+</p>
+<p>
+	Lots of things have changed. You may not use this version the same way you used old versions.
+	Just read the <a href="install.php" class="button">install section</a>.
 </p>
 <ul>
 	<li>

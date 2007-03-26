@@ -3,7 +3,7 @@
 $changelog = array(
 	array(
 		'v' => '0.9.2',
-		'd' => '14 mar 07',
+		'd' => '24 mar 07',
 		'i' => array(
 			'CodePress package remade. No more server side scripts. Lots of simplifications',
 			'codepress.js remade. No more menu. Only methods to be called from outside',
