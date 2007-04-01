@@ -50,12 +50,12 @@ CodePress = function(obj) {
 		self.textarea.disabled ? self.editor.setCode(code) : self.textarea.value = code;
 	}
 	
-	self.toogleLinenumbers = function() {
+	self.toggleLinenumbers = function() {
 		var cn = self.editor.body.className;
 		self.editor.body.className = (cn==''||cn=='show-line-numbers') ? 'hide-line-numbers' : 'show-line-numbers';
 	}
 	
-	self.toogleEditor = function() {
+	self.toggleEditor = function() {
 		if(self.textarea.disabled) {
 			self.textarea.value = self.getCode();
 			self.textarea.disabled = false;
