@@ -102,8 +102,8 @@ this.setLanguage = function() {
 
 <p>
 <button onclick="alert(codepress2.getCode())">get code from editor</button>
-<button onclick="codepress2.toogleEditor()">turn on/off CodePress</button>
-<button onclick="codepress2.toogleLinenumbers()">show/hide line numbers</button>
+<button onclick="codepress2.toggleEditor()">turn on/off CodePress</button>
+<button onclick="codepress2.toggleLinenumbers()">show/hide line numbers</button>
 </p>
 
 <?php include("includes/changelog_last.php"); ?>

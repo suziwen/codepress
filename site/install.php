@@ -63,11 +63,11 @@
 	</li>
 	<li>
 		Turn on/off CodePress editor and return to the regular textarea.<br />
-		Example: <code>textarea_id.toogleEditor()</code><br>
+		Example: <code>textarea_id.toggleEditor()</code><br>
 	</li>
 	<li>
 		Turn on/off line numbers.<br />
-		Example: <code>textarea_id.toogleLineNumbers()</code><br>
+		Example: <code>textarea_id.toggleLineNumbers()</code><br>
 	</li>
 </ol>
 
