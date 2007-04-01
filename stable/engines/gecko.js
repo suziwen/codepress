@@ -23,13 +23,12 @@ CodePress = {
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementsByTagName('code')[0];
-//		editor.lines = document.getElementsByTagName('input')[0];
+		editor = document.getElementsByTagName('body')[0];
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-		//CodePress.syntaxHighlight('init');
+//		CodePress.syntaxHighlight('init');
 	},
 
 	// treat key bindings
@@ -86,13 +85,12 @@ CodePress = {
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-		if(document.designMode=='off') document.designMode='on'
+		//if(document.designMode=='off') document.designMode='on'
 		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
-//		editor.lines.value = this.getLineNumbers();
 		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 
@@ -111,13 +109,6 @@ CodePress = {
 		return words[words.length-1].replace(/_/g,'');
 	},
 	
-	getLineNumbers : function() {
-		var out = '';
-		for(i=1,n=o.split('\n').length;i<n;i++) out += i+'\r\n';
-		return out;
-		
-	},
-	
 	snippets : function(evt) {
 		var snippets = Language.snippets;	
 		var trigger = this.getLastWord();
@@ -133,6 +124,10 @@ CodePress = {
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
+	},
+	
+	readOnly : function() {
+		document.designMode = (arguments[0]) ? 'off' : 'on';
 	},
 
 	complete : function(trigger) {
@@ -193,10 +188,6 @@ CodePress = {
 	getCode : function() {
 		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
-//		code = code.replace(/<\/p>/gi,'\r');
-//		code = code.replace(/<p>/i,''); // IE first line fix
-//		code = code.replace(/<p>/gi,'\n');
-//		code = code.replace(/&nbsp;/gi,'');
 		code = code.replace(/\u2009/g,'');
 		code = code.replace(/<.*?>/g,'');
 		code = code.replace(/&lt;/g,'<');
@@ -212,7 +203,7 @@ CodePress = {
 		code = code.replace(/&/gi,'&amp;');
        	code = code.replace(/</g,'&lt;');
         code = code.replace(/>/g,'&gt;');
-		editor.innerHTML = '<pre>'+code+'</pre>';
+		editor.innerHTML = code;
 	},
 
 	// undo and redo methods

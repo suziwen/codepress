@@ -113,7 +113,7 @@ if(isset($_GET['file'])) {
 
 <br /><br />
 
-<textarea id="codepress2" class="codepress javascript" style="width:700px;height:200px;" wrap="off">
+<textarea id="codepress2" class="codepress javascript line-numbers-off" style="width:700px;height:200px;" wrap="off">
 //set language
 this.setLanguage = function() {
 	if(arguments[0]) {
@@ -139,7 +139,9 @@ this.setLanguage = function() {
 <p>
 <button onclick="alert(codepress2.getCode())">get code from editor</button>
 <button onclick="codepress2.toggleEditor()">turn on/off CodePress</button>
-<button onclick="codepress2.toggleLinenumbers()">show/hide line numbers</button>
+<button onclick="codepress2.toggleLineNumbers()">show/hide line numbers</button>
+<button onclick="codepress2.toggleAutoComplete()">turn on/off auto-complete</button>
+<button onclick="codepress2.toggleReadOnly()">turn on/off read only</button>
 </p>
 
 

@@ -20,27 +20,12 @@
 	document.write('<scr'+'ipt type="text/javascript" src="engines/'+engine+'.js?ts='+ts+'"></scr'+'ipt>');
 	document.write('<scr'+'ipt type="text/javascript" src="languages/'+language+'.js?ts='+ts+'"></scr'+'ipt>');
 	</script>
-<style>
-input {
-	position:absolute;
-	top:0;
-	left:0;
-	background:yellow;
-	text-align:right;
-	border:0;
-	margin:0;
-	width:30px;
-	padding:13px 0;
-	white-space:pre;
-	font-family:monospace;
-}
-</style>
-	
+
 </head>
 
 <script type="text/javascript">
-if (engine == "gecko") document.write('<body><code></code></body>');
-else if(engine == "msie") document.write('<body><pre></pre><input type="button" disabled="disabled" /></body>');
+if (engine == "gecko") document.write('<body></body>');
+else if(engine == "msie") document.write('<body><pre></pre></body>');
 </script>
 
 </html>
