@@ -180,6 +180,7 @@ this.setLanguage = function() {
 		<input type="text" name="curl" value="http://" onkeyup="commentPreview()" /><br />
 		<textarea name="ccomment" onkeyup="commentPreview()" onclick="if(this.value=='Your comment')this.value=''" onfocus="if(this.value=='Your comment')this.value=''">Your comment</textarea><br />
 		<input type="hidden" name="corderdate" value="">
+		<input type="hidden" name="cpwd" value="<?php if(isset($_GET['p'])) echo $_GET['p'];?>">
 		<div id="comment-msg"></div>
 		</form>
 		<button onclick="commentAdd()">submit your comment</button>

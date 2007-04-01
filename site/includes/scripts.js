@@ -94,12 +94,13 @@ function commentAdd() {
 	cName = document.comm.cname.value;
 	cUrl = document.comm.curl.value;
 	cComment = document.comm.ccomment.value;
-	cOrder = document.comm.corderdate.value;	
+	cOrder = document.comm.corderdate.value;
+	cPwd = document.comm.cpwd.value;
 	if(cName==''||cName=='Your name') commentMsg('Name is a required','error');
 	else if(cComment==''||cComment=='Your comment') commentMsg('Comment is a required','error');
 	else {
 		AJAX.get('comment_add.php', { 
-			parameters: 'name='+cName+'&url='+cUrl+'&order='+cOrder+'&comment='+ encodeURIComponent(cComment),
+			parameters: 'name='+cName+'&url='+cUrl+'&order='+cOrder+'&pwd='+cPwd+'&comment='+ encodeURIComponent(cComment),
 			method:'post',
 			onEnd:'commentMsg("Comment posted","info");commentUpdate(xmlDoc);', 
 			onError:'commentMsg("Error posting comment, try again","error");'
