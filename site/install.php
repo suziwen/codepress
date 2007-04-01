@@ -33,8 +33,8 @@
 			When the page loads, it will automatically replace your textarea with a CodePress window.
 		</p>
 		<p class="copycode">
-			&lt;textarea id="myCpWindow" class="codepress javascript"&gt;<br />
-			&nbsp;&nbsp;&nbsp;// your JavaScript code here<br />
+			&lt;textarea id="myCpWindow" class="codepress javascript linenumbers-off"&gt;<br />
+			&nbsp;&nbsp;&nbsp;// your code here<br />
 			&lt;/textarea&gt;
 		</p>
 		<ul>
@@ -45,9 +45,13 @@
 				The <code>codepress</code> portion of the class="" is mandatory and indicates a textarea to be replaced for a CodePress window.
 			</li>
 			<li>
+				Other class options are <code>linenumbers-off</code>, <code>autocomplete-off</code> and <code>readonly-on</code>.
+			</li>			
+			<li>
 				Careful not to use the same id for two different CodePress windows (<code>&lt;textarea id="<strong>xx</strong>"...&gt;</code>)
 			</li>
 		</ul>
+
 	</li>
 </ol>
 
@@ -69,6 +73,15 @@
 		Turn on/off line numbers.<br />
 		Example: <code>textarea_id.toggleLineNumbers()</code><br>
 	</li>
+	<li>
+		Turn on/off read only.<br />
+		Example: <code>textarea_id.toggleReadOnly()</code><br>
+	</li>
+	<li>
+		Turn on/off auto-complete.<br />
+		Example: <code>textarea_id.toggleAutoComplete()</code><br>
+	</li>
+	
 </ol>
 
 <? include("includes/footer.php"); ?>
