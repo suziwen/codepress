@@ -23,13 +23,13 @@ CodePress = {
 		if(typeof(editor)=='undefined'&&!arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementById('code');
+		editor = document.getElementsByTagName('pre')[0];
 		editor.contentEditable = 'true';
 		document.attachEvent('onkeydown', this.metaHandler);
 		document.attachEvent('onkeypress', this.keyHandler);
 		window.attachEvent('onscroll', function() { if(!CodePress.scrolling) setTimeout(function(){CodePress.syntaxHighlight('scroll')},1)});
 		completeChars = this.getCompleteChars();
-		CodePress.syntaxHighlight('init');
+//		CodePress.syntaxHighlight('init');
 		setTimeout(function() { window.scroll(0,0) },50); // scroll IE to top
 	},
 	
@@ -134,6 +134,10 @@ CodePress = {
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
+	},
+	
+	readOnly : function() {
+		editor.contentEditable = (arguments[0]) ? 'true' : 'false';
 	},
 	
 	complete : function(trigger) {

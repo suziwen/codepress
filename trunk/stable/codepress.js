@@ -20,11 +20,13 @@ CodePress = function(obj) {
 	self.style.border = '1px solid gray';
 	self.style.visibility = 'hidden';
 	self.style.position = 'absolute';
+	self.options = self.textarea.className;
 	
 	self.initialize = function() {
 		self.editor = self.contentWindow.CodePress;
 		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
 		self.editor.setCode(self.textarea.value);
+		self.setOptions();
 		self.editor.syntaxHighlight('init');
 		self.textarea.style.display = 'none';
 		self.style.position = 'static';
@@ -35,11 +37,17 @@ CodePress = function(obj) {
 	self.edit = function(id,language) {
 		if(id) self.textarea.value = document.getElementById(id).value;
 		if(!self.textarea.disabled) return;
-		self.language = (language) ? language : self.textarea.className.replace(/ ?codepress ?/,'');
+		self.language = language ? language : self.options.replace(/ ?codepress ?| ?read-only-on ?| ?auto-complete-off ?| ?line-numbers-off ?/,'');
 		if(!CodePress.languages[self.language]) self.language = 'generic';
 		self.src = CodePress.path+'codepress.html?engine='+CodePress.engine+'&language='+self.language+'&ts='+(new Date).getTime();
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
 		else self.addEventListener('load',self.initialize,false);
+	}
+
+	self.setOptions = function() {
+		if(self.options.match('auto-complete-off')) self.toggleAutoComplete();
+		if(self.options.match('read-only-on')) self.toggleReadOnly();
+		if(self.options.match('line-numbers-off')) self.toggleLineNumbers();
 	}
 	
 	self.getCode = function() {
@@ -49,8 +57,17 @@ CodePress = function(obj) {
 	self.setCode = function(code) {
 		self.textarea.disabled ? self.editor.setCode(code) : self.textarea.value = code;
 	}
+
+	self.toggleAutoComplete = function() {
+		self.editor.autocomplete = (self.editor.autocomplete) ? false : true;
+	}
 	
-	self.toggleLinenumbers = function() {
+	self.toggleReadOnly = function() {
+		self.textarea.readOnly = (self.textarea.readOnly) ? false : true;	
+		self.editor.readOnly(self.textarea.readOnly ? true : false);
+	}
+	
+	self.toggleLineNumbers = function() {
 		var cn = self.editor.body.className;
 		self.editor.body.className = (cn==''||cn=='show-line-numbers') ? 'hide-line-numbers' : 'show-line-numbers';
 	}
