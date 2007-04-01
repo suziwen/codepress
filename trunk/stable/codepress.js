@@ -37,7 +37,7 @@ CodePress = function(obj) {
 	self.edit = function(id,language) {
 		if(id) self.textarea.value = document.getElementById(id).value;
 		if(!self.textarea.disabled) return;
-		self.language = language ? language : self.options.replace(/ ?codepress ?| ?read-only-on ?| ?auto-complete-off ?| ?line-numbers-off ?/,'');
+		self.language = language ? language : self.options.replace(/ ?codepress ?| ?readonly-on ?| ?autocomplete-off ?| ?linenumbers-off ?/,'');
 		if(!CodePress.languages[self.language]) self.language = 'generic';
 		self.src = CodePress.path+'codepress.html?engine='+CodePress.engine+'&language='+self.language+'&ts='+(new Date).getTime();
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
@@ -45,9 +45,9 @@ CodePress = function(obj) {
 	}
 
 	self.setOptions = function() {
-		if(self.options.match('auto-complete-off')) self.toggleAutoComplete();
-		if(self.options.match('read-only-on')) self.toggleReadOnly();
-		if(self.options.match('line-numbers-off')) self.toggleLineNumbers();
+		if(self.options.match('autocomplete-off')) self.toggleAutoComplete();
+		if(self.options.match('readonly-on')) self.toggleReadOnly();
+		if(self.options.match('linenumbers-off')) self.toggleLineNumbers();
 	}
 	
 	self.getCode = function() {
@@ -64,7 +64,8 @@ CodePress = function(obj) {
 	
 	self.toggleReadOnly = function() {
 		self.textarea.readOnly = (self.textarea.readOnly) ? false : true;	
-		self.editor.readOnly(self.textarea.readOnly ? true : false);
+		if(self.style.display != 'none') // prevent exception on FF + iframe with display:none
+			self.editor.readOnly(self.textarea.readOnly ? true : false);
 	}
 	
 	self.toggleLineNumbers = function() {
