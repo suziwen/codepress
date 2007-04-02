@@ -11,8 +11,8 @@ Language.syntax = [ // Perl
 	input  : /\'(.*?)(\'|<br>|<\/P>)/g,
 	output : '<s>\'$1$2</s>' // strings single quote
 	},{
-    input  : /([\$\@\%]+)([\w\.]*)/g,
-	output : '<a>$1$2</a>' // vars
+    input  : /([\$\@\%][\w\.]*)/g,
+	output : '<a>$1</a>' // vars
 	},{
     input  : /(sub\s+)([\w\.]*)/g,
 	output : '$1<em>$2</em>' // functions
