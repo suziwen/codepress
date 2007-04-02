@@ -37,7 +37,7 @@ CodePress = function(obj) {
 	self.edit = function(id,language) {
 		if(id) self.textarea.value = document.getElementById(id).value;
 		if(!self.textarea.disabled) return;
-		self.language = language ? language : self.options.replace(/ ?codepress ?| ?readonly-on ?| ?autocomplete-off ?| ?linenumbers-off ?/,'');
+		self.language = language ? language : self.options.replace(/ ?codepress ?| ?readonly-on ?| ?autocomplete-off ?| ?linenumbers-off ?/g,'');
 		if(!CodePress.languages[self.language]) self.language = 'generic';
 		self.src = CodePress.path+'codepress.html?engine='+CodePress.engine+'&language='+self.language+'&ts='+(new Date).getTime();
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
