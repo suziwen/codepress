@@ -20,7 +20,7 @@ CodePress = {
 
 	// set initial vars and start sh
 	initialize : function() {
-		if(typeof(editor)=='undefined'&&!arguments[0]) return;
+		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
 		editor = document.getElementsByTagName('body')[0];
