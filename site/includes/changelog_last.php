@@ -9,6 +9,8 @@ $changelog = array(
 			'Added option to load editor without auto-complete and a <code>toggleAutoComplete</code> method',
 			'Added option to load editor as read only and a <code>toggleReadOnly</code> method',
 			'Fix for the $$ Firefix bug. Reported by AJ',
+			'Fix for the select all (ctrl+a) bug with IE',
+			'Fix for IE undo/redo',
 			'Some methods name changes and code cleaning',
 		)
 	),
