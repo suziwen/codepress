@@ -3,7 +3,7 @@
 $changelog = array(
 	array(
 		'v' => '0.9.3',
-		'd' => '01 apr 07',
+		'd' => '03 apr 07',
 		'i' => array(
 			'Added option to load editor without line numbers (besides de <code>toggleLineNumbers</code> method)',
 			'Added option to load editor without auto-complete and a <code>toggleAutoComplete</code> method',
