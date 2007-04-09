@@ -2,6 +2,15 @@
 
 $changelog = array(
 	array(
+		'v' => '0.9.4',
+		'd' => '03 apr 07',
+		'i' => array(
+			'Fix to a security problem with codepress.html and eval(). Thanks to Dustin Spicuzza',
+			'Initial support for ruby highlighting',
+			'Some changes made so codepress.html can be used without codepress.js'
+		)
+	),
+	array(
 		'v' => '0.9.3',
 		'd' => '03 apr 07',
 		'i' => array(
