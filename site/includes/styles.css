@@ -10,6 +10,7 @@ p {margin:0 0 16px 0;}
 a,a:visited {color:#7f0055;}
 select {background:#ffffe1;}
 button {margin-top:5px;}
+button.actions {width:171px;font-family:arial;}
 form {padding:0;margin:0;}
 ol, ul {padding:5px 0 5px 25px;margin:0;}
 ol li, ul li {margin:8px 0 8px 0;}

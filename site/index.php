@@ -101,11 +101,11 @@ this.setLanguage = function() {
 </textarea>
 
 <p>
-<button onclick="alert(codepress2.getCode())">get code from editor</button>
-<button onclick="codepress2.toggleEditor()">turn on/off CodePress</button>
-<button onclick="codepress2.toggleLineNumbers()">show/hide line numbers</button>
-<button onclick="codepress2.toggleAutoComplete()">turn on/off auto-complete</button>
-<button onclick="codepress2.toggleReadOnly()">turn on/off read only</button>
+	<button class="actions" onclick="alert(codepress2.getCode())">get code from editor</button>
+	<button class="actions" onclick="codepress2.toggleEditor()">turn on/off CodePress</button>
+	<button class="actions" onclick="codepress2.toggleLineNumbers()">show/hide line numbers</button>
+	<button class="actions" onclick="codepress2.toggleAutoComplete()">turn on/off auto-complete</button>
+	<button class="actions" onclick="codepress2.toggleReadOnly()">turn on/off read only</button>
 </p>
 
 <?php include("includes/changelog_last.php"); ?>
