@@ -139,7 +139,7 @@ CodePress = {
 	},
 	
 	readOnly : function() {
-		editor.contentEditable = (arguments[0]) ? 'true' : 'false';
+		editor.contentEditable = (arguments[0]) ? 'false' : 'true';
 	},
 	
 	complete : function(trigger) {
