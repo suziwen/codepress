@@ -18,6 +18,7 @@ CodePress = function(obj) {
 	self.style.width = self.textarea.clientWidth +'px';
 	self.textarea.style.overflow = 'auto';
 	self.style.border = '1px solid gray';
+	self.frameBorder = 0; // remove IE internal iframe border
 	self.style.visibility = 'hidden';
 	self.style.position = 'absolute';
 	self.options = self.textarea.className;
@@ -63,7 +64,7 @@ CodePress = function(obj) {
 	}
 	
 	self.toggleReadOnly = function() {
-		self.textarea.readOnly = (self.textarea.readOnly) ? false : true;	
+		self.textarea.readOnly = (self.textarea.readOnly) ? false : true;
 		if(self.style.display != 'none') // prevent exception on FF + iframe with display:none
 			self.editor.readOnly(self.textarea.readOnly ? true : false);
 	}
