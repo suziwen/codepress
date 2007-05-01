@@ -3,7 +3,7 @@
 $changelog = array(
 	array(
 		'v' => '0.9.4',
-		'd' => '03 apr 07',
+		'd' => '01 may 07',
 		'i' => array(
 			'Fix to a security problem with codepress.html and eval(). Thanks to Dustin Spicuzza',
 			'Fix to toggleReadOnly for IE. Now working with the first click',
