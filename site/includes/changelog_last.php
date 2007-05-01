@@ -9,7 +9,7 @@ $changelog = array(
 			'Fix to toggleReadOnly for IE. Now working with the first click',
 			'Fix to iframe IE frameborder',
 			'Initial support for ruby highlighting',
-			'Some changes made so codepress.html can be used without codepress.js. <a href=javascript:showContent(\'nocodepresshtml\')>What does it mean?</a>&darr; <div id="nocodepresshtml" class="h">Means that you can access http://yourserver/codepress/codepress.html and have a clean CodePress windows outside the iframe. Also means that you can create your own iframe/frame window with CodePress inside</div>'
+			'Some changes made so codepress.html can be used without codepress.js. <a href=javascript:showContent(\'nocodepresshtml\')>What does this mean?</a>&darr; <div id="nocodepresshtml" class="h">Means that you can access http://yourserver/codepress/codepress.html and have a clean CodePress windows outside the iframe. Also means that you can create your own iframe/frame window with CodePress inside and not using the automated iframe creation of codepress.js</div>'
 		)
 	),
 	array(
