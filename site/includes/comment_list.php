@@ -9,7 +9,7 @@ if(isset($_GET['p'])) {
 	$p = $_GET['p'];
 }
 
-$rst = query("select * from (select * from comments order by orderdate desc limit 25) as smtg order by orderdate asc", $dbh);
+$rst = query("select * from (select * from comments order by orderdate desc limit 50) as smtg order by orderdate asc", $dbh);
 //$rst = query("select * from comments order by datetime asc",$dbh);
 $count = 0;
 while ($row = mysql_fetch_assoc($rst)) {
