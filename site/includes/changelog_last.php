@@ -2,6 +2,14 @@
 
 $changelog = array(
 	array(
+		'v' => '0.9.5',
+		'd' => '01 may 07',
+		'i' => array(
+			'Added ASP and VBScript syntax highlighting. Thanks to Martin',
+			'lalala'
+		)
+	),
+	array(
 		'v' => '0.9.4',
 		'd' => '01 may 07',
 		'i' => array(
