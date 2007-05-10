@@ -6,7 +6,7 @@ $changelog = array(
 		'd' => '01 may 07',
 		'i' => array(
 			'Added ASP and VBScript syntax highlighting. Thanks to Martin',
-			'lalala'
+			'Added C# syntax highlighting.'
 		)
 	),
 	array(
