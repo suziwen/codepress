@@ -5,8 +5,10 @@ $changelog = array(
 		'v' => '0.9.5',
 		'd' => '01 may 07',
 		'i' => array(
+		 	'Fix for pasted (ctrl+v) text inside CodePress',
+		 	'Snippet trigger case insensitive. Better snippet trigger detection. Thanks to Martin',
 			'Added ASP and VBScript syntax highlighting. Thanks to Martin',
-			'Added C# syntax highlighting.'
+			'Added C# syntax highlighting. Thanks to Edwin de Jonge'
 		)
 	),
 	array(
