@@ -66,13 +66,16 @@ CodePress = {
 			evt.returnValue = false;
 		}
 		else if(keyCode==86 && evt.ctrlKey)  { // paste
-			// TODO: pasted text should be parsed and highlighted
+			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
 		}
 	},
 
 	// put cursor back to its original position after every parsing
+	
+	
 	findString : function() {
-	    range = self.document.body.createTextRange();
+		range = self.document.body.createTextRange();
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
@@ -100,6 +103,10 @@ CodePress = {
 	syntaxHighlight : function(flag) {
 		if(flag!='init') document.selection.createRange().text = cc;
 		o = editor.innerHTML;
+		if(flag=='paste') { // fix pasted text
+			o = o.replace(/<BR>/g,'\r\n'); 
+			o = o.replace(/\u2008/g,'\t');
+		}
 		o = o.replace(/<P>/g,'\n');
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');

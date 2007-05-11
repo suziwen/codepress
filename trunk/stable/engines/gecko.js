@@ -55,8 +55,8 @@ CodePress = {
 			(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
 			evt.preventDefault();
 		}
-		else if(keyCode==86 && evt.ctrlKey)  { // paste
-			// TODO: pasted text should be parsed and highlighted
+		else if(charCode==118 && evt.ctrlKey)  { // highlight pasted code
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('generic');},100);
 		}
 	},
 
