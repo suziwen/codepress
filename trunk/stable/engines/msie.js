@@ -132,7 +132,7 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'</P><P>');
-				var pattern = new RegExp(trigger+cc);
+				var pattern = new RegExp(trigger+cc,"gi");
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
@@ -173,9 +173,9 @@ CodePress = {
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
-		words = words.replace(/[\s\r\);]/g,'\n').split('\n');
-		return words[words.length-1];
-	},
+		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
+		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
+	}, 
 
 	getRangeAndCaret : function() {	
 		var range = document.selection.createRange();
