@@ -47,6 +47,7 @@ CodePress = {
 
 	metaHandler : function(evt) {
 		keyCode = evt.keyCode;
+		
 		if(keyCode==9 || evt.tabKey) { 
 			CodePress.snippets();
 		}
@@ -65,9 +66,13 @@ CodePress = {
 			CodePress.shortcuts(keyCode);
 			evt.returnValue = false;
 		}
-		else if(keyCode==86 && evt.ctrlKey)  { // paste
+		else if(keyCode==86 && evt.ctrlKey)  { // handle paste
 			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
 		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
+		}
+		else if(keyCode==67 && evt.ctrlKey)  { // handle cut
+			// window.clipboardData.setData('Text',x[0]);
+			// code = window.clipboardData.getData('Text');
 		}
 	},
 
