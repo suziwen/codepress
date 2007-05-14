@@ -17,7 +17,7 @@ $changelog = array(
 		'v' => '0.9.4',
 		'd' => '01 may 07',
 		'i' => array(
-			'Fix to a security problem with codepress.html and eval(). Thanks to Dustin Spicuzza',
+			'Fix to problem with codepress.html and eval(). Thanks to Dustin Spicuzza',
 			'Fix to toggleReadOnly for IE. Now working with the first click',
 			'Fix to iframe IE frameborder',
 			'Initial support for ruby highlighting',
