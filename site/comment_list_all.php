@@ -47,6 +47,7 @@ while ($row = mysql_fetch_assoc($rst)) {
 	</div>
 </div><!--/comments-->
 
+<!-- 
 	<h3>Post a comment</h3>
 	<div id="postcomment">
 		<img src=images/preview.gif id="previewimg">
@@ -59,6 +60,6 @@ while ($row = mysql_fetch_assoc($rst)) {
 		<button onclick="commentAdd()">submit your comment</button>
 		<script type="text/javascript">commentPreview(1)</script>
 	</div>
-
+-->
 
 <? include("includes/footer.php"); ?>

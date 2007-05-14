@@ -20,8 +20,8 @@
 			<li>C</li>
 			<li>C++</li>
 			<li>Python</li>
-			<li>Ruby</li>
-			<li>ASP</li>		
+			<li><s>Ruby</s></li>
+			<li><s>ASP</s></li>		
 		</ul>
 	</li>
 	<li>
@@ -36,7 +36,7 @@
 		auto completion with code suggest
 	</li>
 	<li>
-		handle and highlight pasted (ctrl+v) text
+		<s>handle and highlight pasted (ctrl+v) text</s>
 	</li>
 	<li>
 		code folding

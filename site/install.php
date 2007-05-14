@@ -48,7 +48,7 @@
 				Other class options are <code>linenumbers-off</code>, <code>autocomplete-off</code> and <code>readonly-on</code>.
 			</li>			
 			<li>
-				Careful not to use the same id for two different CodePress windows (<code>&lt;textarea id="<strong>xx</strong>"...&gt;</code>)
+				Careful not to use the same id for two different CodePress windows (<code>&lt;textarea id="<strong>xx</strong>"...&gt;</code>) and do not use characters like "." (dot) for id names.
 			</li>
 		</ul>
 
@@ -58,8 +58,10 @@
 <h3>You also can...</h3>
 <ol>
 	<li>
-		Open/edit code from a different textarea.<br />
-		Example: <code>textarea_id.edit('other_textarea_id','language')</code><br>
+		Open/edit code from different places.<br />
+		Example 1: <code>textarea_id.edit('other_textarea_id','language')</code><br>
+		Example 2: <code>textarea_id.edit('h1 { color: red; }','css')</code><br>
+		Example 3: <code>textarea_id.edit(document.getElementById('myCode').innerHTML,'html')</code><br>
 	</li>
 	<li>
 		Get code from CodePress window.<br />

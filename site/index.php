@@ -127,6 +127,9 @@ this.setLanguage = function() {
 			<a href="changelog.php" class="button">Changelog</a>
 		</li>
 		<li>
+			<a href="http://sourceforge.net/forum/?group_id=186981">Forum</a>
+		</li>
+		<li>
 			<a href="http://sourceforge.net/tracker/?func=add&group_id=186981&atid=919467">Bug report</a>
 		</li>
 		<li>
@@ -142,7 +145,7 @@ this.setLanguage = function() {
 		Line numbers do not resize with browser font size (because it's a bg image)
 	</li>
 	<li>
-		Cut and paste not working correctly. Should be parsed and highlighted
+		Copy from CodePress and paste somewhere else is not working correctly. Copy from somewhere and paste inside CodePress is working now.
 	</li>
 
 </ol>
@@ -157,13 +160,17 @@ this.setLanguage = function() {
 
 
 
-<h3>Comments <span style="color:black;">(<a href="javascript:scrollBottom()" style="color:black;">add new comment</a>)</span></h3>
+<h3>Comments <span style="color:black;">(are frozen, please use the <a href="http://sourceforge.net/forum/?group_id=186981">forum</a>)</span></h3>
 <p>
 	These are the last 25 comments. <a href="comment_list_all.php">See everything.</a>
 </p>
 <div id="comments">
 	
 <?php include_once("includes/comment_list.php"); ?>
+
+
+<h4>Comments are frozen. Please, use the <a href="http://sourceforge.net/forum/?group_id=186981">forum</a></h4>
+<!-- 
 	<div id="newcomments"></div>
     <div id="yourcomment" class="comment">
 		<a href="http://" id="yoururl"><strong id="yourname" class="name">Your name</strong></a> &raquo; <strong id="yourdate"><?= date('Y-m-d') ?></strong>
@@ -184,7 +191,7 @@ this.setLanguage = function() {
 		<button onclick="commentAdd()">submit your comment</button>
 		<script type="text/javascript">commentPreview(1)</script>
 	</div>
-	
+-->	
 </div><!--/comments-->
 
 
