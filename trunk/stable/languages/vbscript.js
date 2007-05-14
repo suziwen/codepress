@@ -1,5 +1,6 @@
 /*
- * CodePress regular expressions for PHP syntax highlighting by Martin
+ * CodePress regular expressions for PHP syntax highlighting
+ * By Martin D. Kirk
  */
 
 // ASP VBScript
