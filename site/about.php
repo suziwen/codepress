@@ -37,7 +37,7 @@
 
 <h3>Contributors</h3>
 <dl>
-	<dt>Martin</dt>
+	<dt>By Martin D. Kirk</dt>
 		<dd>
 		Syntax highlighting for ASP<br>
 		Syntax highlighting for VBScript<br>
