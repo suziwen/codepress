@@ -127,7 +127,7 @@ this.setLanguage = function() {
 			<a href="changelog.php" class="button">Changelog</a>
 		</li>
 		<li>
-			<a href="http://sourceforge.net/forum/?group_id=186981">Forum</a>
+			<a href="http://sourceforge.net/forum/forum.php?forum_id=654507">Forum</a>
 		</li>
 		<li>
 			<a href="http://sourceforge.net/tracker/?func=add&group_id=186981&atid=919467">Bug report</a>
@@ -160,7 +160,7 @@ this.setLanguage = function() {
 
 
 
-<h3>Comments <span style="color:black;">(are frozen, please use the <a href="http://sourceforge.net/forum/?group_id=186981">forum</a>)</span></h3>
+<h3>Comments <span style="color:black;">(are frozen, please use the <a href="http://sourceforge.net/forum/forum.php?forum_id=654507">forum</a>)</span></h3>
 <p>
 	These are the last 25 comments. <a href="comment_list_all.php">See everything.</a>
 </p>
@@ -169,7 +169,8 @@ this.setLanguage = function() {
 <?php include_once("includes/comment_list.php"); ?>
 
 
-<h4>Comments are frozen. Please, use the <a href="http://sourceforge.net/forum/?group_id=186981">forum</a></h4>
+<h4>Comments are frozen. Please, use the <a href="http://sourceforge.net/forum/forum.php?forum_id=654507">forum</a></h4>
+
 <!-- 
 	<div id="newcomments"></div>
     <div id="yourcomment" class="comment">
