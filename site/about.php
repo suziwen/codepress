@@ -29,6 +29,7 @@
 <dl>
 	<dt>Fernando M.A.d.S.</dt> 
 		<dd>Creator and developer</dd>
+
 	<dt>Michael Hurni</dt>
 		<dd>Developer</dd>
 </dl>
@@ -36,10 +37,22 @@
 
 <h3>Contributors</h3>
 <dl>
+	<dt>Martin</dt>
+		<dd>
+		Syntax highlighting for ASP<br>
+		Syntax highlighting for VBScript<br>
+		Modifications for a better snippet system
+		</dd>
+
+	<dt>Edwin de Jonge</dt>
+		<dd>Syntax highlighting for C#</dd>
+
 	<dt>J. Nick Koston</dt>
 		<dd>Syntax highlighting for PERL</dd>
+
 	<dt>Merlin Moncure</dt>
 		<dd>Syntax highlighting for SQL</dd>
+
 	<dt>And lots of other people...</dt>
 		<dd>who reported bugs and sent code insights and ideas</dd>
 </dl>
