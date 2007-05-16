@@ -37,11 +37,11 @@
 
 <h3>Contributors</h3>
 <dl>
-	<dt>By Martin D. Kirk</dt>
+	<dt>Martin D. Kirk</dt>
 		<dd>
 		Syntax highlighting for ASP<br>
 		Syntax highlighting for VBScript<br>
-		Modifications for a better snippet system
+		Modifications for a better snippets system
 		</dd>
 
 	<dt>Edwin de Jonge</dt>
