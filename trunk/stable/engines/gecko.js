@@ -3,16 +3,17 @@
  * 
  * Copyright (C) 2007 Fernando M.A.d.S. <fermads@gmail.com>
  *
- * Contributors :
- *
- * 	Michael Hurni <michael.hurni@gmail.com>
+ * Developers:
+ *		Fernando M.A.d.S. <fermads@gmail.com>
+ *		Michael Hurni <michael.hurni@gmail.com>
+ * Contributors: 	
+ *		Martin D. Kirk
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the 
  * GNU Lesser General Public License as published by the Free Software Foundation.
  * 
  * Read the full licence: http://www.opensource.org/licenses/lgpl-license.php
  */
-
 
 CodePress = {
 	scrolling : false,
@@ -28,7 +29,7 @@ CodePress = {
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
 		completeChars = this.getCompleteChars();
-//		CodePress.syntaxHighlight('init');
+		completeEndingChars =  this.getCompleteEndingChars();
 	},
 
 	// treat key bindings
@@ -39,8 +40,9 @@ CodePress = {
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			CodePress.shortcuts(charCode?charCode:keyCode);
 		}
-		else if(completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1 && CodePress.autocomplete) { // auto complete
-			CodePress.complete(String.fromCharCode(charCode));
+		else if( (completeEndingChars.indexOf('|'+String.fromCharCode(charCode)+'|')!= -1 || completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
+			if(!CodePress.completeEnding(String.fromCharCode(charCode)))
+			     CodePress.complete(String.fromCharCode(charCode));
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
 		 	CodePress.syntaxHighlight('generic');
@@ -153,7 +155,32 @@ CodePress = {
 			cChars += '|'+Language.complete[i].input;
 		return cChars+'|';
 	},
-
+	
+	getCompleteEndingChars : function() {
+		var cChars = '';
+		for(var i=0;i<Language.complete.length;i++)
+			cChars += '|'+Language.complete[i].output.charAt(Language.complete[i].output.length-1);
+		return cChars+'|';
+	},
+	
+	completeEnding : function(trigger) {
+		var range = window.getSelection().getRangeAt(0);
+		try {
+			range.setEnd(range.endContainer, range.endOffset+1)
+		}
+		catch(e) {
+			return false;
+		}
+		var next_character = range.toString()
+		range.setEnd(range.endContainer, range.endOffset-1)
+		if(next_character != trigger) return false;
+		else {
+			range.setEnd(range.endContainer, range.endOffset+1)
+			range.deleteContents();
+			return true;
+		}
+	},
+	
 	shortcuts : function() {
 		var cCode = arguments[0];
 		if(cCode==13) cCode = '[enter]';
