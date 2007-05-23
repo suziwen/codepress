@@ -218,7 +218,7 @@ CodePress = {
 	
 	// get code from editor
 	getCode : function() {
-		var code = editor.innerHTML;
+		var code = (arguments[0]) ? arguments[0] : editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/\u2009/g,'');
 		code = code.replace(/<.*?>/g,'');
