@@ -73,14 +73,27 @@ CodePress = {
 		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
 		}
 		else if(keyCode==67 && evt.ctrlKey)  { // handle cut
-			// window.clipboardData.setData('Text',x[0]);
-			// code = window.clipboardData.getData('Text');
+			evt.returnValue = false;		
+			window.clipboardData.setData('Text',CodePress.getSelection());
 		}
 	},
+	
+	// return the content of the selection
+	getSelection : function() {
+		var range = document.selection.createRange().duplicate();//duplicate()...hopefully this means real range will be unaffected?
+		var s=e=0; 
+		
+		while(range.moveStart("character",-1)!=0) s++; 
+		while(range.moveEnd("character",-1)!=0) e++; 
 
+		code = this.getCode();
+		code = code.replace(/\n\r/gi,cc+cc);
+		code = code.replace(/\n/gi,'');
+		code = code.replace(/\u2009\u2009/gi,'\n\r');
+		return code.substr(s-1,e-s);
+	},
+	
 	// put cursor back to its original position after every parsing
-	
-	
 	findString : function() {
 		range = self.document.body.createTextRange();
 		if(range.findText(cc)){
@@ -243,7 +256,7 @@ CodePress = {
 
 	// get code from editor	
 	getCode : function() {
-		var code = editor.innerHTML;
+		var code = (arguments[0]) ? arguments[0] : editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/<\/p>/gi,'\r');
 		code = code.replace(/<p>/i,''); // IE first line fix
