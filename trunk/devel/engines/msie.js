@@ -87,9 +87,7 @@ CodePress = {
 		while(range.moveEnd("character",-1)!=0) e++; 
 
 		code = this.getCode();
-		code = code.replace(/\n\r/gi,cc+cc);
-		code = code.replace(/\n/gi,'');
-		code = code.replace(/\u2009\u2009/gi,'\n\r');
+		code = code.replace(/\n[^\r]/gi,'');
 		return code.substr(s-1,e-s);
 	},
 	
