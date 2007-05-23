@@ -320,7 +320,10 @@ CodePress = {
 			*/
 			/* Second way */
 			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
-		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);	
+		 	top.setTimeout(function(){
+				window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\u2008/g,'\t'));
+			},20);
 		},
 		
 		cut :  function() { this.copy();CodePress.syntaxHighlight('cut'); },
