@@ -105,7 +105,7 @@ CodePress = {
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
+		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? '<pre>'+x+'</pre>' : '<pre>'+o.split(z).join(x)+'</pre>'; 
 		if(flag!='init') this.findString();
 	},
 	
