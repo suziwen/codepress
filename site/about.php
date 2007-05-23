@@ -43,7 +43,10 @@
 		Syntax highlighting for VBScript<br>
 		Modifications for a better snippets system
 		</dd>
-
+		
+	<dt>RJ Bruneel</dt>
+		<dd>Syntax highlighting for XSL</dd>
+		
 	<dt>Edwin de Jonge</dt>
 		<dd>Syntax highlighting for C#</dd>
 

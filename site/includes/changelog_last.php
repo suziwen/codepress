@@ -2,6 +2,15 @@
 
 $changelog = array(
 	array(
+		'v' => '0.9.6',
+		'd' => 'XXXXX',
+		'i' => array(
+		 	'Fix for copy/cut and paste from AND to CodePress window',
+			'Added Python syntax highlighting',
+			'Added XSL syntax highlighting. Thanks to RJ Bruneel'
+		)
+	),
+	array(
 		'v' => '0.9.5',
 		'd' => '14 may 07',
 		'i' => array(
