@@ -36,16 +36,17 @@ CodePress = {
 	keyHandler : function(evt) {
     	keyCode = evt.keyCode;	
 		charCode = evt.charCode;
+		fromChar = String.fromCharCode(charCode);
 
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			CodePress.shortcuts(charCode?charCode:keyCode);
 		}
-		else if( (completeEndingChars.indexOf('|'+String.fromCharCode(charCode)+'|')!= -1 || completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
-			if(!CodePress.completeEnding(String.fromCharCode(charCode)))
-			     CodePress.complete(String.fromCharCode(charCode));
+		else if( (completeEndingChars.indexOf('|'+fromChar+'|')!= -1 || completeChars.indexOf('|'+fromChar+'|')!=-1) && CodePress.autocomplete) { // auto complete
+			if(!CodePress.completeEnding(fromChar))
+			     CodePress.complete(fromChar);
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
-		 	CodePress.syntaxHighlight('generic');
+			top.setTimeout(function(){CodePress.syntaxHighlight('generic');},100);
 		}
 		else if(keyCode==9 || evt.tabKey) {  // snippets activation (tab)
 			CodePress.snippets(evt);
@@ -105,7 +106,7 @@ CodePress = {
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? '<pre>'+x+'</pre>' : '<pre>'+o.split(z).join(x)+'</pre>'; 
+		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
 		if(flag!='init') this.findString();
 	},
 	
