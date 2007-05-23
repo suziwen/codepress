@@ -38,9 +38,11 @@ CodePress = {
 	// treat key bindings
 	keyHandler : function(evt) {
 		charCode = evt.keyCode;
-		if( (completeEndingChars.indexOf('|'+String.fromCharCode(charCode)+'|')!= -1 || completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
-			if(!CodePress.completeEnding(String.fromCharCode(charCode)))
-			     CodePress.complete(String.fromCharCode(charCode));
+		fromChar = String.fromCharCode(charCode);
+		
+		if( (completeEndingChars.indexOf('|'+fromChar+'|')!= -1 || completeChars.indexOf('|'+fromChar+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
+			if(!CodePress.completeEnding(fromChar))
+			     CodePress.complete(fromChar);
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||charCode==13) { // syntax highlighting
 		 	CodePress.syntaxHighlight('generic');
