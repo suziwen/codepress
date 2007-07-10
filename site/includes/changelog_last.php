@@ -7,10 +7,13 @@ $changelog = array(
 		'i' => array(
 //			'Highlighting trigger divided by language. Thanks Jason Orendorff',
 			'Fix for - (dash) on textarea ID. Thanks to anonymous and Kae Verens from forum',
-		 	'Fix for copy/cut and paste from AND to CodePress window',
+//		 	'Fix for copy/cut and paste from AND to CodePress window',
 			'Added Python syntax highlighting',
 			'LIKE keyword added to SQL syntax highlighting reserved words. Thanks to Kae Verens',
 			'Added XSL syntax highlighting. Thanks to RJ Bruneel'
+		 	'ASP/VBScript language file updates',
+			'PHP laguage comment fix',
+			
 		)
 	),
 	array(

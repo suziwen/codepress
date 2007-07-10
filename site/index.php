@@ -112,8 +112,7 @@ this.setLanguage = function() {
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
 <p>
-	Since version 0.9.2 CodePress is more like a lib then a standalone editor. Its now easier to integrate with another systems.<br>
-	CodePress 0.x versions are not considered stable for production use.
+	Since version 0.9.2 CodePress is more like a lib then a standalone editor. Its now easier to integrate with another systems.
 </p>
 <ul>
 	<li>
