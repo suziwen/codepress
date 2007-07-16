@@ -38,9 +38,11 @@ CodePress = {
 	// treat key bindings
 	keyHandler : function(evt) {
 		charCode = evt.keyCode;
-		if( (completeEndingChars.indexOf('|'+String.fromCharCode(charCode)+'|')!= -1 || completeChars.indexOf('|'+String.fromCharCode(charCode)+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
-			if(!CodePress.completeEnding(String.fromCharCode(charCode)))
-			     CodePress.complete(String.fromCharCode(charCode));
+		fromChar = String.fromCharCode(charCode);
+		
+		if( (completeEndingChars.indexOf('|'+fromChar+'|')!= -1 || completeChars.indexOf('|'+fromChar+'|')!=-1  )&& CodePress.autocomplete) { // auto complete
+			if(!CodePress.completeEnding(fromChar))
+			     CodePress.complete(fromChar);
 		}
 	    else if(chars.indexOf('|'+charCode+'|')!=-1||charCode==13) { // syntax highlighting
 		 	CodePress.syntaxHighlight('generic');
@@ -64,27 +66,32 @@ CodePress = {
 		else if(keyCode==46||keyCode==8) { // save to history when delete or backspace pressed
 		 	CodePress.actions.history[CodePress.actions.next()] = editor.innerHTML;
 		}
-		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && keyCode!=90)  {
-			/* shortcuts = (ctrl||appleKey) + shift + (key!=z)(undo) */
+		else if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && keyCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			CodePress.shortcuts(keyCode);
 			evt.returnValue = false;
 		}
-		else if(keyCode==86 && evt.ctrlKey) { CodePress.actions.paste(); }
-		else if(keyCode==88 && evt.ctrlKey) { CodePress.actions.cut();  evt.returnValue = false; }
-		else if(keyCode==67 && evt.ctrlKey) { CodePress.actions.copy(); evt.returnValue = false; }
+		else if(keyCode==86 && evt.ctrlKey)  { // handle paste
+			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
+		}
+		else if(keyCode==67 && evt.ctrlKey)  { // handle cut
+			// window.clipboardData.setData('Text',x[0]);
+			// code = window.clipboardData.getData('Text');
+		}
 	},
+
+	// put cursor back to its original position after every parsing
 	
-	// Put cursor back to its original position after every parsing
+	
 	findString : function() {
 		range = self.document.body.createTextRange();
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
-			range.select();
 		}
 	},
 	
-	// Split big files, highlighting parts of it
+	// split big files, highlighting parts of it
 	split : function(code,flag) {
 		if(flag=='scroll') {
 			this.scrolling = true;
@@ -101,14 +108,12 @@ CodePress = {
 		}
 	},
 	
-	// Syntax highlighting parser
+	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
-	
 		if(flag!='init') document.selection.createRange().text = cc;
-	
 		o = editor.innerHTML;
 		if(flag=='paste') { // fix pasted text
-			o = o.replace(/<BR>/g,'\n'); 
+			o = o.replace(/<BR>/g,'\r\n'); 
 			o = o.replace(/\u2008/g,'\t');
 		}
 		o = o.replace(/<P>/g,'\n');
@@ -122,7 +127,6 @@ CodePress = {
 		o = o.replace(/<P>(<P>)+/,'<P>');
 		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
 		o = o.replace(/<P><\/P>/g,'<P><BR/></P>');
-
 		x = z = this.split(o,flag);
 
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
@@ -181,14 +185,18 @@ CodePress = {
 
 	completeEnding : function(trigger) {
 		var range = document.selection.createRange();
-		try {range.moveEnd('character', 1);}
-		catch(e) {return false;}
-		var next_character = range.text;
-		range.moveEnd('character', -1);
+		try {
+			range.moveEnd('character', 1)
+		}
+		catch(e) {
+			return false;
+		}
+		var next_character = range.text
+		range.moveEnd('character', -1)
 		if(next_character != trigger )  return false;
 		else {
-			range.moveEnd('character', 1);
-			range.text='';
+			range.moveEnd('character', 1)
+			range.text=''
 			return true;
 		}
 	},	
@@ -219,29 +227,6 @@ CodePress = {
 		return [range.toString(),caret];
 	},
 	
-	// Return the content of the selection
-	getSelection : function() {
-		var range = document.selection.createRange().duplicate();
-		var startOffset = 0;
-		var endOffset = 0;
-
-		while(range.moveStart("character",-1)!=0) startOffset++; 
-		while(range.moveEnd("character",-1)!=0) endOffset++; 
-		
-		var length = endOffset - startOffset;
-
-		code = this.getCode();
-		code = code.replace(/\n\r/gi,cc+cc);
-		code = code.replace(/\n/gi,'');
-		code = code.substr(startOffset-1,length);
-		code = code.replace(/\u2009\u2009/gi,'\n');		
-		
-		//code = code.replace(/\n/gi,'\n\r'); // both solution seems work
-		code = code.replace(/\n/gi,'\r\n');
-		return code;
-	},
-	
-	// Insert some code at the carret position
 	insertCode : function(code,replaceCursorBefore) {
 		var repdeb = '';
 		var repfin = '';
@@ -258,9 +243,9 @@ CodePress = {
 		}	
 	},
 
-	// Return clean code from editor or passed by argument
+	// get code from editor	
 	getCode : function() {
-		var code = (arguments[0]) ? arguments[0] : editor.innerHTML;
+		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/<\/p>/gi,'\r');
 		code = code.replace(/<p>/i,''); // IE first line fix
@@ -274,7 +259,7 @@ CodePress = {
 		return code;
 	},
 
-	// Put code inside editor
+	// put code inside editor
 	setCode : function() {
 		var code = arguments[0];
 		code = code.replace(/\u2009/gi,'');
@@ -284,6 +269,8 @@ CodePress = {
 		editor.innerHTML = '<pre>'+code+'</pre>';
 	},
 
+	
+	// undo and redo methods
 	actions : {
 		pos : -1, // actual history position
 		history : [], // history vector
@@ -309,25 +296,7 @@ CodePress = {
 		next : function() { // get next vector position and clean old ones
 			if(this.pos>20) this.history[this.pos-21] = undefined;
 			return ++this.pos;
-		},
-		
-		paste : function() { // handle paste
-			/* First way */
-			/* 
-			CodePress.insertCode(window.clipboardData.getData('Text').replace(/\r/g,''),false);
-			CodePress.syntaxHighlight('generic');
-			// needed in metaHandler : evt.returnValue = false;
-			*/
-			/* Second way */
-			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
-		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);	
-		 	top.setTimeout(function(){
-				window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\u2008/g,'\t'));
-			},20);
-		},
-		
-		cut :  function() { this.copy();CodePress.syntaxHighlight('cut'); },
-		copy : function() {	window.clipboardData.setData('Text',CodePress.getSelection());}
+		}
 	}
 }
 

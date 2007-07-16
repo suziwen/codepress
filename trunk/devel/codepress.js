@@ -14,13 +14,19 @@ CodePress = function(obj) {
 	self.textarea = obj;
 	self.textarea.disabled = true;
 	self.textarea.style.overflow = 'hidden';
-	self.style.height = self.textarea.clientHeight +'px';
-	self.style.width = self.textarea.clientWidth +'px';
+//	self.style.height = self.textarea.clientHeight +'px';
+//	self.style.width = self.textarea.clientWidth-40 +'px';
+	self.style.height = '100%';
+//	self.style.width = '100%';	
+	self.style.width = self.textarea.clientWidth-37 +'px';
+
 	self.textarea.style.overflow = 'auto';
-	self.style.border = '1px solid gray';
+	self.style.borderWidth = 0;
+	self.style.position = 'absolute';
+	self.style.zIndex = 20;	
 	self.frameBorder = 0; // remove IE internal iframe border
 	self.style.visibility = 'hidden';
-	self.style.position = 'absolute';
+//	self.style.position = 'absolute';
 	self.options = self.textarea.className;
 	
 	self.initialize = function() {
