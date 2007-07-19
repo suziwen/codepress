@@ -117,7 +117,8 @@ CodePress = {
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
+		code = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
+		editor.innerHTML = '<PRE>'+code+'</PRE>';
 		if(flag!='init') this.findString();
 	},
 	
@@ -247,7 +248,7 @@ CodePress = {
 		code = code.replace(/&/gi,'&amp;');
        	code = code.replace(/</g,'&lt;');
         code = code.replace(/>/g,'&gt;');
-		editor.innerHTML = code;
+		editor.innerHTML = '<pre>'+code+'</pre>';
 	},
 
 	// undo and redo methods
