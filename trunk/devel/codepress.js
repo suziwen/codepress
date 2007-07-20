@@ -23,7 +23,7 @@ CodePress = function(obj) {
 //	self.style.zIndex = 20;	
 	self.style.visibility = 'hidden';
 	self.timeStamp = new Date().getTime();
-	self.innerHTML = '<div id="lines-'+self.timeStamp+'" style="padding:5px 2px 0 0;background:#eee;width:34px;height:100%;overflow:hidden;text-align:right;font-family:monospace;font-size:13px;white-space:pre;line-height:16px;color:gray;border-right:1px solid silver;float:left;"></div><div style="float:left;height:100%;width:'+(self.textarea.clientWidth-20)+'px"><iframe id="editor-'+self.timeStamp+'" frameborder="0" style="height:100%;border:0;width:100%"></iframe></div>'
+	self.innerHTML = '<div id="lines-'+self.timeStamp+'" style="padding:5px 2px 0 0;background:#eee;width:34px;height:100%;overflow:hidden;text-align:right;font-family:monospace;font-size:13px;white-space:pre;line-height:16px;color:gray;border-right:1px solid silver;float:left;"></div><div style="float:right;height:100%;width:'+(self.textarea.clientWidth-20)+'px"><iframe id="editor-'+self.timeStamp+'" frameborder="0" style="height:100%;border:0;width:100%"></iframe></div>'
 	self.options = self.textarea.className;
 	
 	self.initialize = function() {
