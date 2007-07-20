@@ -25,8 +25,9 @@ CodePress = {
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
 		editor = document.getElementsByTagName('body')[0];
+		lines = top.document.getElementById(window.frameElement.id.replace(/editor-/,'lines-'))
 		window.addEventListener('scroll', function() { 
-			top.document.getElementById('lines').scrollTop = window.pageYOffset;			
+			lines.scrollTop = window.pageYOffset;			
 			if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll');
 		}, false);
 
@@ -39,10 +40,10 @@ CodePress = {
 	
 	writeLineNumbers : function() {
 		for(var i=1, nOut='';i<2000;i++) nOut += i+'\n';
-		top.document.getElementById('lines').appendChild(document.createTextNode(nOut));
-		top.document.getElementById('lines').scrollTop = window.pageYOffset;			
+		lines.appendChild(document.createTextNode(nOut));
+		lines.scrollTop = window.pageYOffset;			
 	},
-
+	
 	// treat key bindings
 	keyHandler : function(evt) {
     	keyCode = evt.keyCode;	

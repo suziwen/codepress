@@ -10,45 +10,43 @@
  */
 
 CodePress = function(obj) {
-	var self = document.createElement('iframe');
+	var self = document.createElement('div');
 	self.textarea = obj;
 	self.textarea.disabled = true;
 	self.textarea.style.overflow = 'hidden';
-//	self.style.height = self.textarea.clientHeight +'px';
-//	self.style.width = self.textarea.clientWidth-40 +'px';
-	self.style.height = '100%';
-//	self.style.width = '100%';	
-	self.style.width = self.textarea.clientWidth-37 +'px';
-
+	self.style.height = self.textarea.clientHeight +'px';
+	self.style.width = self.textarea.clientWidth +'px';
 	self.textarea.style.overflow = 'auto';
-	self.style.borderWidth = 0;
+	self.style.border = '1px solid gray';
+	self.style.overflow = 'hidden';
 	self.style.position = 'absolute';
-	self.style.zIndex = 20;	
-	self.frameBorder = 0; // remove IE internal iframe border
+//	self.style.zIndex = 20;	
 	self.style.visibility = 'hidden';
-//	self.style.position = 'absolute';
+	self.timeStamp = new Date().getTime();
+	self.innerHTML = '<div id="lines-'+self.timeStamp+'" style="padding:5px 2px 0 0;background:#eee;width:34px;height:100%;overflow:hidden;text-align:right;font-family:monospace;font-size:13px;white-space:pre;line-height:16px;color:gray;border-right:1px solid silver;float:left;"></div><div style="float:left;height:100%;width:'+(self.textarea.clientWidth-20)+'px"><iframe id="editor-'+self.timeStamp+'" frameborder="0" style="height:100%;border:0;width:100%"></iframe></div>'
 	self.options = self.textarea.className;
 	
 	self.initialize = function() {
-		self.editor = self.contentWindow.CodePress;
-		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
+		self.editor = self.iframe.contentWindow.CodePress;
+		self.editor.body = self.iframe.contentWindow.document.getElementsByTagName('body')[0];
 		self.editor.setCode(self.textarea.value);
 		self.setOptions();
 		self.editor.syntaxHighlight('init');
 		self.textarea.style.display = 'none';
 		self.style.position = 'static';
 		self.style.visibility = 'visible';
-		self.style.display = 'inline';
+//		self.style.display = 'inline';
 	}
 	
 	// obj can by a textarea id or a string (code)
 	self.edit = function(obj,language) {
+		self.iframe = document.getElementById('editor-'+self.timeStamp);
 		if(obj) self.textarea.value = document.getElementById(obj) ? document.getElementById(obj).value : obj;
 		if(!self.textarea.disabled) return;
 		self.language = language ? language : self.getLanguage();
-		self.src = CodePress.path+'codepress.html?language='+self.language+'&ts='+(new Date).getTime();
-		if(self.attachEvent) self.attachEvent('onload',self.initialize);
-		else self.addEventListener('load',self.initialize,false);
+		self.iframe.src = CodePress.path+'codepress.html?language='+self.language+'&ts='+(new Date).getTime();
+		if(self.attachEvent) self.iframe.attachEvent('onload',self.initialize);
+		else self.iframe.addEventListener('load',self.initialize,false);
 	}
 
 	self.getLanguage = function() {
@@ -102,7 +100,6 @@ CodePress = function(obj) {
 		}
 	}
 
-	self.edit();
 	return self;
 }
 
@@ -136,6 +133,7 @@ CodePress.run = function() {
 			t[i].id = id+'_cp';
 			eval(id+' = new CodePress(t[i])');
 			t[i].parentNode.insertBefore(eval(id), t[i]);
+			eval(id+'.edit()');
 		} 
 	}
 }
