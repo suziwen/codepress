@@ -24,7 +24,7 @@ CodePress = {
 		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementsByTagName('body')[0];
+		editor = document.getElementsByTagName('pre')[0];
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
