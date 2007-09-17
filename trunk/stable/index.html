@@ -80,6 +80,7 @@
 	<button onclick="cp1.edit('cp-sql','sql')">SQL</button>	
 	<button onclick="cp1.edit('cp-html','html')">HTML</button> 
 	<button onclick="cp1.edit('cp-css','css')">CSS</button> 	
+	<button onclick="cp1.edit('cp-autoit','autoit')">AutoIt</button> 	
 </div>
 
 <textarea id="cp1" class="codepress php" style="width:700px;height:300px;" wrap="off">
@@ -295,6 +296,13 @@ CodePress = function(obj) {
 }
 </textarea>
 
+<textarea id="cp-autoit" class="hidden-code">
+#include
+IsNumber(15)
+@Macro
+;comment
+$var = "string"
+</textarea>
 
 <textarea id="cp-java" class="hidden-code">
 import java.io.FileFilter;
