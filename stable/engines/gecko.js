@@ -23,8 +23,12 @@ CodePress = {
 	initialize : function() {
 		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
-		cc = '\u2009'; // control char
+		cc = "e";//'\u2009'; // control char
 		editor = document.getElementsByTagName('pre')[0];
+		document.getElementsByTagName('body')[0].onfocus = function() {
+		//	CodePress.syntaxHighlight('focus');
+			alert('rr');
+		}
 		document.designMode = 'on';
 		document.addEventListener('keypress', this.keyHandler, true);
 		window.addEventListener('scroll', function() { if(!CodePress.scrolling) CodePress.syntaxHighlight('scroll') }, false);
@@ -101,7 +105,7 @@ CodePress = {
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
 		//if(document.designMode=='off') document.designMode='on'
-		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
+		if(flag!='init' && flag!='focus') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 		
 		editor = CodePress.getEditor();
 		o = editor.innerHTML;
@@ -116,6 +120,7 @@ CodePress = {
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
 		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x);
+		if(flag=="focus") editor.innerHTML += "rrr";
 		if(flag!='init') this.findString();
 	},
 	
