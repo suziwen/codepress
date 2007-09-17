@@ -107,10 +107,21 @@ CodePress = {
 			return code.substring(code.indexOf('<P>'),code.lastIndexOf('</P>')+4);
 		}
 	},
+
+	getEditor : function() {
+		if(!document.getElementsByTagName('pre')[0]) {
+			body = document.getElementsByTagName('body')[0];
+			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
+		}
+		return document.getElementsByTagName('pre')[0];
+	},
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
 		if(flag!='init') document.selection.createRange().text = cc;
+		
+		editor = CodePress.getEditor();
+		
 		o = editor.innerHTML;
 		if(flag=='paste') { // fix pasted text
 			o = o.replace(/<BR>/g,'\r\n'); 
@@ -120,7 +131,7 @@ CodePress = {
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');
 		o = o.replace(/&nbsp;/g,'');			
-		o = '<PRE><P>'+o+'</P></PRE>';
+		o = '<P>'+o+'</P>';
 		o = o.replace(/\n\r/g,'<P></P>');
 		o = o.replace(/\n/g,'<P>');
 		o = o.replace(/\r/g,'<\/P>');
