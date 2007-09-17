@@ -2,12 +2,12 @@
  * CodePress color styles for AutoIt syntax highlighting
  */
 
-reserved {font-style:normal;color:#000090;font-weight:bold;font-family:Monospace;}
+map {font-style:normal;color:#000090;font-weight:bold;font-family:Monospace;}
 var {color:#AA0000;font-weight:bold;font-style:normal;}
-macro {color:#FF33FF;}
-number {color:#AC00A9;}
-include {color:#F000FF;}
-operator {color:#FF0000;}
-underscored {color:#0080FF;font-weight:bold;}
-string, string reserved {color:#9999CC;font-weight:normal;}
-comment, comment *{color:#009933;font-weight:normal;}
+em {color:#FF33FF;}
+ins {color:#AC00A9;}
+i {color:#F000FF;}
+b {color:#FF0000;}
+a {color:#0080FF;font-weight:bold;}
+s, s map {color:#9999CC;font-weight:normal;}
+cite, cite *{color:#009933;font-weight:normal;}
