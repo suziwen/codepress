@@ -1,0 +1,13 @@
+/*
+ * CodePress color styles for AutoIt syntax highlighting by James Brooks
+ */
+
+b {font-style:normal;color:#000090;font-weight:bold;font-family:Monospace;} /* reserved words */
+u {color:#F000FF;font-weight:bold;font-style:normal;} /* special words */
+a {color:#AA0000;font-weight:bold;font-style:normal;} /* variables */
+em {color:#FF33FF;} /* macros */
+var {color:#AC00A9;} /* Numbers */
+span {color:#F000FF;} /* Include and Directives */
+r {color:#FF0000;font-weight:bold;} /* brackets operatives */
+i, i b, i s, i u {color:#009933;font-weight:normal;} /* comments */
+s, s b, s u {color:#9999CC;font-weight:normal;} /* strings */
