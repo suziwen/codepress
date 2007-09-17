@@ -90,11 +90,20 @@ CodePress = {
 		}
 	},
 	
+	getEditor : function() {
+		if(!document.getElementsByTagName('pre')[0]) {
+			body = document.getElementsByTagName('body')[0];
+			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
+		}
+		return document.getElementsByTagName('pre')[0];
+	},
+	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
 		//if(document.designMode=='off') document.designMode='on'
 		if(flag!='init') window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
-
+		
+		editor = CodePress.getEditor();
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
@@ -106,7 +115,7 @@ CodePress = {
 		for(i=0;i<Language.syntax.length;i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
-		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x); 
+		editor.innerHTML = this.actions.history[this.actions.next()] = (flag=='scroll') ? x : o.split(z).join(x);
 		if(flag!='init') this.findString();
 	},
 	
