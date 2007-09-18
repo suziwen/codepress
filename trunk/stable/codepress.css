@@ -5,6 +5,7 @@ body {
 	margin-left:32px;
 	font-family:monospace;
 	font-size:13px;
+	white-space:pre;
 	background-image:url("images/line-numbers.png");
 	background-repeat:repeat-y;
 	background-position:0 3px;

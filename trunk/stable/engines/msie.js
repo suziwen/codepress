@@ -23,7 +23,7 @@ CodePress = {
 	initialize : function() {
 		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
-		cc = '\u2009'; // control char
+		cc = '\u2009'; // carret char
 		editor = document.getElementsByTagName('pre')[0];
 		editor.contentEditable = 'true';
 		document.getElementsByTagName('body')[0].onfocus = function() {editor.focus();}
@@ -107,21 +107,10 @@ CodePress = {
 			return code.substring(code.indexOf('<P>'),code.lastIndexOf('</P>')+4);
 		}
 	},
-
-	getEditor : function() {
-		if(!document.getElementsByTagName('pre')[0]) {
-			body = document.getElementsByTagName('body')[0];
-			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
-		}
-		return document.getElementsByTagName('pre')[0];
-	},
 	
 	// syntax highlighting parser
 	syntaxHighlight : function(flag) {
 		if(flag!='init') document.selection.createRange().text = cc;
-		
-		editor = CodePress.getEditor();
-		
 		o = editor.innerHTML;
 		if(flag=='paste') { // fix pasted text
 			o = o.replace(/<BR>/g,'\r\n'); 
@@ -131,7 +120,7 @@ CodePress = {
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');
 		o = o.replace(/&nbsp;/g,'');			
-		o = '<P>'+o+'</P>';
+		o = '<PRE><P>'+o+'</P></PRE>';
 		o = o.replace(/\n\r/g,'<P></P>');
 		o = o.replace(/\n/g,'<P>');
 		o = o.replace(/\r/g,'<\/P>');
