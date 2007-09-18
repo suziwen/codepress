@@ -95,7 +95,6 @@ CodePress = {
 	getEditor : function() {
 		if(!document.getElementsByTagName('pre')[0]) {
 			body = document.getElementsByTagName('body')[0];
-			alert(body.innerHTML);
 			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
 		}
 		return document.getElementsByTagName('pre')[0];
