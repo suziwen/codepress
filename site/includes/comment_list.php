@@ -13,6 +13,7 @@ $rst = query("select * from (select * from comments order by orderdate desc limi
 //$rst = query("select * from comments order by datetime asc",$dbh);
 $count = 0;
 while ($row = mysql_fetch_assoc($rst)) {
+	if($row['comment'] == '') continue;
 	$count++;
 	$me = ($row['url']=='http://fermads.net/') ? ' me' : '';
 	if($row['active']==1) {
