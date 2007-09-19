@@ -7,11 +7,11 @@ $changelog = array(
 		'i' => array(
 		 	'Fix for copy/cut and paste from and to CodePress window on Firefox',
 			'Fix for bug with - (dash) on textarea id. Thanks to anonymous and Kae Verens from forum',
-			'Auto complete for \'[(" do not duplicate if you type the same character again. This way typing "" do not become """"',
+			'Auto complete for \'[(" do not duplicate if you type the same character again. This way typing "" do not become """"', 
 			'Added # comment style to PHP language. Reported by mmj48',
 			'LIKE keyword added to SQL syntax highlighting reserved words. Thanks to Kae Verens',
 			'Added XSL syntax highlighting. Thanks to RJ Bruneel',
-			'Added AutoIt syntax highlighting. Thanks to [XXXXX]'
+			'Added AutoIt syntax highlighting. Thanks to James Brooks'
 		)
 	),
 	array(
