@@ -112,8 +112,14 @@ this.setLanguage = function() {
 
 <h3>Download v.<?=$changelog[0]['v']?> (<?=$changelog[0]['d']?>)</h3>
 <p>
-	Since version 0.9.2 CodePress is more like a lib then a standalone editor. 
-	Its now easier to integrate with another systems but is more difficult to use it as a standalone editor.
+	It has been some time since last update. CodePress project was freezed, but me and Michael are now back.
+	I really don't know the frequency of future releases but we are working on it.
+	This release is more like a "we are alive" release but a real release with a plugin system is coming.
+	<br />
+	<br />
+	Regards
+	<br />
+	fermads
 </p>
 <ul>
 	<li>
