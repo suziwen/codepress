@@ -24,7 +24,7 @@ CodePress = {
 		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		body = document.getElementsByTagName('body')[0];
 		body.innerHTML = body.innerHTML.replace(/\n/g,"");
-		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
+		chars = '|32|46|62|8|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // carret char
 		editor = document.getElementsByTagName('pre')[0];
 		document.designMode = 'on';
@@ -95,7 +95,9 @@ CodePress = {
 	getEditor : function() {
 		if(!document.getElementsByTagName('pre')[0]) {
 			body = document.getElementsByTagName('body')[0];
-			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
+			if(!body.innerHTML) return body;
+			if(body.innerHTML=="<br>") body.innerHTML = "<pre> </pre>";
+			else body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
 		}
 		return document.getElementsByTagName('pre')[0];
 	},
@@ -229,6 +231,8 @@ CodePress = {
 	
 	// get code from editor
 	getCode : function() {
+		if(!document.getElementsByTagName('pre')[0] || editor.innerHTML == '')
+			editor = CodePress.getEditor();
 		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/\u2009/g,'');
@@ -244,9 +248,11 @@ CodePress = {
 		var code = arguments[0];
 		code = code.replace(/\u2009/gi,'');
 		code = code.replace(/&/gi,'&amp;');
-       	code = code.replace(/</g,'&lt;');
-        code = code.replace(/>/g,'&gt;');
+		code = code.replace(/</g,'&lt;');
+		code = code.replace(/>/g,'&gt;');
 		editor.innerHTML = code;
+		if (code == '')
+			document.getElementsByTagName('body')[0].innerHTML = '';
 	},
 
 	// undo and redo methods
@@ -255,17 +261,21 @@ CodePress = {
 		history : [], // history vector
 		
 		undo : function() {
+			editor = CodePress.getEditor();
 			if(editor.innerHTML.indexOf(cc)==-1){
-				window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
-			 	this.history[this.pos] = editor.innerHTML;
+				if(editor.innerHTML != " ")
+					window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
+				this.history[this.pos] = editor.innerHTML;
 			}
-			this.pos--;
-			if(typeof(this.history[this.pos])=='undefined') this.pos++;
+			this.pos --;
+			if(typeof(this.history[this.pos])=='undefined') this.pos ++;
 			editor.innerHTML = this.history[this.pos];
+			if(editor.innerHTML.indexOf(cc)>-1) editor.innerHTML+=cc;
 			CodePress.findString();
 		},
 		
 		redo : function() {
+			// editor = CodePress.getEditor();
 			this.pos++;
 			if(typeof(this.history[this.pos])=='undefined') this.pos--;
 			editor.innerHTML = this.history[this.pos];
