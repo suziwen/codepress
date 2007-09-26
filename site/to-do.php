@@ -33,22 +33,25 @@
 		</ul>
 	</li>
 	<li>
+		plugin system
+	</li>
+	<li>
 		auto completion with code suggest
 	</li>
 	<li>
-		<s>handle and highlight pasted (ctrl+v) text</s>
+		copy from CodePress and paste somewhere else on Internet Explorer
 	</li>
 	<li>
 		code folding
 	</li>
 	<li>
-		improve the actual shortcut system
+		improve shortcut system
 	</li>	
 	<li>
-		improve the actual auto-complete system
+		improve auto-complete system
 	</li>
 	<li>
-		improve browser compatibility (safari, opera)
+		browser compatibility (safari, opera)
 	</li>
 </ul>
 

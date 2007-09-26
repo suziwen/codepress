@@ -114,7 +114,7 @@ this.setLanguage = function() {
 <p>
 	It has been some time since last update. CodePress project was freezed, but me and Michael are now back.
 	I really don't know the frequency of future releases but we are working on it.
-	This release is more like a "we are alive" release but a real release with a plugin system is coming.
+	This release is more like a "we are alive" release. A real release with new features is coming.
 	<br />
 	<br />
 	Regards
@@ -151,7 +151,8 @@ this.setLanguage = function() {
 		Line numbers do not resize with browser font size (because it's a bg image)
 	</li>
 	<li>
-		Copy from CodePress and paste somewhere else is not working correctly. Copy from somewhere and paste inside CodePress is working now.
+		Copy from CodePress and paste somewhere else is not working correctly on Internet Explorer. 
+		Fixed for Firefox on version 0.9.6.
 	</li>
 
 </ol>
