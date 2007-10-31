@@ -9,17 +9,20 @@ Language.syntax = [
 	{ input : /(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g, output : '<em>$1</em><em>$2</em><em>$3</em>' }, // style tags
 	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<ins>$1</ins><ins>$2</ins><ins>$3</ins>' }, // script tags
 
-	{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g, output : '<s>$1$2</s>' }, // strings 
-
-	{ input : /(&lt;\?)/g, output : '<strong>$1' }, // <?.*
-	{ input : /(\?&gt;)/g, output : '$1</strong>' }, // .*?>
-	{ input : /(&lt;\?php|&lt;\?=|&lt;\?|\?&gt;)/g, output : '<cite>$1</cite>' }, // php tags
-	{ input : /(\$[\w\.]*)/g, output : '<a>$1</a>' }, // vars
-	{ input : /\b(false|true|and|or|xor|__FILE__|exception|__LINE__|array|as|break|case|class|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|for|foreach|function|global|if|include|include_once|isset|list|new|print|require|require_once|return|static|switch|unset|use|while|__FUNCTION__|__CLASS__|__METHOD__|final|php_user_filter|interface|implements|extends|public|private|protected|abstract|clone|try|catch|throw|this)\b/gi, output : '<u>$1</u>' }, // reserved words
+	{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g,
+	  output : '<s>$1$2</s>' }, // strings 
 	
-	{ input : /([^:]|^)(\/\/)(((?!<\/s>|<\/em>|<br>|<\/P>).??|<s>.*?<\/s>)*)(<br>|<\/P>)/g, output : function () {
-			return (arguments[3])?arguments[1]+"<i>"+arguments[2]+arguments[3]+"</i>"+arguments[5]:arguments.join(); 
-		} 
+	{ input : /(&lt;\?)(php|=)?([\s\S]*)(\?&gt;)/gi ,
+	  output : "<strong><cite>$1$2</cite>$3<cite>$4</cite></strong>" },
+	
+	{ input : /(\$[\w\.]*)/g, output : '<a>$1</a>' }, // vars
+	{ input : /\b(false|true|and|or|xor|__FILE__|exception|__LINE__|array|as|break|case|class|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|for|foreach|function|global|if|include|include_once|isset|list|new|print|require|require_once|return|static|switch|unset|use|while|__FUNCTION__|__CLASS__|__METHOD__|final|php_user_filter|interface|implements|extends|public|private|protected|abstract|clone|try|catch|throw|this)\b/gi,
+	  output : '<u>$1</u>' }, // reserved words
+	
+	{ input : /(\/\/|#)((?:(?!<\/s>|<\/em>|<br>|<\/P>).??|<s>.*?<\/s>)*)(<br>|<\/P>)/g, 
+	  output : function () {
+		return (arguments[2])?"<i>"+arguments[1]+arguments[2]+"</i>"+arguments[3]:arguments.join(); 
+	  } 
 	}, 
 	{ input : /\/\*(.*?)\*\//g, output : '<i>/*$1*/</i>' }, // comments /* */ 
 	{ input : /(&lt;!--.*?--&gt.)/g, output : '<big>$1</big>' } // html comments
