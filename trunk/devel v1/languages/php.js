@@ -6,8 +6,13 @@
 // PHP
 Language.syntax = [
 	{ input : /(&lt;[^!\?]*?&gt;)/g, output : '<b>$1</b>' }, // all tags
-	{ input : /(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g, output : '<em>$1</em><em>$2</em><em>$3</em>' }, // style tags
-	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<ins>$1</ins><ins>$2</ins><ins>$3</ins>' }, // script tags
+	{ input : /(&lt;(style|script).*?&gt;)(.*?)(&lt;\/\2&gt;)/g, output : function() {
+		var tag = (arguments[2]=="style") ? "em":"ins";
+		return '<'+tag+'>'+arguments[1]+'</'+tag+'><'+tag+'>'+arguments[3]+'</'+tag+'><'+tag+'>'+arguments[4]+'</'+tag+'>';
+	}},
+
+
+//	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<ins>$1</ins><ins>$2</ins><ins>$3</ins>' }, // script tags
 
 	{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g,
 	  output : '<s>$1$2</s>' }, // strings 
