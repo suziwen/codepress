@@ -6,13 +6,11 @@
 // PHP
 Language.syntax = [
 	{ input : /(&lt;[^!\?]*?&gt;)/g, output : '<b>$1</b>' }, // all tags
-	{ input : /(&lt;(style|script).*?&gt;)(.*?)(&lt;\/\2&gt;)/g, output : function() {
+	{ input : /(&lt;(style|script).*?&gt;)(.*?)(&lt;\/\2&gt;)/g, 
+	  output : function() {
 		var tag = (arguments[2]=="style") ? "em":"ins";
 		return '<'+tag+'>'+arguments[1]+'</'+tag+'><'+tag+'>'+arguments[3]+'</'+tag+'><'+tag+'>'+arguments[4]+'</'+tag+'>';
 	}},
-
-
-//	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<ins>$1</ins><ins>$2</ins><ins>$3</ins>' }, // script tags
 
 	{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g,
 	  output : '<s>$1$2</s>' }, // strings 
@@ -24,13 +22,15 @@ Language.syntax = [
 	{ input : /\b(false|true|and|or|xor|__FILE__|exception|__LINE__|array|as|break|case|class|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|for|foreach|function|global|if|include|include_once|isset|list|new|print|require|require_once|return|static|switch|unset|use|while|__FUNCTION__|__CLASS__|__METHOD__|final|php_user_filter|interface|implements|extends|public|private|protected|abstract|clone|try|catch|throw|this)\b/gi,
 	  output : '<u>$1</u>' }, // reserved words
 	
+	/* inline comment */
 	{ input : /(\/\/|#)((?:(?!<\/s>|<\/em>|<br>|<\/P>).??|<s>.*?<\/s>)*)(<br>|<\/P>)/g, 
 	  output : function () {
 		return (arguments[2])?"<i>"+arguments[1]+arguments[2]+"</i>"+arguments[3]:arguments.join(); 
-	  } 
-	}, 
-	{ input : /\/\*(.*?)\*\//g, output : '<i>/*$1*/</i>' }, // comments /* */ 
-	{ input : /(&lt;!--.*?--&gt.)/g, output : '<big>$1</big>' } // html comments
+	}}, 
+	
+	{ input : /\/\*(.*?)\*\//g, output : '<i>/*$1*/</i>' }, 
+	{ input : /(&lt;!--.*?--&gt.)/g, output : '<big>$1</big>' },
+	{ input : /\b(\d+)\b/g, output : '<var>$1</var>' }
 ]
 
 Language.snippets = [
