@@ -9,9 +9,8 @@ Language.syntax = [
 	{ input : /(&lt;img .*?&gt;)/g, output : '<big>$1</big>' }, // images
 	{ input : /(&lt;\/?(button|textarea|form|input|select|option|label).*?&gt;)/g, output : '<u>$1</u>' }, // forms
 	{ input : /(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g, output : '<em>$1</em><em>$2</em><em>$3</em>' }, // style tags
-	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<strong>$1</strong><tt>$2</tt><strong>$3</strong>' }, // script tags
-	{ input : /(".*?")/g, output : '<s>$1</s>' }, // atributes double quote
-	{ input : /('.*?')/g, output : '<s>$1</s>' }, // atributes single quote
+	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<strong>$1<tt>$2</tt>$3</strong>' }, // script tags
+	{ input : /(("|').*?\2)/g, output : '<s>$1</s>' }, // atributes double quote
 	{ input : /(&lt;!--.*?--&gt.)/g, output : '<ins>$1</ins>' }, // comments 
 	{ input : /\b(alert|window|document|break|continue|do|for|new|this|void|case|default|else|function|return|typeof|while|if|label|switch|var|with|catch|boolean|int|try|false|throws|null|true|goto)\b/g, output : '<i>$1</i>' } // script reserved words 
 ]
