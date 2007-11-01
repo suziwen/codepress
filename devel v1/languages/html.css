@@ -5,10 +5,21 @@
 s {color:#000000;}
 b {color:#000080;} /* tags */
 ins, ins b, ins s, ins em {color:gray;} /* comments */
-b s, strong s, em s, tt s {color:#7777e4;} /* attribute values */
+b s, strong s,em s,tt s,u s,a s {color:#7777e4;} /* attribute values */
 a {color:green;} /* links */
 u {color:#E67300;} /* forms */
 big {color:#db0000;} /* images */
-em, em b {color:#800080;} /* style */
-strong {color:#800000;} /* script */
-tt i {color:darkblue;font-weight:bold;} /* script reserved words */
+
+/* STYLE */
+em, em b,em strong,em tt,em ins,em u,em a,em big {
+	color:#800080;}
+
+/* SCRIPT */
+strong, strong b {
+	color:#800000;}
+tt, tt ins, tt u,tt a,tt big,tt b {
+	color:#000000;
+	font-weight:normal;}
+tt i {
+	color:darkblue;
+	font-weight:bold;}
