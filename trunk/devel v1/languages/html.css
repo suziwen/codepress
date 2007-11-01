@@ -2,9 +2,10 @@
  * CodePress color styles for HTML syntax highlighting
  */
 
+s {color:#000000;}
 b {color:#000080;} /* tags */
 ins, ins b, ins s, ins em {color:gray;} /* comments */
-s, s b {color:#7777e4;} /* attribute values */
+b s, strong s, em s, tt s {color:#7777e4;} /* attribute values */
 a {color:green;} /* links */
 u {color:#E67300;} /* forms */
 big {color:#db0000;} /* images */
