@@ -55,9 +55,11 @@ CodePress.Plugins.Indent = function(element) {
 		}
 		if(!currentLine) currentLine = code;
 		currentLine = currentLine.replace(/<.*?>/g,'');
-		for (l=0;l<currentLine.length;l++) {
-			if(currentLine.split('')[l]=="\t" && this.tabIndent) indent += "\t";
-			else if(currentLine.split('')[l]==" " && this.spaceIdent) indent+=" ";
+		for (i=-1,l=currentLine.length;l>i++;)
+		{
+			var cChar = currentLine.substr(i,1);
+			if(cChar == "\t" && this.tabIndent) indent += "\t";
+			else if(cChar == " " && this.spaceIdent) indent+=" ";
 			else break;
 		}	
 		return indent;
