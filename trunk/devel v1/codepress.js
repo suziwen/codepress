@@ -84,7 +84,7 @@ CodePress.Plugin = function(parent) {
 		var bind = this;
 		new parent.util.Loader({
 			'file' : parent.config.plugins_dir + name + ".js",
-			'onFileMissing' : function() { bind.remove(name); alert("missing"); },
+			'onFileMissing' : function() { bind.remove(name); alert("CodePress error : " + this.file + " was not found"); },
 			'onLoaded' : function() { bind.register(name); }
 		}); 
 	}
