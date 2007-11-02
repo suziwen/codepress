@@ -38,7 +38,7 @@ CodePress.Engine = function(element) {
 			if(!engine.scrolling) engine.highlight('scroll');
 		},false);
  		
-		chars 		= '|32|46|62|'; // charcodes that trigger syntax highlighting
+		chars 		= '|32|46|62|9|'; // charcodes that trigger syntax highlighting
 		engine.cc 	= '&|;'; 	// caret char
 		engine.ls 	= '<br>';		// lines separator
 			
@@ -124,6 +124,7 @@ CodePress.Engine = function(element) {
     	keyCode = evt.keyCode;	
 		charCode = evt.charCode;
 		fromChar = String.fromCharCode(charCode);
+		
 		/*
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			engine.shortcuts(charCode?charCode:keyCode);
@@ -134,7 +135,7 @@ CodePress.Engine = function(element) {
 		}
 	    else */
 		
-		if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13) { // syntax highlighting
+		if(chars.indexOf('|'+charCode+'|')!=-1||keyCode==13||keyCode==9) { // syntax highlighting
 
 	/*	if( chars.indexOf('|'+charCode+'|') != -1
 			|| keyCode == 13

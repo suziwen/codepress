@@ -12,6 +12,7 @@ Language.syntax = [
 		return '<'+tag+'>'+arguments[1]+'</'+tag+'><'+tag+'>'+arguments[3]+'</'+tag+'><'+tag+'>'+arguments[4]+'</'+tag+'>';
 	}},
 
+	{ input : /<br>([\s ]*)/g, output : "<br><tt>$1</tt>" },
 	{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g,
 	  output : '<s>$1$2</s>' }, // strings 
 	
