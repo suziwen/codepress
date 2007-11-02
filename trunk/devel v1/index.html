@@ -13,7 +13,7 @@ CodePress.run = function() {
 		{
 			new CodePress({
 				"element" : textarea,
-				"plugins" : ["GotoLine","AutoSave"]
+				"plugins" : ["GotoLine","AutoSave","Indent"]
 			});
 		} 
 	}
@@ -30,13 +30,16 @@ else window.addEventListener('DOMContentLoaded',CodePress.run,false);
 <button onclick='alert(document.getElementById("test").engine.getCode());'>alert engine.getCode()</button>
 <button onclick='document.getElementById("test").setLanguage("html");'>language.set("html")</button>
 <button onclick='document.getElementById("test").setLanguage("php");'>language.set("php")</button>
+<button onclick='alert(document.getElementById("test").editor.contentDocument.getElementsByTagName("body")[0].innerHTML);'>InnerHTML</button>
 <hr/>
-<textarea class="codepress php" id="test" style="height:200px; width:550px;">&lt;div id="logo"&gt;
+<textarea class="codepress html" id="test" style="height:200px; width:550px;">&lt;div id="logo"&gt;
 	&lt;h1&gt;&lt;a href="http://codepress.org/"&gt;CodePress&lt;/a&gt;&lt;/h1&gt;
 	&lt;h2&gt;Online Real Time Syntax Highlighting Editor&lt;/h2&gt;
 	&lt;img src="testimage.gif" /&gt;
 	&lt;script&gt;
 	// some script
+	document.write("string");
+	regexp = /(abc)/g;
 	&lt;/script&gt;
 	&lt;style&gt;
 	// some script

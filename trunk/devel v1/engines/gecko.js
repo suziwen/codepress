@@ -39,7 +39,7 @@ CodePress.Engine = function(element) {
 		},false);
  		
 		chars 		= '|32|46|62|'; // charcodes that trigger syntax highlighting
-		engine.cc 	= '&2038;'; 	// caret char
+		engine.cc 	= '&|;'; 	// caret char
 		engine.ls 	= '<br>';		// lines separator
 			
 		// completeChars = this.getCompleteChars();
@@ -64,6 +64,8 @@ CodePress.Engine = function(element) {
 		if(flag != 'init') {
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
 		}
+		element.event.fire("highlight",this);
+		
 		editor = engine.getEditor();
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
