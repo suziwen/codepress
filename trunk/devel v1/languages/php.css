@@ -11,3 +11,4 @@ em {color:#800080;font-style:normal;} /* style */
 ins {color:#800000;} /* script */
 strong u {color:#7F0055;font-weight:bold;} /* reserved words */
 cite, s cite {color:red;font-weight:bold;} /* <?php and ?> */
+tt { background:url('../skin/tab.jpg'); }
