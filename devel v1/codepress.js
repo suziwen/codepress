@@ -62,7 +62,7 @@ CodePress.Config = {
 		"default" : "php",
 		"list" : Array(
 			"php",
-			"js",
+			"javascript",
 			"html",
 			"generic"
 		)
@@ -245,7 +245,7 @@ CodePress.Language = function(parent) {
 	//search language into element class
 	parent.config.syntax_languages.list.each(function(language) {
 		if(element.className.match(language)) this.value = language;
-	});
+	},this);
 
 	this.set(this.value);
 	parent.setLanguage = this.set;
