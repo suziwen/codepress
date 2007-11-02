@@ -32,7 +32,7 @@ CodePress.Plugins.Indent = function(element) {
 		{
 			if(!this.cc) this.cc = element.editor.engine.cc.replace("&","&amp;");
 			var code = engine.getEditor().innerHTML;
-			code = code.replace(this.cc,"<br>"+this.getIndent(code)+this.cc);
+			code = code.replace(this.cc,element.editor.engine.ls+this.getIndent(code)+this.cc);
 			engine.getEditor().innerHTML = code;
 		}
 		this.lastKeyCode = false;
@@ -58,8 +58,8 @@ CodePress.Plugins.Indent = function(element) {
 		for (i=-1,l=currentLine.length;l>i++;)
 		{
 			var cChar = currentLine.substr(i,1);
-			if(cChar == "\t" && this.tabIndent) indent += "\t";
-			else if(cChar == " " && this.spaceIdent) indent+=" ";
+			if(this.tabIndent && cChar == "\t") indent += "\t";
+			else if(this.spaceIdent && cChar == " ") indent+=" ";
 			else break;
 		}	
 		return indent;
