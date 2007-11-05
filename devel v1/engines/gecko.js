@@ -64,7 +64,7 @@ CodePress.Engine = function(element) {
 		if(flag != 'init') {
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
 		}
-		element.event.fire("highlight",this);
+		element.event.fire("highlight");
 		
 		editor = engine.getEditor();
 		o = editor.innerHTML;
