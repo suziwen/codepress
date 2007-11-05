@@ -26,14 +26,14 @@ CodePress.Plugins.Indent = function(element) {
 	/**
 	 * Highlight Handler
 	 */
-	this.highlightHandler = function(engine)
+	this.highlightHandler = function()
 	{
 		if(this.lastKeyCode == 13)
 		{
 			if(!this.cc) this.cc = element.editor.engine.cc.replace("&","&amp;");
-			var code = engine.getEditor().innerHTML;
+			var code = element.editor.engine.getEditor().innerHTML;
 			code = code.replace(this.cc,element.editor.engine.ls+this.getIndent(code)+this.cc);
-			engine.getEditor().innerHTML = code;
+			element.editor.engine.getEditor().innerHTML = code;
 		}
 		this.lastKeyCode = false;
 	}

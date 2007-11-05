@@ -371,8 +371,8 @@ CodePress.Event = function(parent) {
 		this.events[name].push(fn);
 	}
 	
-	this.fire = function(name,event) {
-	
+	this.fire = function(name,evt) {
+		event = evt || {};
 		event.stop = function() {
 			if(browser.code=="gecko") event.preventDefault();
 			if(browser.code=="msie") event.returnValue = false; 
