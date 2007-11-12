@@ -15,8 +15,8 @@ window.onresize = function() {
 	document.getElementById("eval").style.width = (x - 39) +"px";
 	document.getElementById("console").style.width = x+"px";
 	document.getElementById("console").style.height = (y - 29)+"px";
-	//var collection = document.getElementsByTagName("li");
-	//for(i=0;i<collection.length;i++) collection[i].style.width = (x-45)+"px";
+	var collection = document.getElementsByTagName("li");
+	for(i=0;i<collection.length;i++) collection[i].style.width = (x-45)+"px";
 	document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
 }
 
