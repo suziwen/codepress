@@ -1,7 +1,7 @@
 /**
  * CodePress Console Plugin
  * 
- * This plugin watch basicly keyevents and engine.highlight calls
+ * This plugin watch basicly keyevents, engine.highlight calls, language change.
  * It extends the [element] with some methods that allow writing
  * into the console from outside the plugin
  * 
@@ -17,10 +17,19 @@ if(!CodePress.Plugins) CodePress.Plugins = {}
 CodePress.Plugins.Console = function(element)
 {
 	this.name = "Console beta";
+	this
 	this.init = function()
 	{
 		element.console = new Console(element); // extends element
-		element.event.add("highlight",this.highlightHandler, this);
+		
+		element.event.add("highlight",function() {
+			element.console.info("highlight");
+		},this);
+		
+		element.event.add("languageChange",function() {
+			element.console.info("Language changed to " + element.language.value);
+		},this);
+		
 		element.event.add("keypress",this.keyHandler, this);
 		element.event.add("keydown",this.keyHandler, this);
 	}
@@ -46,14 +55,6 @@ CodePress.Plugins.Console = function(element)
 		
 		element.console.info(evt.type+" event",content);
 		
-	}
-	
-	/**
-	 * Highlight Watching 
-	 */
-	this.highlightHandler = function()
-	{
-		element.console.info("highlight");
 	}
 	
 	if(browser.code == 'gecko') this.init(); // Only on Gecko for now
