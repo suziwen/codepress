@@ -63,9 +63,13 @@ CodePress.Plugins.Console = function(element)
 Console = function(element)
 {
 	this.popup = new Console.popup({
-		location : element.config.plugins_dir + "Console/Console.htm",
 		name : "CodePress Console for " + element.type + " #" + element.id,
-		arguments : 'width=450,height=300,scrollbars=no'
+		location : element.config.plugins_dir + "Console/Console.htm",
+		options : {
+			'width'			: 450,
+			'height'		: 300,
+			'scrollbars'	: 'yes'
+		}
 	});
 	
 	this.popup.window.loaded = false;
@@ -87,7 +91,9 @@ Console = function(element)
 	this.log = function (title,message,level)
 	{
 		if(!this.popup.document) return false; // popup was closed
+		
 		this.console = this.popup.document.getElementById("console");
+
 		if(!this.console || !this.popup.window.loaded) {
 			var bind = this;
 			window.setTimeout(function() {bind.log(title,level,message);},200);
@@ -118,5 +124,10 @@ Console = function(element)
 
 Console.popup = function(config)
 {
-	return window.open(config.location,config.name,config.arguments);
+	var options = "";
+	for(var i in config.options)
+		if(typeof config.options[i] != "function")
+			options += i + "=" + config.options[i] + ",";
+
+	return window.open(config.location,config.name,options);
 }
