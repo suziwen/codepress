@@ -46,14 +46,19 @@ CodePress.Plugins.Console = function(element)
 	if(browser.code == 'gecko') this.init();	
 }
 
+Popup = function(config)
+{
+	return window.open(config.location,config.name,config.arguments);
+}
+
 Console = function(element)
 {
-	this.name = "CodePress Console for " + element.id;
-	this.popup = window.open(
-		element.config.plugins_dir + "Console/Console.htm",
-		this.name,
-		"width=450,height=300,scrollbars=no"
-	);
+	this.popup = new Popup({
+		location : element.config.plugins_dir + "Console/Console.htm",
+		name : "CodePress Console for " + element.id,
+		arguments : 'width=450,height=300,scrollbars=no'
+	});
+	
 	this.popup.window.loaded = false;
 	
 	if(!this.popup)
@@ -66,8 +71,8 @@ Console = function(element)
 	{
 		this.console = this.popup.document.getElementById("console");
 		if(!this.console || !this.popup.window.loaded) {
-			var CONSOLE = this;
-			window.setTimeout(function() {CONSOLE.log(title,level,message);},200);
+			var bind = this;
+			window.setTimeout(function() {bind.log(title,level,message);},200);
 			return false;
 		}
 		
