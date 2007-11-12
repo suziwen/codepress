@@ -23,13 +23,13 @@ li.info {
 	background-position:4px center;
 	padding-left:25px;
 }
-li.error {
+li.warning {
 	background-image:url(error.gif);
 	background-repeat:no-repeat;
 	background-position:4px center;
 	padding-left:25px;
 }
-li.error h2 {
+li.warning h2 {
 	color:#FF0000;
 	font-weight:bold;
 }
