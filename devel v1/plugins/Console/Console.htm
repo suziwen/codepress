@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Codepress Console</title>
+<link rel="stylesheet" type="text/css" href="Console.css" />
+<script>
+
+window.loaded = false;
+
+window.onresize = function() {
+	var x = window.innerWidth ? window.innerWidth : window.documentElement.clientWidth-1;
+	var y = window.innerHeight ? window.innerHeight-5 : window.documentElement.clientHeight;
+	document.getElementById("eval").style.width = (x - 39) +"px";
+	document.getElementById("console").style.width = x+"px";
+	document.getElementById("console").style.height = (y - 29)+"px";
+	//var collection = document.getElementsByTagName("li");
+	//for(i=0;i<collection.length;i++) collection[i].style.width = (x-45)+"px";
+	document.getElementById("console").scrollTop = document.getElementById("console").scrollHeight;
+}
+
+document.title = window.name;
+</script>
+</head>
+<body>
+  <h1><script>document.write(window.name);</script></h1>
+  <ul id="console">
+	<li class="info"><h2>Console Loaded</h2></li>
+  </ul>
+  <div id="bottom">
+  	<input type="text" id="eval" />
+  </div>
+</body>
+<script>
+window.onresize();
+window.loaded = true;
+</script>
+</html>
