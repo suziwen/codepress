@@ -1,7 +1,11 @@
 /**
  * CodePress Console Plugin
  * 
- * Usage :
+ * This plugin watch basicly keyevents and engine.highlight calls
+ * It extends the [element] with some methods that allow writing
+ * into the console from outside the plugin
+ * 
+ * Usage
  *		[element].console.info(title[,content])
  *		[element].console.warning(title[,content])
  *		[element].console.log(title[,content[,CSSlevel]])
