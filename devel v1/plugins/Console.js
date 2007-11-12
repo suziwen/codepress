@@ -78,6 +78,7 @@ Console = function(element)
 
 	this.log = function (title,level,message)
 	{
+		if(!this.popup.document) return false; // popup was closed
 		this.console = this.popup.document.getElementById("console");
 		if(!this.console || !this.popup.window.loaded) {
 			var bind = this;
