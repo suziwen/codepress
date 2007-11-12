@@ -1,7 +1,7 @@
 /**
  * CodePress Console Plugin
  * 
- * Usage : [element].log(title[,level[,content]])
+ * Usage : [element].console.log(title[,level[,content]])
  *   CSS level : 
  *		- info
  *		- warning
@@ -14,11 +14,10 @@ CodePress.Plugins.Console = function(element)
 	this.name = "Console beta";
 	this.init = function()
 	{
-		this.console = new Console(element);
+		element.console = new Console(element); // extends element
 		element.event.add("highlight",this.highlightHandler, this);
 		element.event.add("keypress",this.keyHandler, this);
 		element.event.add("keydown",this.keyHandler, this);
-		element.log = this.console.log; // extends element
 	}
 	
 	/**
@@ -40,7 +39,7 @@ CodePress.Plugins.Console = function(element)
 			content += item.name+" : "+item.value + "<br/>";
 		});
 		
-		this.console.log(evt.type+" event","info",content);
+		element.console.log(evt.type+" event","info",content);
 		
 	}
 	
@@ -49,7 +48,7 @@ CodePress.Plugins.Console = function(element)
 	 */
 	this.highlightHandler = function()
 	{
-		this.console.log("highlight","info");
+		element.console.log("highlight","info");
 	}
 	
 	if(browser.code == 'gecko') this.init(); // Only on Gecko for now
