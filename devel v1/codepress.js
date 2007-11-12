@@ -222,9 +222,9 @@ CodePress.Language = function(parent) {
 			],
 			"target" : parent.editor.contentDocument,
 			"onLoaded" : function() {
-				parent.editor.engine.initialize();
 				parent.language.value = language;
 				parent.event.fire("languageChange");
+				parent.editor.engine.initialize();
 			},
 			"onFileMissing" : function() { 
 				alert("CodePress error : " + this.file + " was not found");
