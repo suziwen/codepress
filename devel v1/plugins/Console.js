@@ -66,9 +66,9 @@ Console = function(element)
 		name : "CodePress Console for " + element.type + " #" + element.id,
 		location : element.config.plugins_dir + "Console/Console.htm",
 		options : {
-			'width'			: 450,
-			'height'		: 300,
-			'scrollbars'	: 'yes'
+			'width'      : 450,
+			'height'     : 300,
+			'scrollbars' : 'yes'
 		}
 	});
 	
