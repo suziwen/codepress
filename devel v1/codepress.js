@@ -131,8 +131,8 @@ CodePress.Plugin = function(parent) {
 	
 	this.onpluginsLoad = function() {
 		parent.config.plugins.each(function(pluginname) {
-			if(typeof parent.plugins[pluginname].init == "function")
-				parent.plugins[pluginname].init();
+			if(typeof parent.plugins[pluginname].onpluginsLoad == "function")
+				parent.plugins[pluginname].onpluginsLoad();
 		});
 	}
 
@@ -380,7 +380,7 @@ CodePress.Event = function(parent) {
 		
 		if(this.events[name]) {
 			this.events[name].each(
-				function(fn){fn.call(fn._context,event); }
+				function(fn){fn.call(fn._context,event);}
 			);
 		}
 	}
