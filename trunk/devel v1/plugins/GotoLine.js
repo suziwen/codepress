@@ -8,7 +8,7 @@ CodePress.Plugins.GotoLine = function(element) {
 		{
 			evt.stop();
 			
-			if(element.console) element.console.log("Goto line called","info");
+			if(element.console) element.console.info("Goto line called");
 			
 			var line = window.prompt("Go to line ?");
 			
@@ -21,14 +21,14 @@ CodePress.Plugins.GotoLine = function(element) {
 				
 				if(line > splited.length) {
 					line = splited.length;
-					if(element.console) element.console.log("Line invalid ("+input+"), changed to "+(line),"warning");
+					if(element.console) element.console.warning("Line invalid ("+input+")","Line changed to "+(line));
 				}
 				if(line < 1 || !line) {
 					line = 1;
-					if(element.console) element.console.log("Line invalid ("+input+"), changed to "+(line),"warning");
+					if(element.console) element.console.warning("Line invalid ("+input+")","Line changed to "+(line));
 				}
 				
-				if(element.console) element.console.log("Replace carret to line "+(line),"info");
+				if(element.console) element.console.info("Replace carret to line "+(line));
 				
 				splited[line-1] = element.editor.engine.cc.replace("&","&amp;") + splited[line-1];
 				

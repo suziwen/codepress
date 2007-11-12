@@ -1,10 +1,11 @@
 /**
  * CodePress Console Plugin
  * 
- * Usage : [element].console.log(title[,level[,content]])
- *   CSS level : 
- *		- info
- *		- warning
+ * Usage :
+ *		[element].console.info(title[,content])
+ *		[element].console.warning(title[,content])
+ *		[element].console.log(title[,content[,CSSlevel]])
+ *
  * @author : "Michael Hurni" <michael.hurni@gmail.com>
  */
 
@@ -39,7 +40,7 @@ CodePress.Plugins.Console = function(element)
 			content += item.name+" : "+item.value + "<br/>";
 		});
 		
-		element.console.log(evt.type+" event","info",content);
+		element.console.info(evt.type+" event",content);
 		
 	}
 	
@@ -48,7 +49,7 @@ CodePress.Plugins.Console = function(element)
 	 */
 	this.highlightHandler = function()
 	{
-		element.console.log("highlight","info");
+		element.console.info("highlight");
 	}
 	
 	if(browser.code == 'gecko') this.init(); // Only on Gecko for now
@@ -74,8 +75,16 @@ Console = function(element)
 		alert("Debug console loading fail, check your popup blocker");
 		return null;
 	}
+	
+	this.info = function(title,message) {
+		this.log(title,message,"info");
+	}
 
-	this.log = function (title,level,message)
+	this.warning = function(title,message) {
+		this.log(title,message,"warning");
+	}
+	
+	this.log = function (title,message,level)
 	{
 		if(!this.popup.document) return false; // popup was closed
 		this.console = this.popup.document.getElementById("console");
