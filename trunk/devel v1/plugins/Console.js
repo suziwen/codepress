@@ -1,5 +1,14 @@
-if(!CodePress.Plugins) CodePress.Plugins = {}
+/**
+ * CodePress Console Plugin
+ * 
+ * Usage : [element].log(title[,level[,content]])
+ *   CSS level : 
+ *		- info
+ *		- warning
+ * @author : "Michael Hurni" <michael.hurni@gmail.com>
+ */
 
+if(!CodePress.Plugins) CodePress.Plugins = {}
 CodePress.Plugins.Console = function(element)
 {
 	this.name = "Console beta";
@@ -9,10 +18,11 @@ CodePress.Plugins.Console = function(element)
 		element.event.add("highlight",this.highlightHandler, this);
 		element.event.add("keypress",this.keyHandler, this);
 		element.event.add("keydown",this.keyHandler, this);
+		element.log = this.console.log; // extends element
 	}
 	
 	/**
-	 * Key Handler
+	 * Key Watching
 	 */	
 	this.keyHandler = function(evt)
 	{
@@ -35,25 +45,24 @@ CodePress.Plugins.Console = function(element)
 	}
 	
 	/**
-	 * Highlight Handler
+	 * Highlight Watching 
 	 */
 	this.highlightHandler = function()
 	{
 		this.console.log("highlight","info");
 	}
 	
-	
-	if(browser.code == 'gecko') this.init();	
+	if(browser.code == 'gecko') this.init(); // Only on Gecko for now
 }
 
-Popup = function(config)
-{
-	return window.open(config.location,config.name,config.arguments);
-}
-
+/**
+ * Console Factory
+ * This Class is separated to allow develop of other Console (e.g : inline Console) 
+ */
+ 
 Console = function(element)
 {
-	this.popup = new Popup({
+	this.popup = new Console.popup({
 		location : element.config.plugins_dir + "Console/Console.htm",
 		name : "CodePress Console for " + element.id,
 		arguments : 'width=450,height=300,scrollbars=no'
@@ -96,4 +105,9 @@ Console = function(element)
 		return true;
 	}
 
-};
+}
+
+Console.popup = function(config)
+{
+	return window.open(config.location,config.name,config.arguments);
+}
