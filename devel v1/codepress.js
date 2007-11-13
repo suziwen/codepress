@@ -12,6 +12,17 @@ Object.prototype.extend = function() {
 			arguments[0][property] = this[property];
 	return arguments[0];
 }
+/**
+ * Detect the extension of a file url
+ * @param compare (optional)
+ * @return the extension as string or a boolean if an extension to compare is given in argument
+ */
+String.prototype.extension = function(compare)
+{
+	var part = this.split("?")[0].split(".");
+	var extension = part[part.length-1];
+	return compare?compare==extension:extension;
+}
 
 Array.prototype.each = Object.prototype.each = function(fn, bind){
 	var array = new Array();
@@ -348,7 +359,7 @@ CodePress.Util = function(parent) {
 		}
 		
 		loader.include = function() {
-			if(loader.file.substr(loader.file.length-3,3)==".js") {
+			if(loader.file.extension("js")) {
 				var script = loader.target.createElement("script");
 				script.type = "text/javascript";
 				script.onreadystatechange = function() {
@@ -360,7 +371,7 @@ CodePress.Util = function(parent) {
 				loader.head.appendChild(script);	
 				return true;
 			}
-			if(loader.file.substr(loader.file.length-4,4)==".css") {
+			if(loader.file.extension("css")) {
 				var style = loader.target.createElement("link");
 				style.rel = "stylesheet";
 				style.type = "text/css";
