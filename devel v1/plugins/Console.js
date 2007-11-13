@@ -8,7 +8,7 @@
  * Usage
  *		[element].console.info(title[,content])
  *		[element].console.warning(title[,content])
- *		[element].console.log(title[,content[,CSSlevel]])
+ *		[element].console.log(title[,content[,CSSlevel = 'info']])
  *
  * @author : "Michael Hurni" <michael.hurni@gmail.com>
  */
@@ -106,7 +106,7 @@ Console = function(element)
 		}
 		
 		var item = document.createElement("li");
-		item.className = level;
+		item.className = level || 'info';
 		
 		var titleElement = document.createElement("h2");
 		titleElement.innerHTML = title;
