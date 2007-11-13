@@ -37,6 +37,14 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
 	element.config = null;
 	element.config = config || {};
 	element.config = CodePress.Config.extend(element.config);
+	
+	// Console is improved by the Console plugin if loaded :)
+	// Else only [element].console.error is implemented
+	element.console = {
+		info 	: function() {},
+		warning : function() {},
+		error 	: function(title,message) {alert(title+"\n"+message);}
+	}
 
 	element.util = new CodePress.Util(element);
 	element.window = new CodePress.Window(element);
@@ -84,7 +92,7 @@ CodePress.Plugin = function(parent) {
 		var bind = this;
 		new parent.util.Loader({
 			'file' : parent.config.plugins_dir + name + ".js",
-			'onFileMissing' : function() { bind.remove(name); alert("CodePress error : " + this.file + " was not found"); },
+			'onFileMissing' : function() { bind.remove(name); parent.console.error("CodePress error",this.file + " was not found"); },
 			'onLoaded' : function() { bind.register(name); }
 		}); 
 	}
@@ -190,7 +198,7 @@ CodePress.Editor = function(parent) {
 		],
 		"target" : self.contentDocument,
 		"onFileMissing" : function() { 
-			alert("CodePress error : " + this.file + " was not found");
+			parent.console.error("CodePress error",this.file + " was not found");
 				// hide cp frame
 				// display parent
 				// fire all plugin onUnLoad
@@ -227,7 +235,7 @@ CodePress.Language = function(parent) {
 				parent.editor.engine.initialize();
 			},
 			"onFileMissing" : function() { 
-				alert("CodePress error : " + this.file + " was not found");
+				parent.console.error("CodePress error",this.file + " was not found");
 					// hide cp frame
 					// display parent
 					// fire all plugin onUnLoad
