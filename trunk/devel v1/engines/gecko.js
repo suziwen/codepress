@@ -20,7 +20,13 @@ Array.prototype.each = Object.prototype.each = function(fn, bind){
 	for (var i = 0, j = this.length; i < j; i++) array[i] = this[i];
 	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, array[i], i, this);
 }
- 
+
+Event.prototype.fromChar = function(compare)
+{
+	var fromChar = String.fromCharCode(this.charCode);
+	return (compare) ? compare == fromChar : fromChar;
+}
+
 CodePress = {}
 Language = {}
 
@@ -119,12 +125,12 @@ CodePress.Engine = function(element) {
 	},
 	
 	engine.keyHandler = function(evt) {
-		element.event.fire("keypress",evt);
 		
     	keyCode = evt.keyCode;	
 		charCode = evt.charCode;
-		fromChar = String.fromCharCode(charCode);
+		fromChar = evt.fromChar();
 		
+		element.event.fire("keypress",evt);
 		/*
 		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			engine.shortcuts(charCode?charCode:keyCode);
