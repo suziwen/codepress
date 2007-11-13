@@ -17,7 +17,7 @@ if(!CodePress.Plugins) CodePress.Plugins = {}
 CodePress.Plugins.Console = function(element)
 {
 	this.name = "Console beta";
-	this
+
 	this.init = function()
 	{
 		element.console = new Console(element); // extends element
@@ -101,7 +101,7 @@ Console = function(element)
 
 		if(!this.console || !this.popup.window.loaded) {
 			var bind = this;
-			window.setTimeout(function() {bind.log(title,level,message);},200);
+			window.setTimeout(function() {bind.log(title,message,level);},200);
 			return false;
 		}
 		
