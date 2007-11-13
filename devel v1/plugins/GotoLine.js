@@ -14,7 +14,7 @@ CodePress.Plugins.GotoLine = function(element) {
 
 	this.keyHandler = function(evt)
 	{
-		if(evt.fromChar("g") && evt.ctrlKey) // from Char
+		if(evt.toChar("g") && evt.ctrlKey) // from Char
 		{
 			evt.stop();		
 			if(element.console) element.console.info("Goto line called");	

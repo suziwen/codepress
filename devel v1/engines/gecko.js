@@ -21,10 +21,10 @@ Array.prototype.each = Object.prototype.each = function(fn, bind){
 	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, array[i], i, this);
 }
 
-Event.prototype.fromChar = function(compare)
+Event.prototype.toChar = function(compare)
 {
-	var fromChar = String.fromCharCode(this.charCode);
-	return (compare) ? compare == fromChar : fromChar;
+	var toChar = String.fromCharCode(this.charCode);
+	return (compare) ? compare == toChar : toChar;
 }
 
 CodePress = {}
@@ -72,7 +72,7 @@ CodePress.Engine = function(element) {
 		}
 		element.event.fire("highlight");
 		
-		editor = engine.getEditor();
+		var editor = engine.getEditor();
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
@@ -126,16 +126,16 @@ CodePress.Engine = function(element) {
 	
 	engine.keyHandler = function(evt) {
 		
-    	keyCode = evt.keyCode;	
-		charCode = evt.charCode;
-		fromChar = evt.fromChar();
+    	var keyCode = evt.keyCode;	
+		var charCode = evt.charCode;
+		var toChar = evt.toChar();
 		
 		element.event.fire("keypress",evt);
 		/*
-		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode!=90)  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
+		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && toChar!="z")  { // shortcuts = ctrl||appleKey+shift+key!=z(undo) 
 			engine.shortcuts(charCode?charCode:keyCode);
 		}
-		else if( (completeEndingChars.indexOf('|'+fromChar+'|')!= -1 || completeChars.indexOf('|'+fromChar+'|')!=-1) && CodePress.autocomplete) { // auto complete
+		else if( (completeEndingChars.indexOf('|'+toChar+'|')!= -1 || completeChars.indexOf('|'+toChar+'|')!=-1) && CodePress.autocomplete) { // auto complete
 			if(!CodePress.completeEnding(fromChar))
 			     CodePress.complete(fromChar);
 		}
