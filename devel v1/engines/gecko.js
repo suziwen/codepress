@@ -45,7 +45,7 @@ CodePress.Engine = function(element) {
 		},false);
  		
 		chars 		= '|32|46|62|9|'; // charcodes that trigger syntax highlighting
-		engine.cc 	= '&#2038;'; 	// caret char
+		engine.cc 	= '\u2009'; 	// caret char
 		engine.ls 	= '<br>';		// lines separator
 			
 		// completeChars = this.getCompleteChars();
