@@ -16,7 +16,7 @@
 if(!CodePress.Plugins) CodePress.Plugins = {}
 CodePress.Plugins.Console = function(element)
 {
-	this.name = "Console beta";
+	this.name = "CodePress Advanced Console";
 
 	this.init = function()
 	{
@@ -128,7 +128,6 @@ Console = function(element)
 		
 		this.console.appendChild(item);
 		this.popup.window.onresize();
-		this.console.scrollTop = this.console.scrollHeight;
 		return true;
 	}
 
