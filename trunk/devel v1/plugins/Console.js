@@ -41,7 +41,7 @@ CodePress.Plugins.Console = function(element)
 	{
 		var items = [
 			{"name" : "keycode" , "value" : evt.keyCode },
-			{"name" : "charcode", "value" : evt.charCode ? evt.charCode+" ("+String.fromCharCode(evt.charCode)+")":0},
+			{"name" : "charcode", "value" : evt.charCode ? evt.charCode+" ("+evt.fromChar()+")":0},
 			{"name" : "ctrlKey" , "value" : evt.ctrlKey  ? "true" : "false"},
 			{"name" : "metaKey" , "value" : evt.metaKey  ? "true" : "false"},
 			{"name" : "shiftKey", "value" : evt.shiftKey ? "true" : "false"},
