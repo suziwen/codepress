@@ -31,7 +31,7 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
  */
 
  CodePress = function(config) {
-	element = config.element || false; // <textarea> for editor OR <code> for readonly
+	var element = config.element || false; // <textarea> for editor OR <code> for readonly
 	if(element.type != "textarea" && element.type != "code") return false;
 	
 	element.config = null;
@@ -124,7 +124,7 @@ CodePress.Plugin = function(parent) {
 		var loaded = true;
 		parent.config.plugins.each(function(pluginname) {
 			if(!parent.plugins[pluginname]) loaded = false;
-		});
+		},this);
 		if(loaded) return this.onpluginsLoad();
 		else top.setTimeout(function(){ parent.plugin.fireLoad();},100);
 	}
@@ -206,7 +206,7 @@ CodePress.Editor = function(parent) {
 
 CodePress.Language = function(parent) {
 	parent.language = this;
-	element = parent;
+	var element = parent;
 	
 	/**
 	 * Set the editor language
@@ -255,7 +255,7 @@ CodePress.Language = function(parent) {
 
 CodePress.Engine = function(parent) {
 	parent.engine = this;
-	element = parent;
+	var element = parent;
 	parent.editor.engine = new parent.editor.contentWindow.CodePress.Engine(parent);
 		
 	this.getCode = function() {
@@ -373,7 +373,7 @@ CodePress.Event = function(parent) {
 	}
 	
 	this.fire = function(name,evt) {
-		event = evt || {};
+		var event = evt || {};
 		event.stop = function() {
 			if(browser.code=="gecko") event.preventDefault();
 			if(browser.code=="msie") event.returnValue = false; 
