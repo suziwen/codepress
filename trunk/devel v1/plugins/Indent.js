@@ -7,7 +7,9 @@ CodePress.Plugins.Indent = function(element) {
 	
 	this.init = function()
 	{
+		this.sameKeyCode = false;
 		this.lastKeyCode = false;
+		this.currentKeyCode = false;
 				
 		element.event.add("highlight",this.highlightHandler, this);
 		element.event.add("keypress",this.keyHandler, this);
@@ -20,7 +22,9 @@ CodePress.Plugins.Indent = function(element) {
 	this.keyHandler = function(evt)
 	{
 		if(evt.keyCode==13) evt.stop();
+		this.sameKeyCode = (this.lastKeyCode==evt.keyCode);
 		this.lastKeyCode = evt.keyCode;
+		this.currentKeyCode = evt.keyCode;
 	}
 	
 	/**
@@ -28,14 +32,15 @@ CodePress.Plugins.Indent = function(element) {
 	 */
 	this.highlightHandler = function()
 	{
-		if(this.lastKeyCode == 13)
+		if(this.currentKeyCode == 13)
 		{
-			if(!this.cc) this.cc = element.editor.engine.cc.replace("&","&amp;");
+			if(!this.cc) this.cc = element.editor.engine.cc;
 			var code = element.editor.engine.getEditor().innerHTML;
-			code = code.replace(this.cc,element.editor.engine.ls+this.getIndent(code)+this.cc);
+			this.indent = (this.sameKeyCode?this.indent:this.getIndent(code));
+			code = code.replace(this.cc,element.editor.engine.ls+this.indent+this.cc);
 			element.editor.engine.getEditor().innerHTML = code;
 		}
-		this.lastKeyCode = false;
+		this.currentKeyCode = false;
 	}
 	
 	/**
