@@ -1,7 +1,7 @@
 /** 
  * CodePress Core
  * @authors : Fernando Miçalli, Michael Hurni
- * @version : 1.0.0a5
+ * @version : 1.0.0a6
  */
  
 CODEPRESS_ENCODED_CONTENT = 1;
@@ -30,7 +30,8 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
  * CodePress Core constructor
  */
 
- CodePress = function(config) {
+ CodePress = function(config)
+ {
 	var element = config.element || false; // <textarea> for editor OR <code> for readonly
 	if(element.type != "textarea" && element.type != "code") return false;
 	
@@ -45,31 +46,35 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
 	element.event 	= new CodePress.Event(element);
 	element.plugin 	= new CodePress.Plugin(element);	
 	
-	element.plugin.fireLoad(); // when all is loaded, fire the plugins
 	return element;
 }
 
 /**
- * Native Codepress.Console
+ * Native CodePress.Console
  * Usage
  *		[element].console.log(title[,content])
  *		[element].console.info(title[,content])
  *		[element].console.warning(title[,content])
  *		[element].console.error(title[,content])
  * 
- * Only error are alerted if config.debug != true
+ * Only error messages are alerted if config.debug != true
  */
- 
 CodePress.Console = function(parent)
 {
+	this.error = function(title,msg) {
+		alert(title+(msg?"\n"+msg:""));
+	}
+	
+	/**
+	 * Alert if config.debug is true
+	 * @param title 
+	 * @param msg (optional) 
+	 */
 	this.log = this.info = this.warning = function(title,msg)
 	{
 		if(parent.config.debug===true) {
 			alert(title+(msg?"\n"+msg:""));
 		}
-	}
-	this.error = function(title,msg) {
-		alert(title+(msg?"\n"+msg:""));
 	}
 }
 
@@ -110,7 +115,10 @@ CodePress.Plugin = function(parent) {
 		var bind = this;
 		new parent.util.Loader({
 			'file' : parent.config.plugins_dir + name + ".js",
-			'onFileMissing' : function() { bind.remove(name); parent.console.error("CodePress error",this.file + " was not found"); },
+			'onFileMissing' : function() { 
+				bind.remove(name); 
+				parent.console.error("CodePress error",this.file + " was not found");
+			},
 			'onLoaded' : function() { bind.register(name); }
 		}); 
 	}
@@ -166,6 +174,8 @@ CodePress.Plugin = function(parent) {
 	parent.config.plugins.each(function(pluginname) {
 		this.load.call(this,pluginname);
 	},this);
+	
+	this.fireLoad();
 }
 
 CodePress.Window = function(element) {
