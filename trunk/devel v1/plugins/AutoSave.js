@@ -44,8 +44,7 @@ CodePress.Plugins.AutoSave = function(element) {
 		var time = new Date();
 		this.lastSave = time.getTime();
 		
-		alert("Saving...");
-		// Here your script //
+		element.console.info("Saving...");
 	}
 	
 	this.getLastSave = function()

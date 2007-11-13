@@ -1,13 +1,13 @@
 /**
- * CodePress Console Plugin
+ * CodePress Advanced Console Plugin
  * 
  * This plugin watch basicly keyevents, engine.highlight calls, language change.
- * It extends the [element] with some methods that allow writing
- * into the console from outside the plugin
+ * It improve the native console using a popup 
  * 
  * Usage
  *		[element].console.info(title[,content])
  *		[element].console.warning(title[,content])
+ *		[element].console.error(title[,content])
  *		[element].console.log(title[,content[,CSSlevel = 'info']])
  *
  * @author : "Michael Hurni" <michael.hurni@gmail.com>
@@ -20,7 +20,7 @@ CodePress.Plugins.Console = function(element)
 
 	this.init = function()
 	{
-		element.console = new Console(element); // extends element
+		element.console = new Console(element); // overwrite the native console
 		
 		element.event.add("highlight",function() {
 			element.console.info("highlight");
@@ -92,6 +92,11 @@ Console = function(element)
 
 	this.warning = function(title,message) {
 		this.log(title,message,"warning");
+	}
+
+	this.error = function(title,message) {
+		this.log(title,message,"warning");
+		alert(title+"\n"+message);
 	}
 	
 	this.log = function (title,message,level)
