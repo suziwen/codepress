@@ -26,12 +26,13 @@ CodePress.Plugins.Console = function(element)
 			element.console.info("highlight");
 		},this);
 		
+		element.event.add("keypress",this.keyHandler, this);
+		element.event.add("keydown",this.keyHandler, this);
+		
 		element.event.add("languageChange",function() {
 			element.console.info("Language changed to " + element.language.value);
 		},this);
 		
-		element.event.add("keypress",this.keyHandler, this);
-		element.event.add("keydown",this.keyHandler, this);
 	}
 	
 	/**
