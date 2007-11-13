@@ -38,22 +38,39 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
 	element.config = config || {};
 	element.config = CodePress.Config.extend(element.config);
 	
-	// Console is improved by the Console plugin if loaded :)
-	// Else only [element].console.error is implemented
-	element.console = {
-		info 	: function() {},
-		warning : function() {},
-		error 	: function(title,message) {alert(title+"\n"+message);}
-	}
-
-	element.util = new CodePress.Util(element);
-	element.window = new CodePress.Window(element);
-	element.editor = new CodePress.Editor(element);
-	element.event = new CodePress.Event(element);
-
-	element.plugin = new CodePress.Plugin(element);	
+	element.console = new CodePress.Console(element);
+	element.util 	= new CodePress.Util(element);
+	element.window 	= new CodePress.Window(element);
+	element.editor 	= new CodePress.Editor(element);
+	element.event 	= new CodePress.Event(element);
+	element.plugin 	= new CodePress.Plugin(element);	
+	
 	element.plugin.fireLoad(); // when all is loaded, fire the plugins
 	return element;
+}
+
+/**
+ * Native Codepress.Console
+ * Usage
+ *		[element].console.log(title[,content])
+ *		[element].console.info(title[,content])
+ *		[element].console.warning(title[,content])
+ *		[element].console.error(title[,content])
+ * 
+ * Only error are alerted if config.debug != true
+ */
+ 
+CodePress.Console = function(parent)
+{
+	this.log = this.info = this.warning = function(title,msg)
+	{
+		if(parent.config.debug===true) {
+			alert(title+(msg?"\n"+msg:""));
+		}
+	}
+	this.error = function(title,msg) {
+		alert(title+(msg?"\n"+msg:""));
+	}
 }
 
 CodePress.Plugins = {}
@@ -75,7 +92,8 @@ CodePress.Config = {
 			"generic"
 		)
 	},
-	"gui_lang" : "en"
+	"gui_lang" : "en",
+	"debug" : false
 }
 
 /**
