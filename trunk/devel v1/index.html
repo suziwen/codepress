@@ -49,8 +49,8 @@ else window.addEventListener('DOMContentLoaded',CodePress.run,false);
 	echo "this is php";
 	// PHP Comment
 ?&gt;</textarea><hr/>
-<button onclick='alert(document.getElementById("test2").engine.getCode());'>alert engine.getCode()</button><hr/>
-<textarea class="codepress php" id="test2" style="height:200px; width:550px;">&lt;?php
+<button onclick='document.getElementById("test2").codepress();'>Start CodePress</button><hr/>
+<textarea class="php" id="test2" style="height:200px; width:550px;">&lt;?php
 	echo "this is php";
 	// PHP Comment
 ?&gt;</textarea>

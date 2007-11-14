@@ -12,6 +12,7 @@ Object.prototype.extend = function() {
 			arguments[0][property] = this[property];
 	return arguments[0];
 }
+
 /**
  * Detect the extension of a file url
  * @param compare (optional)
@@ -24,18 +25,43 @@ String.prototype.extension = function(compare)
 	return compare?compare==extension:extension;
 }
 
+/**
+ * Some useful Array prototypes
+ */
 Array.prototype.each = Object.prototype.each = function(fn, bind){
-	var array = new Array();
-	for (var i = 0, j = this.length; i < j; i++) array[i] = this[i];
-	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, array[i], i, this);
+	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, this[i], i, this);
+}
+
+Array.prototype.copy = function(start, length){
+	start = start || 0;
+	if (start < 0) start = this.length + start;
+	length = length || (this.length - start);
+	var newArray = [];
+	for (var i = 0; i < length; i++) newArray[i] = this[start++];
+	return newArray;
+}
+
+Array.prototype.remove = function(item){
+	for(var i=this.length; i--;) (this[i] === item) && this.splice(i, 1);
+	return this;
+}
+
+/**
+ * HTMLElement element prototype
+ * to allow textarea.codepress() for loading
+ */
+HTMLElement.prototype.codepress = function() {
+	options = arguments[0] || {};
+	options.element = this;
+	return new CodePress(options);
 }
 
 var browser = {};
 var ua = navigator.userAgent;	
-if(ua.match('MSIE')) browser.code = 'msie';
-else if(ua.match('KHTML')) browser.code = 'khtml'; 
-else if(ua.match('Opera')) browser.code = 'opera'; 
-else if(ua.match('Gecko')) browser.code = 'gecko';
+if(ua.match('MSIE')) {browser.msie = true; browser.code = "msie"}
+else if(ua.match('KHTML')) {browser.khtml = true; browser.code = "khtml"}
+else if(ua.match('Opera')) {browser.opera = true; browser.code = "opera"}
+else if(ua.match('Gecko')) {browser.gecko = true; browser.code = "gecko"}
 
 /**
  * CodePress Core constructor
@@ -44,7 +70,7 @@ else if(ua.match('Gecko')) browser.code = 'gecko';
  CodePress = function(config)
  {
 	var element = config.element || false; // <textarea> for editor OR <code> for readonly
-	if(element.type != "textarea" && element.type != "code") return false;
+	if(element.type != "textarea" && element.type != "code") return element;
 	
 	element.config = null;
 	element.config = config || {};
@@ -127,7 +153,7 @@ CodePress.Plugin = function(parent) {
 		new parent.util.Loader({
 			'file' : parent.config.plugins_dir + name + ".js",
 			'onFileMissing' : function() { 
-				bind.remove(name); 
+				parent.config.plugins.remove(name);
 				parent.console.error("CodePress error",this.file + " was not found");
 			},
 			'onLoaded' : function() { bind.register(name); }
@@ -154,17 +180,6 @@ CodePress.Plugin = function(parent) {
 		return (typeof CodePress.Plugins[name]=="function");
 	}
 
-	/**
-	 * Remove a plugin to the config.plugins list
-	 * @param name string Name of the plugin to remove
-	 */
-	this.remove = function(name) {
-		var index = parent.config.plugins.length+1;
-		while (index--)
-			if (parent.config.plugins[index] == name)
-				parent.config.plugins.splice(index,1);
-	}
-
 	this.fireLoad = function() {
 		var loaded = true;
 		parent.config.plugins.each(function(pluginname) {
@@ -182,7 +197,7 @@ CodePress.Plugin = function(parent) {
 	}
 
 	// this code will load and register all plugins	
-	parent.config.plugins.each(function(pluginname) {
+	parent.config.plugins.copy().each(function(pluginname) {
 		this.load.call(this,pluginname);
 	},this);
 	
@@ -422,8 +437,8 @@ CodePress.Event = function(parent) {
 	this.fire = function(name,evt) {
 		var event = evt || {};
 		event.stop = function() {
-			if(browser.code=="gecko") event.preventDefault();
-			if(browser.code=="msie") event.returnValue = false; 
+			if(browser.gecko) event.preventDefault();
+			if(browser.msie) event.returnValue = false; 
 		}
 		
 		if(this.events[name]) {
@@ -432,5 +447,4 @@ CodePress.Event = function(parent) {
 			);
 		}
 	}
-
 }
