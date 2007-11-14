@@ -47,13 +47,17 @@ Array.prototype.remove = function(item){
 }
 
 /**
- * HTMLElement element prototype
- * to allow textarea.codepress() for loading
+ * HTMLElement element prototypes
  */
 HTMLElement.prototype.codepress = function() {
 	options = arguments[0] || {};
 	options.element = this;
 	return new CodePress(options);
+}
+
+HTMLElement.prototype.styles = function(option) {
+	for(var property in option)
+		this.style[property] = option[property];
 }
 
 var browser = {};
@@ -208,17 +212,13 @@ CodePress.Window = function(element) {
 	var self = document.createElement('div');
 
 	element.disabled = true;
-	element.util.setCSS(element, {
-		'overflow'	: 'hidden'
+	element.style.overflow = 'hidden';
+	self.styles({
+		'border' : '1px solid gray',
+		'width'	 : element.clientWidth + 'px',
+		'height' : element.clientHeight + 'px'
 	});
-	element.util.setCSS(self, {
-		'border'	: '1px solid gray',
-		'width'	 	: element.clientWidth + 'px',
-		'height'	: element.clientHeight + 'px'
-	});
-	element.util.setCSS(element, {
-		'display'	: 'none'
-	});
+	element.style.display = 'none';
 	element.parentNode.insertBefore(self, element);	
 	return self;
 }
@@ -229,7 +229,7 @@ CodePress.Window = function(element) {
 CodePress.Editor = function(parent) {
 	var self = document.createElement('iframe');
 
-	parent.util.setCSS(self,{
+	self.styles({
 		'width'	 : '100%',
 		'height' : '100%',
 		'border' : 0
@@ -330,11 +330,8 @@ CodePress.Engine = function(parent) {
 	this.setCode(element.innerHTML,CODEPRESS_ENCODED_CONTENT);
 }
 
-CodePress.Util = function(parent) {
-	this.setCSS = function(elmt,option) {
-		for(var property in option)
-			elmt.style[property] = option[property];
-	}
+CodePress.Util = function(parent)
+{
 	this.Ajax = function()
 	{
 		if(window.XMLHttpRequest) {
@@ -353,7 +350,7 @@ CodePress.Util = function(parent) {
 		
 		loader.onFileMissing = params.onFileMissing || function() {};
 		loader.onLoaded = params.onLoaded || function() {};
-		loader.head = loader.target.getElementsByTagName('head')[0];
+		loader.target.head = loader.target.getElementsByTagName('head')[0];
 
 		if(!loader.file)
 		{
@@ -364,9 +361,7 @@ CodePress.Util = function(parent) {
 			{
 				loader.file = params.queue[0];
 				params.queue.splice(0,1);
-				if(loader.file) {
-					loader.ajaxQuery();
-				}
+				if(loader.file) loader.ajaxQuery();
 				else if(params.onLoaded) {
 					params.onLoaded();
 				}
@@ -378,12 +373,11 @@ CodePress.Util = function(parent) {
 				var script = loader.target.createElement("script");
 				script.type = "text/javascript";
 				script.onreadystatechange = function() {
-					if (this.readyState == 'complete') 
-						loader.onLoaded();
+					if (this.readyState == 'complete') loader.onLoaded();
 				}
 				script.src = loader.file;
 				script.onload = loader.onLoaded;
-				loader.head.appendChild(script);	
+				loader.target.head.appendChild(script);	
 				return true;
 			}
 			if(loader.file.extension("css")) {
@@ -393,7 +387,7 @@ CodePress.Util = function(parent) {
 				style.media = "screen";
 				style.href = loader.file;
 				style.src = loader.file;
-				loader.head.appendChild(style);
+				loader.target.head.appendChild(style);
 				loader.onLoaded();
 				return true;
 			}
