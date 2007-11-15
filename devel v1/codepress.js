@@ -46,20 +46,6 @@ Array.prototype.remove = function(item){
 	return this;
 }
 
-/**
- * HTMLElement element prototypes
- */
-HTMLElement.prototype.codepress = function() {
-	options = arguments[0] || {};
-	options.element = this;
-	return new CodePress(options);
-}
-
-HTMLElement.prototype.styles = function(option) {
-	for(var property in option)
-		this.style[property] = option[property];
-}
-
 var browser = {};
 var ua = navigator.userAgent;	
 if(ua.match('MSIE')) {browser.msie = true; browser.code = "msie"}
@@ -80,43 +66,12 @@ else if(ua.match('Gecko')) {browser.gecko = true; browser.code = "gecko"}
 	element.config = config || {};
 	element.config = CodePress.Config.extend(element.config);
 	
-	element.console = new CodePress.Console(element);
 	element.util 	= new CodePress.Util(element);
 	element.window 	= new CodePress.Window(element);
 	element.editor 	= new CodePress.Editor(element);
-	element.event 	= new CodePress.Event(element);
 	element.plugin 	= new CodePress.Plugin(element);	
 	
 	return element;
-}
-
-/**
- * Native CodePress.Console
- * Usage
- *		[element].console.log(title[,content])
- *		[element].console.info(title[,content])
- *		[element].console.warning(title[,content])
- *		[element].console.error(title[,content])
- * 
- * Only error messages are alerted if config.debug != true
- */
-CodePress.Console = function(parent)
-{
-	this.error = function(title,msg) {
-		alert(title+(msg?"\n"+msg:""));
-	}
-	
-	/**
-	 * Alert if config.debug is true
-	 * @param title 
-	 * @param msg (optional) 
-	 */
-	this.log = this.info = this.warning = function(title,msg)
-	{
-		if(parent.config.debug===true) {
-			alert(title+(msg?"\n"+msg:""));
-		}
-	}
 }
 
 CodePress.Plugins = {}
@@ -213,7 +168,7 @@ CodePress.Window = function(element) {
 
 	element.disabled = true;
 	element.style.overflow = 'hidden';
-	self.styles({
+	element.util.css(self,{
 		'border' : '1px solid gray',
 		'width'	 : element.clientWidth + 'px',
 		'height' : element.clientHeight + 'px'
@@ -229,7 +184,7 @@ CodePress.Window = function(element) {
 CodePress.Editor = function(parent) {
 	var self = document.createElement('iframe');
 
-	self.styles({
+	parent.util.css(self,{
 		'width'	 : '100%',
 		'height' : '100%',
 		'border' : 0
@@ -315,7 +270,7 @@ CodePress.Language = function(parent) {
 	
 }
 
-CodePress.Engine = function(parent) {
+CodePress.Engine = function(parent){
 	parent.engine = this;
 	var element = parent;
 	parent.editor.engine = new parent.editor.contentWindow.CodePress.Engine(parent);
@@ -332,6 +287,11 @@ CodePress.Engine = function(parent) {
 
 CodePress.Util = function(parent)
 {
+	this.css = function(element,options) {
+		for(var property in options)
+			element.style[property] = options[property];
+	}
+
 	this.Ajax = function()
 	{
 		if(window.XMLHttpRequest) {
@@ -416,29 +376,76 @@ CodePress.Util = function(parent)
 		return this;
 	}
 
-}
-
-CodePress.Event = function(parent) {
-	this.name = "Event Manager";
-	this.events = new Object();
-	
-	this.add = function(name,fn,context) {
+	parent.event = {};
+	parent.event.list = new Object();
+	parent.event.add = function(name,fn,context)
+	{
 		fn._context = context;
-		if (typeof this.events[name] == "undefined") this.events[name] = new Array();
-		this.events[name].push(fn);
-	}
-	
-	this.fire = function(name,evt) {
-		var event = evt || {};
-		event.stop = function() {
-			if(browser.gecko) event.preventDefault();
-			if(browser.msie) event.returnValue = false; 
+		if (typeof parent.event.list[name] == "undefined") {
+			parent.event.list[name] = new Array();
 		}
-		
-		if(this.events[name]) {
-			this.events[name].each(
-				function(fn){fn.call(fn._context,event);}
+		parent.event.list[name].push(fn);
+	}
+	parent.event.fire = function(name,evt)
+	{
+		var event = evt || {};
+		if(parent.event.list[name]) {
+			parent.event.list[name].each(
+				function(fn){fn.call(fn._context,new CodePress.Event(event));}
 			);
 		}
 	}
+	
+	/**
+	 * Native CodePress.Console
+	 * Usage
+	 *		[element].console.log(title[,content])
+	 *		[element].console.info(title[,content])
+	 *		[element].console.warning(title[,content])
+	 *		[element].console.error(title[,content])
+	 * 
+	 * Only error messages are alerted if config.debug != true
+	 */	
+	parent.console = {}
+	parent.console.error = function(title,msg)
+	{
+		alert(title+(msg?"\n"+msg:""));
+	};
+	
+	/**
+	 * Alert if config.debug is true
+	 * @param title 
+	 * @param msg (optional) 
+	 */
+	parent.console.log = parent.console.info = parent.console.warning = function(title,msg)
+	{
+		if(parent.config.debug===true) {
+			alert(title+(msg?"\n"+msg:""));
+		}
+	}
+}
+
+
+CodePress.Event = function(event){
+	event.stop = function(){
+		if(browser.gecko) event.preventDefault();
+		if(browser.msie) event.returnValue = false; 
+	}
+	event.toChar = function(compare){
+		var charCode = (browser.msie) ? event.keyCode : event.charCode;
+		var toChar = String.fromCharCode(charCode).toLowerCase();
+		return (compare) ? compare == toChar : toChar;
+	}
+	event.shortcut = function(compare){
+		var compose = new Array();
+		if(event.ctrlKey)  compose.push("ctrl");
+		if(event.metaKey)  compose.push("apple");
+		if(event.altKey)   compose.push("alt");
+		if(event.shiftKey) compose.push("shift");
+		if(event.toChar()) compose.push(event.toChar());
+		
+		var shortcut = compose.join("+");
+		return (compare) ? compare == shortcut : shortcut;
+	}
+	return event;
 }

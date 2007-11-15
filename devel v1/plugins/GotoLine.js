@@ -12,13 +12,13 @@ Number.prototype.limit = function(min,max)
 
 CodePress.Plugins.GotoLine = function(element) {
 
-	this.keyHandler = function(evt)
+	this.keyHandler = function(event)
 	{
-		if(evt.toChar("g") && evt.ctrlKey) // from Char
+		if(event.shortcut("ctrl+g"))
 		{
-			evt.stop();		
+			event.stop();		
 			element.console.info("Goto line called");	
-			var line = window.prompt("Go to line ?");
+			var line = window.prompt("Go to line ?","");
 			
 			if(line!=null)
 			{
@@ -34,7 +34,7 @@ CodePress.Plugins.GotoLine = function(element) {
 					
 					element.console.info("Replace carret to line "+(line));
 					
-					splited[line-1] = element.editor.engine.cc.replace("&","&amp;") + splited[line-1];	
+					splited[line-1] = element.editor.engine.cc + splited[line-1];	
 					element.editor.engine.getEditor().innerHTML = splited.join(element.editor.engine.ls);
 					element.editor.engine.findCaret();
 				}

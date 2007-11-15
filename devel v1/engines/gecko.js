@@ -21,12 +21,6 @@ Array.prototype.each = Object.prototype.each = function(fn, bind){
 	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, array[i], i, this);
 }
 
-Event.prototype.toChar = function(compare)
-{
-	var toChar = String.fromCharCode(this.charCode);
-	return (compare) ? compare == toChar : toChar;
-}
-
 CodePress = {}
 Language = {}
 
@@ -128,7 +122,6 @@ CodePress.Engine = function(element) {
 		
     	var keyCode = evt.keyCode;	
 		var charCode = evt.charCode;
-		var toChar = evt.toChar();
 		
 		element.event.fire("keypress",evt);
 		/*

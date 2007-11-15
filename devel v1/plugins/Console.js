@@ -46,7 +46,8 @@ CodePress.Plugins.Console = function(element)
 			{"name" : "ctrlKey" , "value" : evt.ctrlKey  ? "true" : "false"},
 			{"name" : "metaKey" , "value" : evt.metaKey  ? "true" : "false"},
 			{"name" : "shiftKey", "value" : evt.shiftKey ? "true" : "false"},
-			{"name" : "altKey"  , "value" : evt.altKey ? "true" : "false"}
+			{"name" : "altKey"  , "value" : evt.altKey ? "true" : "false"},
+			{"name" : "shortcut"  , "value" : evt.shortcut(false)}
 		];
 		
 		var content = "";
