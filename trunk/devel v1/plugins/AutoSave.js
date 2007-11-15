@@ -19,20 +19,17 @@ CodePress.Plugins.AutoSave = function(element) {
 		element.event.add("keydown",this.keyHandler, this);
 	}
 
-	this.keyHandler = function(evt)
+	this.keyHandler = function(event)
 	{	
-		if(	evt.charCode==115 && evt.ctrlKey || 	// Gecko
-			evt.keyCode==83 && evt.ctrlKey)			// Msie
-		{
-			evt.stop();
+		if(event.shortcut("ctrl+s")) {
+			event.stop();
 			this.save();
 		}
 		
 		else if(this.periodicalSave)
 		{
 			var time = new Date();
-			if(time.getTime() > (this.getLastSave() + this.periodicalDelay))
-			{
+			if(time.getTime() > (this.getLastSave() + this.periodicalDelay)) {
 				this.save();
 			}
 		}	
@@ -45,6 +42,7 @@ CodePress.Plugins.AutoSave = function(element) {
 		this.lastSave = time.getTime();
 		
 		element.console.info("Saving...");
+		alert("Saving...");
 	}
 	
 	this.getLastSave = function()
