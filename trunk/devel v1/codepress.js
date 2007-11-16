@@ -46,6 +46,10 @@ Array.prototype.remove = function(item){
 	return this;
 }
 
+Array.prototype.contains = function(item, from){
+	return this.indexOf(item, from) != -1;
+}
+
 var browser = {};
 var ua = navigator.userAgent;	
 if(ua.match('MSIE')) {browser.msie = true; browser.code = "msie"}
@@ -438,7 +442,6 @@ CodePress.Util = function(parent)
 		}
 	}
 }
-
 
 CodePress.Event = function(event){
 	event.stop = function(){
