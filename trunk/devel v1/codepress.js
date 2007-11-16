@@ -57,8 +57,8 @@ else if(ua.match('Gecko')) {browser.gecko = true; browser.code = "gecko"}
  * CodePress Core constructor
  */
 
- CodePress = function(config)
- {
+CodePress = function(config)
+{
 	var element = config.element || false; // <textarea> for editor OR <code> for readonly
 	if(element.type != "textarea" && element.type != "code") return element;
 	
@@ -208,9 +208,7 @@ CodePress.Editor = function(parent) {
 		"target" : self.contentDocument,
 		"onFileMissing" : function() { 
 			parent.console.error("CodePress error",this.file + " was not found");
-				// hide cp frame
-				// display parent
-				// fire all plugin onUnLoad
+			parent.kill();
 		},
 		"onLoaded" : function() {
 			new CodePress.Engine(parent);
@@ -245,9 +243,8 @@ CodePress.Language = function(parent) {
 			},
 			"onFileMissing" : function() { 
 				parent.console.error("CodePress error",this.file + " was not found");
-					// hide cp frame
-					// display parent
-					// fire all plugin onUnLoad
+				if(language==parent.language.default) parent.kill();
+				else parent.language.set(parent.language.default);
 			}
 		});
 	}
@@ -264,6 +261,8 @@ CodePress.Language = function(parent) {
 	parent.config.syntax_languages.list.each(function(language) {
 		if(element.className.match(language)) this.value = language;
 	},this);
+	
+	this.default = this.value;
 
 	this.set(this.value);
 	parent.setLanguage = this.set;
@@ -287,6 +286,18 @@ CodePress.Engine = function(parent){
 
 CodePress.Util = function(parent)
 {
+	parent.kill = function() {
+		var element = parent;
+		parent.config.plugins = new Array();
+		element.disabled = false;
+		element.window.removeChild(element.editor);
+		element.parentNode.removeChild(element.window);	
+		element.util.css(element,{
+			display  : "block",
+			overflow : (browser.ie)?"scroll":"auto"
+		});
+	}
+
 	this.css = function(element,options) {
 		for(var property in options)
 			element.style[property] = options[property];
