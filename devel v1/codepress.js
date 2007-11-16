@@ -294,11 +294,11 @@ CodePress.Util = function(parent)
 
 	this.Ajax = function()
 	{
-		if(window.XMLHttpRequest) {
-			return new XMLHttpRequest(); 
-		}
-		else if(window.ActiveXObject) {
-			return new ActiveXObject("Microsoft.XMLHTTP"); 
+		try{ return new ActiveXObject("Microsoft.XMLHTTP"); } catch (error) {
+			try{ return new ActiveXObject("Msxml2.XMLHTTP"); } catch (error) {
+				if(window.XMLHttpRequest) return new XMLHttpRequest(); 
+				else return false;
+			}
 		}
 	}
 	this.Loader = function(params)
@@ -355,8 +355,11 @@ CodePress.Util = function(parent)
 
 		loader.ajaxQuery = function() {
 			var ajax = new parent.util.Ajax();
-			ajax.open("HEAD", this.file, true); 
-			
+			try{ ajax.open("HEAD", this.file, true); }
+			catch (e) { 
+				parent.console.warning("Cannot verify existence of", this.file);
+				return loader.include();
+			}
 			try {ajax.send(null);}
 			catch (error) { ajax.abort(); loader.onFileMissing(); return this; }
 			
