@@ -42,7 +42,7 @@ CodePress.Plugins.AutoSave = function(element) {
 		this.lastSave = time.getTime();
 		
 		element.console.info("Saving...");
-		alert("Saving...");
+		if(!element.config.plugins.contains("Console")) alert("Saving...");
 	}
 	
 	this.getLastSave = function()
