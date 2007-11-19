@@ -51,8 +51,7 @@ CodePress.Engine = function(element) {
 	engine.getEditor = function() {
 	
 		return document.getElementsByTagName('body')[0];
-	
-	
+		
 		if(!document.getElementsByTagName('pre')[0]) {
 			body = document.getElementsByTagName('body')[0];
 			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
@@ -84,8 +83,8 @@ CodePress.Engine = function(element) {
 
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
 	
-		for(i=0;i<Language.syntax.length;i++) 
-			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
+		for(i=0;i<Language[engine.language].syntax.length;i++) 
+			x = x.replace(Language[engine.language].syntax[i].input,Language[engine.language].syntax[i].output);
 
 		/* editor.innerHTML = this.actions.history[this.actions.next()] = 
 		(flag=='scroll') ? x : o.split(z).join(x);
