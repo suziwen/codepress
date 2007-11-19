@@ -235,35 +235,27 @@ CodePress.Language = function(parent) {
 	{
 		if(browser.code == "gecko") parent.editor.contentDocument.designMode = "off";
 		
-		var queue = [parent.config.syntax_languages.directory + language + ".js"];
-		
-		if(!parent.language.isInclude(language)) 
-			queue.push(parent.config.syntax_languages.directory + language + ".css");
-		
 		new parent.util.Loader({
-			"queue" : queue,
+			"queue" : [
+				parent.config.syntax_languages.directory + language + ".js",
+				parent.config.syntax_languages.directory + language + ".css"
+			],
 			"target" : parent.editor.contentDocument,
 			"onLoaded" : function() {
 				parent.language.value = language;
 				parent.event.fire("languageChange");
 				parent.editor.contentDocument.getElementsByTagName("body")[0].className = language;
+				parent.editor.engine.language=language;
 				parent.editor.engine.initialize();
+				
 			},
 			"onFileMissing" : function() { 
 				parent.console.error("CodePress error",this.file + " was not found");
-				if(language==parent.language.default) parent.kill();
-				else parent.language.set(parent.language.default);
+				if(language==parent.language['default']) parent.kill();
+				else parent.language.set(parent.language['default']);
+				
 			}
 		});	
-	}
-	
-	this.isInclude = function(language) {
-		var collection = parent.editor.contentDocument.getElementsByTagName("link");
-		var include = false;
-		collection.each(function(style) {
-			if(style.href.match(new RegExp(language+".css"))) include = true;
-		});
-		return include;
 	}
 	
 	/**
@@ -279,7 +271,7 @@ CodePress.Language = function(parent) {
 		if(element.className.match(language)) this.value = language;
 	},this);
 	
-	this.default = this.value;
+	this['default'] = this.value;
 
 	this.set(this.value);
 	parent.setLanguage = this.set;
@@ -335,6 +327,7 @@ CodePress.Util = function(parent)
 		loader.target = params.target || document;
 		loader.file = params.file || false;
 		loader.queue = params.queue || new Array();
+		loader.reload = params.reload || false;
 		
 		loader.onFileMissing = params.onFileMissing || function() {};
 		loader.onLoaded = params.onLoaded || function() {};
@@ -381,7 +374,13 @@ CodePress.Util = function(parent)
 			}
 		}
 
-		loader.ajaxQuery = function() {
+		loader.ajaxQuery = function()
+		{
+			if(!this.reload && this.isInclude(this.file)) {
+				// file allready include,
+				// reload is set to false.
+				return this.onLoaded();
+			}
 			var ajax = new parent.util.Ajax();
 			try{ ajax.open("HEAD", this.file, true); }
 			catch (e) { 
@@ -401,6 +400,22 @@ CodePress.Util = function(parent)
 				}
 			}
 			else loader.include();
+		}
+		
+		loader.isInclude = function(file)
+		{
+			var ret = false;
+			if(file.extension("js")) { 
+				var collection = loader.target.getElementsByTagName("script");
+				for (var i=0,l=collection.length;i<l;i++) 
+					if(collection[i].src.match(new RegExp(file))) ret = true;
+			}
+			else if(file.extension("css")) {
+				var collection = loader.target.getElementsByTagName("link");
+				for (var i=0,l=collection.length;i<l;i++)
+					if(collection[i].href.match(new RegExp(file))) ret = true;
+			}
+			return ret;
 		}
 		
 		if(this.file) loader.ajaxQuery();
