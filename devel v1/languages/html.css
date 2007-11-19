@@ -2,24 +2,18 @@
  * CodePress color styles for HTML syntax highlighting
  */
 
-s {color:#000000;}
-b {color:#000080;} /* tags */
-ins, ins b, ins s, ins em {color:gray;} /* comments */
-b s, strong s,em s,tt s,u s,a s {color:#7777e4;} /* attribute values */
-a {color:green;} /* links */
-u {color:#E67300;} /* forms */
-big {color:#db0000;} /* images */
+.html s {color:#000000;}
+.html b {color:#000080;} /* tags */
+.html ins,.html ins b,.html ins s,.html ins em {color:gray;} /* comments */
+.html b s,.html strong s,.html em s,.html tt s,.html u s,.html a s {color:#7777e4;} /* attribute values */
+.html a {color:green;} /* links */
+.html u {color:#E67300;} /* forms */
+.html big {color:#db0000;} /* images */
 
 /* STYLE */
-em, em b,em strong,em tt,em ins,em u,em a,em big {
-	color:#800080;}
+.html em,.html em b,.html em strong,.html em tt,.html em ins,.html em u,.html em a,.html em big {color:#800080;}
 
 /* SCRIPT */
-strong, strong b {
-	color:#800000;}
-tt, tt ins, tt u,tt a,tt big,tt b {
-	color:#000000;
-	font-weight:normal;}
-tt i {
-	color:darkblue;
-	font-weight:bold;}
+.html strong,.html strong b {color:#800000;}
+.html tt,.html tt ins,.html tt u,.html tt a,.html tt big,.html tt b {color:#000000;font-weight:normal;}
+.html tt i {color:darkblue;font-weight:bold;}
