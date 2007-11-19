@@ -234,15 +234,19 @@ CodePress.Language = function(parent) {
 	this.set = function(language)
 	{
 		if(browser.code == "gecko") parent.editor.contentDocument.designMode = "off";
+		
+		var queue = [parent.config.syntax_languages.directory + language + ".js"];
+		
+		if(!parent.language.isInclude(language)) 
+			queue.push(parent.config.syntax_languages.directory + language + ".css");
+		
 		new parent.util.Loader({
-			"queue" : [
-				parent.config.syntax_languages.directory + language + ".css",
-				parent.config.syntax_languages.directory + language + ".js"
-			],
+			"queue" : queue,
 			"target" : parent.editor.contentDocument,
 			"onLoaded" : function() {
 				parent.language.value = language;
 				parent.event.fire("languageChange");
+				parent.editor.contentDocument.getElementsByTagName("body")[0].className = language;
 				parent.editor.engine.initialize();
 			},
 			"onFileMissing" : function() { 
@@ -250,7 +254,16 @@ CodePress.Language = function(parent) {
 				if(language==parent.language.default) parent.kill();
 				else parent.language.set(parent.language.default);
 			}
+		});	
+	}
+	
+	this.isInclude = function(language) {
+		var collection = parent.editor.contentDocument.getElementsByTagName("link");
+		var include = false;
+		collection.each(function(style) {
+			if(style.href.match(new RegExp(language+".css"))) include = true;
 		});
+		return include;
 	}
 	
 	/**
