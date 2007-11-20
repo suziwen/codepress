@@ -4,7 +4,18 @@
  * @version : 1.0.0a6
  */
  
-CODEPRESS_ENCODED_CONTENT = 1;
+var CODEPRESS_ENCODED_CONTENT = 1;
+var CODEPRESS_KEYCODES = {
+	3:"cancel",6:"help", 8:"backspace",9:"tab",12:"clear",13:"return",
+	14:"enter",16:"shift",17:"ctrl",18:"alt",19:"pause",20:"capslock",
+	27:"escape",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",
+	37:"left",38:"up",39:"right",40:"down",44:"printscreen",45:"insert",
+	46:"delete",93:"contextmenu",112:"f1",113:"f2",114:"f3",115:"f4",
+	116:"f5",117:"f6",118:"f7",119:"f8",120:"f9",121:"f10",122:"f11",
+	123:"f12",124:"f13",125:"f14",126:"f15",127:"f16",128:"f17",129:"f18",
+	130:"f19",131:"f20",132:"f21",133:"f22",134:"f23",135:"f24",144:"numlock",
+	145:"scrolllock"
+}
 
 Object.prototype.extend = function() {
 	for (var property in this)
@@ -487,7 +498,8 @@ CodePress.Event = function(event){
 		if(event.metaKey)  compose.push("apple");
 		if(event.altKey)   compose.push("alt");
 		if(event.shiftKey) compose.push("shift");
-		if(event.toChar()) compose.push(event.toChar());
+		if (CODEPRESS_KEYCODES[event.keyCode]) compose.push(CODEPRESS_KEYCODES[event.keyCode]);
+		else if(event.toChar()) compose.push(event.toChar());
 		
 		var shortcut = compose.join("+");
 		return (compare) ? compare == shortcut : shortcut;
