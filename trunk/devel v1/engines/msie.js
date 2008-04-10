@@ -30,6 +30,7 @@ CodePress.Engine = function(element) {
 	engine.initialize = function() {
 		engine.name = "msie";
 		engine.scrolling = false;
+		engine.blocsize = 4000;
 		engine.autocomplete = true;		
 		editor = engine.getEditor();
 			
@@ -41,7 +42,7 @@ CodePress.Engine = function(element) {
 		});
  		
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
-		cc = '¤'; // caret char
+		engine.cc = '¤'; // caret char
 		// completeChars = this.getCompleteChars();
 		// completeEndingChars =  this.getCompleteEndingChars();
 		
@@ -63,7 +64,7 @@ CodePress.Engine = function(element) {
 	// syntax highlighting parser
 	engine.highlight = function(flag) {
 		//if(document.designMode=='off') document.designMode='on'
-		if(flag!='init') document.selection.createRange().text = cc;
+		if(flag!='init') document.selection.createRange().text = engine.cc;
 		
 		editor = engine.getEditor();
 		o = editor.innerHTML;
@@ -78,28 +79,53 @@ CodePress.Engine = function(element) {
 		o = o.replace(/<P>(<P>)+/,'<P>');
 		o = o.replace(/<\/P>(<\/P>)+/,'</P>');
 		o = o.replace(/<P><\/P>/g,'<P><BR/></P>');
-		x = o; //z = this.split(o,flag);
+		x = z = this.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
 	
 		for(i=0;i<Language[engine.language].syntax.length;i++) 
 			x = x.replace(Language[engine.language].syntax[i].input,Language[engine.language].syntax[i].output);
+ // = this.actions.history[this.actions.next()]
+		editor.innerHTML = (flag=='scroll') ? x : o.split(z).join(x);
 
-		/* editor.innerHTML = this.actions.history[this.actions.next()] = 
-		(flag=='scroll') ? x : o.split(z).join(x);
-		*/
-		
-		editor.innerHTML = x;
 		if(flag!='init') engine.findCaret();
 		
 	}
 	
 	engine.findCaret = function() {
 		range = self.document.body.createTextRange();
-		if(range.findText(cc)){
+		if(range.findText(engine.cc)){
 			range.select();
 			range.text = '';
+			range.select();
+		}
+	}
+
+	// split big files, highlighting parts of it
+	engine.split = function(code,flag)
+	{
+		if(flag=='scroll') {
+			this.scrolling = true;
+			return code;
+		}
+		else {
+			var position = code.indexOf(engine.cc);
+			var start = 0;
+			var end = code.length;
+			engine.scrolling = false;
+			if(position - engine.blocsize/2 < 0) {
+				end = engine.blocsize/2;
+			}
+			else if(position + engine.blocsize/2 > code.length) {
+				start = code.length-engine.blocsize;
+			}
+			else {
+				start = position - engine.blocsize/2;
+				end = position + engine.blocsize/2;
+			}
+			code = code.substring(start,end);
+			return code.substring(code.indexOf('<P>'),code.lastIndexOf('</P>')+4);
 		}
 	}
 	
