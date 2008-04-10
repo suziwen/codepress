@@ -29,6 +29,7 @@ CodePress.Engine = function(element) {
 	
 	engine.initialize = function() {
 		engine.name = "gecko";
+		engine.blocsize = 4000;
 		engine.language = element.language.value;
 		engine.scrolling = false;
 		engine.autocomplete = true;		
@@ -48,6 +49,37 @@ CodePress.Engine = function(element) {
 		
 		document.designMode = 'on';
 		engine.highlight('init');
+	}
+	
+	// split big files, highlighting parts of it
+	engine.split = function(code,flag)
+	{
+		if(flag=='scroll')
+		{
+			engine.scrolling = true;
+			return code;
+		}
+		else
+		{
+			var position = code.indexOf(engine.cc);
+			var start = 0;
+			var end = code.length;
+			
+			engine.scrolling = false;
+			
+			if(position - engine.blocsize/2 < 0) {
+				end = engine.blocsize/2;
+			}
+			else if(position + engine.blocsize/2 > code.length) {
+				start = code.length-engine.blocsize;
+			}
+			else {
+				start = position - engine.blocsize/2;
+				end = position + engine.blocsize/2;
+			}
+			code = code.substring(start,end);
+			return code;
+		}
 	}
 	
 	engine.getEditor = function() {
@@ -71,7 +103,7 @@ CodePress.Engine = function(element) {
 		o = editor.innerHTML;
 		o = o.replace(/<br>/g,'\n');
 		o = o.replace(/<.*?>/g,'');
-		x = o; //z = this.split(o,flag);
+		x = z = engine.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
 
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
@@ -83,7 +115,7 @@ CodePress.Engine = function(element) {
 		(flag=='scroll') ? x : o.split(z).join(x);
 		*/
 		
-		editor.innerHTML = x;
+		editor.innerHTML = (flag=='scroll') ? x : o.split(z).join(x);
 		if(flag!='init') engine.findCaret();
 		
 	}
