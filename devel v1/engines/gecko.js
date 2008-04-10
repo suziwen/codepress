@@ -54,19 +54,12 @@ CodePress.Engine = function(element) {
 	// split big files, highlighting parts of it
 	engine.split = function(code,flag)
 	{
-		if(flag=='scroll')
-		{
-			engine.scrolling = true;
-			return code;
-		}
-		else
-		{
+		if(flag=='scroll'){ engine.scrolling = true; return code;}
+		else{
 			var position = code.indexOf(engine.cc);
 			var start = 0;
 			var end = code.length;
-			
 			engine.scrolling = false;
-			
 			if(position - engine.blocsize/2 < 0) {
 				end = engine.blocsize/2;
 			}
@@ -78,17 +71,11 @@ CodePress.Engine = function(element) {
 				end = position + engine.blocsize/2;
 			}
 			code = code.substring(start,end);
-			return code;
-		}
+			return code;}
 	}
 	
 	engine.getEditor = function() {
-		if(!document.getElementsByTagName('pre')[0]) {
-			body = document.getElementsByTagName('body')[0];
-			body.innerHTML = "<pre>"+body.innerHTML+"</pre>";
-		}
-		editor = document.getElementsByTagName('pre')[0];
-		return editor;
+		return document.getElementsByTagName('body')[0];
 	}
 	
 	// syntax highlighting parser
