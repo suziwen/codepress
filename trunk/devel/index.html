@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
+	<script src="codepress.js"></script>
+</head>
+
+<body>
+
+<textarea id="cp1" class="lala codepress language:javascript teste" style="width:600px;height:200px;">
+if (teste == 1) {
+	document.write("teste");
+}
+</textarea>
+<br/>
+<button onclick="alert(CodePress['cp1'].textarea.id)">textarea.id</button>
+<button onclick="alert(CodePress['cp1'].textarea.className)">textarea.className</button>
+<button onclick="alert(CodePress['cp1'].iframe.style.width)">editor.width</button>
+<button onclick="alert(CodePress['cp1'].Editor.code())">code get</button>
+<button onclick="CodePress['cp1'].Editor.code('tessssssste')">code set</button><br>
+
+<button onclick="CodePress['cp1'].Editor.open({language:'generic',code:'cp1a'})">open cp1a id generic</button>
+<button onclick="CodePress['cp1'].Editor.open({language:'javascript', code:document.getElementById('cp1a')})">open cp1a obj javascript</button>
+<button onclick="CodePress['cp1'].Editor.open({language:'javascript', code:'alert(3)'})">open cp1a code javascript</button><br/>
+<button onclick="CodePress['cp1'].Editor.open({language:'javascript', code:'function(){ return false; }', callback:function(){alert('callback ok')}})">open cp1a code generic callback</button><br/>
+
+<button onclick="CodePress['cp1'].Editor.active(true)">active true</button>
+<button onclick="CodePress['cp1'].Editor.active(false)">active false</button>
+<button onclick="alert(CodePress['cp1'].Editor.active())">active get</button><br>
+
+<button onclick="CodePress['cp1'].Editor.editable(true)">editable true</button>
+<button onclick="CodePress['cp1'].Editor.editable(false)">editable false</button>
+<button onclick="alert(CodePress['cp1'].Editor.editable())">editable get</button><br>
+
+<button onclick="alert(CodePress['cp1'].Editor.language())">language get</button>
+<button onclick="CodePress['cp1'].Editor.language('javascript')">language set javascript</button>
+<button onclick="CodePress['cp1'].Editor.language('generic',function(){alert(CodePress['cp1'].Editor.language())})">language set javascript onload</button>
+<button onclick="CodePress['cp1'].Editor.language('generic')">language set generic</button>
+<button onclick="CodePress['cp1'].Editor.language('html')">language set html</button>
+<p></p>
+
+<div id="cp1a" style="display:none;">
+if (teste == 3) {
+	alert("lalla");
+}
+</div>
+
+<textarea id="cp2" class="codepress language:generic" style="width:600px;height:200px;">adsfasdfasd</textarea>
+<br/>
+<button onclick="alert(CodePress['cp2'].textarea.id)">textarea.id</button>
+<button onclick="alert(CodePress['cp2'].iframe.style.width)">editor.width</button>
+<button onclick="alert(CodePress['cp2'].Editor.code())">code get</button>
+<button onclick="CodePress['cp2'].Editor.code('tessssssste')">code set</button><br>
+<button onclick="CodePress['cp2'].Editor.active(true)">active true</button>
+<button onclick="CodePress['cp2'].Editor.active(false)">active false</button>
+<button onclick="alert(CodePress['cp2'].Editor.active())">active get</button><br>
+<button onclick="CodePress['cp2'].Editor.editable(true)">editable true</button>
+<button onclick="CodePress['cp2'].Editor.editable(false)">editable false</button>
+<button onclick="alert(CodePress['cp2'].Editor.editable())">editable get</button><br>
+<button onclick="alert(CodePress['cp2'].Editor.language())">language get</button>
+<button onclick="CodePress['cp2'].Editor.language('javascript')">language set javascript</button>
+<button onclick="CodePress['cp2'].Editor.language('generic')">language set generic</button>
+<button onclick="CodePress['cp2'].Editor.language('html')">language set html</button>
+
+<br/><br/>
+<div id="dyn-codepress" style="border:1px solid black;padding:10px;height:100px;background:#eee"></div>
+<div id="test-result"></div>
+
+<button onclick="CodePress.Test.run(CodePress['cp2'])"><strong>Run tests</strong></button>
+<br/><br/><br/><br/>
+
+<button onclick="tab('test2')">tab 1</button>
+<button onclick="tab('test1')">tab 2</button>
+
+<div id="container" style="border:1px solid black;padding:10px;height:300px;background:#eee"></div>
+
+<script>
+var cP = [], actual = null;
+function tab(id) {
+	
+	if(!cP[id]) {
+		var container = document.getElementById('container');
+		var textarea = document.createElement('textarea');
+		textarea.style.width = '100%'
+		textarea.style.height = '100%'
+		textarea.className = 'codepress language:javascript';
+		container.appendChild(textarea);
+		cP[id] = new CodePress.instance(textarea);
+		cP[id].onload = function () { 
+			cP[id].Engine.body.style.backgroundColor = 'white'
+			cP[id].Editor.code('function teste() { alert("tessssadfasdte"); }')
+		};		
+
+		if(actual) 
+			cP[actual].iframe.style.display = cP[actual].textarea.style.display = 'none';		
+		actual = id;
+	} 
+	else if(actual!=id) {
+		cP[actual].iframe.style.display = cP[actual].textarea.style.display = 'none';
+		cP[id].iframe.style.display = cP[id].textarea.style.display = 'block';
+		actual = id;
+	}
+}
+
+</script>
+
+
+<script src="tests/test.js"></script>
+</body>
+</html>
