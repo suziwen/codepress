@@ -28,6 +28,7 @@ CodePress.Engine = function(element) {
 	var engine = this;
 	
 	engine.initialize = function() {
+		element.event.fire("init");
 		engine.name = "gecko";
 		engine.blocsize = 4000;
 		engine.language = element.language.value;
@@ -77,11 +78,24 @@ CodePress.Engine = function(element) {
 	engine.getEditor = function() {
 		return document.getElementsByTagName('body')[0];
 	}
-	
+
+	engine.insert = function(text)
+	{
+		window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
+		var editor = engine.getEditor();
+		var code = editor.innerHTML;
+		code = code.replace(engine.cc,text+engine.cc);
+		editor.innerHTML = code;	
+		return engine.findCaret();
+	}
+
 	// syntax highlighting parser
-	engine.highlight = function(flag) {
+	engine.highlight = function(flag)
+	{
 		//if(document.designMode=='off') document.designMode='on'
-		if(flag != 'init') {
+		
+		if(flag != 'init')
+		{
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
 		}
 		element.event.fire("highlight");
@@ -108,13 +122,13 @@ CodePress.Engine = function(element) {
 	}
 	
 	engine.findCaret = function() {
-		self.find(engine.cc) && window.getSelection().getRangeAt(0).deleteContents();
+		return self.find(engine.cc) && window.getSelection().getRangeAt(0).deleteContents();
 	}
 	
 	// get code from editor
 	engine.getCode = function() {
 		if(!document.getElementsByTagName('pre')[0] || editor.innerHTML == '')
-			editor = CodePress.getEditor();
+			editor = engine.getEditor();
 		var code = editor.innerHTML;
 		code = code.replace(/<br>/g,'\n');
 		code = code.replace(/\u2009/g,'');

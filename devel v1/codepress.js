@@ -1,7 +1,7 @@
 /** 
  * CodePress Core
  * @authors : Fernando Miçalli, Michael Hurni
- * @version : 1.0.0a6
+ * @version : 1.0.0a7
  */
  
 var CODEPRESS_ENCODED_CONTENT = 1;
@@ -18,10 +18,10 @@ var CODEPRESS_KEYCODES = {
 }
 
 Object.prototype.extend = function() {
-	for (var property in this)
-		if(!arguments[0][property]) 
-			arguments[0][property] = this[property];
-	return arguments[0];
+	for (var property in arguments[0])
+		if(!this[property]) 
+			this[property] = arguments[0][property];
+	return this;
 }
 
 /**
@@ -79,7 +79,7 @@ CodePress = function(config)
 	
 	element.config = null;
 	element.config = config || {};
-	element.config = CodePress.Config.extend(element.config);
+	element.config.extend(CodePress.Config);
 	
 	element.util 	= new CodePress.Util(element);
 	element.window 	= new CodePress.Window(element);
@@ -482,6 +482,9 @@ CodePress.Util = function(parent)
 	}
 }
 
+/**
+ * Event decorator
+ */
 CodePress.Event = function(event){
 	event.stop = function(){
 		if(browser.gecko) event.preventDefault();
