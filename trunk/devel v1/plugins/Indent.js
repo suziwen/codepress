@@ -4,24 +4,25 @@ CodePress.Plugins.Indent = function(element) {
 
 	this.tabIndent = true;
 	this.spaceIdent = true;
+	this.active = true;
 	
 	this.init = function()
 	{
 		this.sameKeyCode = false;
 		this.lastKeyCode = false;
 		this.currentKeyCode = false;
-				
+		
 		element.event.add("highlight",this.highlightHandler, this);
 		element.event.add("keypress",this.keyHandler, this);
 		element.event.add("keydown",this.keyHandler, this);
 	}
-	
+
 	/**
 	 * Key Handler
 	 */	
 	this.keyHandler = function(evt)
 	{
-		if(evt.keyCode==13) evt.stop();
+		if(evt.shortcut('return') && this.active) evt.stop();
 		this.sameKeyCode = (this.lastKeyCode==evt.keyCode);
 		this.lastKeyCode = evt.keyCode;
 		this.currentKeyCode = evt.keyCode;
@@ -32,7 +33,7 @@ CodePress.Plugins.Indent = function(element) {
 	 */
 	this.highlightHandler = function()
 	{
-		if(this.currentKeyCode == 13)
+		if(this.currentKeyCode == 13 && this.active)
 		{
 			if(!this.cc) this.cc = element.editor.engine.cc;
 			var code = element.editor.engine.getEditor().innerHTML;
@@ -45,7 +46,8 @@ CodePress.Plugins.Indent = function(element) {
 	
 	/**
 	 * getIndent method
-	 * @return indentation as string of the current line
+	 * @param string code
+	 * @return string indentation as string of the current line
 	 */	
 	this.getIndent = function(code)
 	{
