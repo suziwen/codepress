@@ -81,7 +81,7 @@ CodePress.Engine = function(element) {
 
 	engine.insert = function(text)
 	{
-		window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
+		engine.raiseCaret();
 		var editor = engine.getEditor();
 		var code = editor.innerHTML;
 		code = code.replace(engine.cc,text+engine.cc);
@@ -94,10 +94,7 @@ CodePress.Engine = function(element) {
 	{
 		//if(document.designMode=='off') document.designMode='on'
 		
-		if(flag != 'init')
-		{
-			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
-		}
+		if(flag != 'init') engine.raiseCaret();
 		element.event.fire("highlight");
 		
 		var editor = engine.getEditor();
@@ -119,6 +116,10 @@ CodePress.Engine = function(element) {
 		editor.innerHTML = (flag=='scroll') ? x : o.split(z).join(x);
 		if(flag!='init') engine.findCaret();
 		
+	}
+
+	engine.raiseCaret = function() {
+		window.getSelection().getRangeAt(0).insertNode(document.createTextNode(engine.cc));
 	}
 	
 	engine.findCaret = function() {
