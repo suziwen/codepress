@@ -77,6 +77,13 @@ CodePress = function(config)
 	var element = config.element || false; // <textarea> for editor OR <code> for readonly
 	if(element.type != "textarea" && element.type != "code") return element;
 	
+	element.extend = function() {
+		for (var property in arguments[0])
+			if(!this[property]) 
+				this[property] = arguments[0][property];
+		return this;
+	}
+	
 	element.config = null;
 	element.config = config || {};
 	element.config.extend(CodePress.Config);

@@ -43,6 +43,7 @@ CodePress.Engine = function(element) {
  		
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		engine.cc = '¤'; // caret char
+		engine.ls = '</P><P>';
 		// completeChars = this.getCompleteChars();
 		// completeEndingChars =  this.getCompleteEndingChars();
 		
@@ -60,11 +61,24 @@ CodePress.Engine = function(element) {
 		editor = document.getElementsByTagName('pre')[0];
 		return editor;
 	}
+
+	engine.insert = function(text)
+	{
+		engine.raiseCaret();
+		var editor = engine.getEditor();
+		var code = editor.innerHTML;
+		code = code.replace(engine.cc,text+engine.cc);
+		editor.innerHTML = code;	
+		return engine.findCaret();
+	}
+
 	
 	// syntax highlighting parser
 	engine.highlight = function(flag) {
 		//if(document.designMode=='off') document.designMode='on'
-		if(flag!='init') document.selection.createRange().text = engine.cc;
+		
+		if(flag!='init') engine.raiseCaret();
+		element.event.fire("highlight");
 		
 		editor = engine.getEditor();
 		o = editor.innerHTML;
@@ -91,6 +105,10 @@ CodePress.Engine = function(element) {
 
 		if(flag!='init') engine.findCaret();
 		
+	}
+
+	engine.raiseCaret = function() {
+		document.selection.createRange().text = engine.cc;
 	}
 	
 	engine.findCaret = function() {

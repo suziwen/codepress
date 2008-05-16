@@ -11,8 +11,7 @@ CodePress.Plugins.Indent = function(element) {
 		this.sameKeyCode = false;
 		this.lastKeyCode = false;
 		this.currentKeyCode = false;
-		
-		element.event.add("highlight",this.highlightHandler, this);
+
 		element.event.add("keypress",this.keyHandler, this);
 		element.event.add("keydown",this.keyHandler, this);
 	}
@@ -22,28 +21,17 @@ CodePress.Plugins.Indent = function(element) {
 	 */	
 	this.keyHandler = function(evt)
 	{
-		if(evt.shortcut('return') && this.active) evt.stop();
-		this.sameKeyCode = (this.lastKeyCode==evt.keyCode);
-		this.lastKeyCode = evt.keyCode;
-		this.currentKeyCode = evt.keyCode;
-	}
-	
-	/**
-	 * Highlight Handler
-	 */
-	this.highlightHandler = function()
-	{
-		if(this.currentKeyCode == 13 && this.active)
+		if(evt.shortcut('return') && this.active)
 		{
-			if(!this.cc) this.cc = element.editor.engine.cc;
+			evt.stop();
+			element.editor.engine.raiseCaret();
 			var code = element.editor.engine.getEditor().innerHTML;
-			this.indent = (this.sameKeyCode?this.indent:this.getIndent(code));
-			code = code.replace(this.cc,element.editor.engine.ls+this.indent+this.cc);
+			code = code.replace(element.editor.engine.cc,element.editor.engine.ls+this.getIndent(code)+element.editor.engine.cc);	
 			element.editor.engine.getEditor().innerHTML = code;
+			element.editor.engine.findCaret();
 		}
-		this.currentKeyCode = false;
 	}
-	
+
 	/**
 	 * getIndent method
 	 * @param string code
@@ -55,7 +43,7 @@ CodePress.Plugins.Indent = function(element) {
 		var indent = currentLine = "";
 		for (k=1;k<lines.length;k++)
 		{
-			if(lines[k].indexOf(this.cc)!=-1) {
+			if(lines[k].indexOf(element.editor.engine.cc)!=-1) {
 				currentLine = lines[k];
 				break;
 			}

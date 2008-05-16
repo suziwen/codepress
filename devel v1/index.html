@@ -13,7 +13,7 @@ CodePress.run = function() {
 		{
 			new CodePress({
 				"element" : textarea,
-				"plugins" : ["Console","GotoLine","AutoSave","Indent","Spacetab"]
+				"plugins" : ["Console","Shortcuts","AutoSave","Spacetab","Indent"]
 			});
 		} 
 	}
@@ -25,6 +25,8 @@ else window.addEventListener('DOMContentLoaded',CodePress.run,false);
 </head>
 <body>
 
+<button onclick='document.getElementById("test").gotoline()'>gotoline()</button>
+<button onclick='document.getElementById("test").gotoline(2);'>gotoline(2)</button>
 <button onclick='document.getElementById("test").plugin.load("Linenumbers");'>Load Linenumbers</button>
 <button onclick='document.getElementById("test").plugin.load("Print");'>Load Print Plugin</button>
 <button onclick='alert(document.getElementById("test").engine.getCode());'>alert engine.getCode()</button>
