@@ -103,10 +103,10 @@ CodePress.Plugins = {}
  * @var CodePress.Config
  */
 CodePress.Config = {
-	"plugins_dir" : "plugins/",
-	"engines_dir" : "engines/",
+	"plugins_dir" : "codepress/plugins/",
+	"engines_dir" : "codepress/engines/",
 	"syntax_languages" : {
-		"directory" : "languages/",
+		"directory" : "codepress/languages/",
 		"default" : "php",
 		"list" : Array(
 			"php",
@@ -132,7 +132,7 @@ CodePress.Plugin = function(parent) {
 			return this.register(name);
 		var bind = this;
 		new parent.util.Loader({
-			'file' : parent.config.plugins_dir + name + ".js",
+			'file' : parent.util.getPath() + parent.config.plugins_dir + name + ".js",
 			'onFileMissing' : function() { 
 				parent.config.plugins.remove(name);
 				parent.console.error("CodePress error",this.file + " was not found");
@@ -224,8 +224,8 @@ CodePress.Editor = function(parent) {
 	
 	new parent.util.Loader({
 		"queue" : [
-			parent.config.engines_dir + browser.code + ".js",
-			parent.config.engines_dir + "common.css"
+			parent.util.getPath() + parent.config.engines_dir + browser.code + ".js",
+			parent.util.getPath() + parent.config.engines_dir + "common.css"
 		],
 		"target" : self.contentDocument,
 		"onFileMissing" : function() { 
@@ -255,8 +255,8 @@ CodePress.Language = function(parent) {
 		
 		new parent.util.Loader({
 			"queue" : [
-				parent.config.syntax_languages.directory + language + ".js",
-				parent.config.syntax_languages.directory + language + ".css"
+				parent.util.getPath() + parent.config.syntax_languages.directory + language + ".js",
+				parent.util.getPath() + parent.config.syntax_languages.directory + language + ".css"
 			],
 			"target" : parent.editor.contentDocument,
 			"onLoaded" : function() {
@@ -325,6 +325,13 @@ CodePress.Util = function(parent)
 		});
 	}
 
+	this.getPath = function() {
+		var collection = document.getElementsByTagName("script");
+		var name = new RegExp("jquery.codepress.js");
+		for (var i=0,l=collection.length;i<l;i++) 
+			if(collection[i].src.match(name)) return collection[i].src.split(name)[0];
+	}
+	
 	this.css = function(element,options) {
 		for(var property in options)
 			element.style[property] = options[property];

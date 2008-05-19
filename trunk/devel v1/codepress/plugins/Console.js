@@ -72,7 +72,7 @@ Console = function(element)
 {
 	this.popup = new Console.popup({
 		name : "CodePress Console for " + element.type + " #" + element.id,
-		location : element.config.plugins_dir + "Console/Console.htm",
+		location : element.util.getPath() + element.config.plugins_dir + "Console/Console.htm",
 		options : {
 			'width'      : 450,
 			'height'     : 300,
