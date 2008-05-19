@@ -103,7 +103,7 @@ CodePress.Engine = function(element) {
 		o = o.replace(/<.*?>/g,'');
 		x = z = engine.split(o,flag);
 		x = x.replace(/\n/g,'<br>');
-
+		x = x.replace(/&nbsp;/g,' ')
 		if(arguments[1]&&arguments[2]) x = x.replace(arguments[1],arguments[2]);
 	
 		for(i=0;i<Language[engine.language].syntax.length;i++) 
@@ -112,7 +112,8 @@ CodePress.Engine = function(element) {
 		/* editor.innerHTML = this.actions.history[this.actions.next()] = 
 		(flag=='scroll') ? x : o.split(z).join(x);
 		*/
-		
+	
+		x = x.replace(/ /g,'&nbsp;');
 		editor.innerHTML = (flag=='scroll') ? x : o.split(z).join(x);
 		if(flag!='init') engine.findCaret();
 		
@@ -137,6 +138,7 @@ CodePress.Engine = function(element) {
 		code = code.replace(/&lt;/g,'<');
 		code = code.replace(/&gt;/g,'>');
 		code = code.replace(/&amp;/gi,'&');
+		code = code.replace(/&nbsp;/gi,' ');
 		return code;
 	},
 

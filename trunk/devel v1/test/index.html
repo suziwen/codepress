@@ -5,36 +5,25 @@
 <script type="text/javascript" src="../jquery.codepress.js"></Script>
 
 <script type="text/javascript">
-CodePress.run = function() {
-	var elements = document.getElementsByTagName('textarea')
-	
-	for (var i = 0, j = elements.length; i < j; i++) 
-	{
-		var textarea = elements[i];
-		if(textarea.className.match('codepress'))
-		{
-			new CodePress({
-				"element" : textarea,
-				"plugins" : ["Console","Shortcuts","AutoSave","Spacetab","Indent"]
-			});
-		} 
-	}
-}
 
-if(window.attachEvent) window.attachEvent('onload',CodePress.run);
-else window.addEventListener('DOMContentLoaded',CodePress.run,false);
+jQuery(function(){
+	$("textarea.codepress").codepress({
+		"plugins" : ["Console","Shortcuts","AutoSave","Spacetab","Indent"]
+	});
+});
+
 </script>
 </head>
 <body>
 
-<button onclick='document.getElementById("test").gotoline()'>gotoline()</button>
-<button onclick='document.getElementById("test").gotoline(2);'>gotoline(2)</button>
-<button onclick='document.getElementById("test").plugin.load("Linenumbers");'>Load Linenumbers</button>
-<button onclick='document.getElementById("test").plugin.load("Print");'>Load Print Plugin</button>
-<button onclick='alert(document.getElementById("test").engine.getCode());'>alert engine.getCode()</button>
-<button onclick='document.getElementById("test").setLanguage("html");'>language.set("html")</button>
-<button onclick='document.getElementById("test").setLanguage("php");'>language.set("php")</button>
-<button onclick='alert(document.getElementById("test").editor.contentDocument.getElementsByTagName("body")[0].innerHTML);'>InnerHTML</button>
+<button onclick='$("#test")[0].gotoline()'>gotoline()</button>
+<button onclick='$("#test")[0].gotoline(2);'>gotoline(2)</button>
+<button onclick='$("#test")[0].plugin.load("Linenumbers");'>Load Linenumbers</button>
+<button onclick='$("#test")[0].plugin.load("Print");'>Load Print Plugin</button>
+<button onclick='alert($("#test")[0].engine.getCode());'>alert engine.getCode()</button>
+<button onclick='$("#test")[0].setLanguage("html");'>language.set("html")</button>
+<button onclick='$("#test")[0].setLanguage("php");'>language.set("php")</button>
+<button onclick='alert($("#test")[0].editor.contentDocument.getElementsByTagName("body")[0].innerHTML);'>InnerHTML</button>
 <hr/>
 <textarea class="codepress html" id="test" style="height:200px; width:550px;">&lt;div id="logo"&gt;
 	&lt;h1&gt;&lt;a href="http://codepress.org/"&gt;CodePress&lt;/a&gt;&lt;/h1&gt;
@@ -53,7 +42,7 @@ else window.addEventListener('DOMContentLoaded',CodePress.run,false);
 	echo "this is php";
 	// PHP Comment
 ?&gt;</textarea><hr/>
-<button onclick='new CodePress({element:document.getElementById("test2")});'>Start CodePress</button><hr/>
+<button onclick='$("#test2").codepress();'>Start CodePress</button><hr/>
 <textarea class="php" id="test2" style="height:200px; width:550px;">&lt;?php
 	echo "this is php";
 	// PHP Comment
