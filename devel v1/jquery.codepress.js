@@ -1,3 +1,5 @@
+jQuery(function(){
+
 /** 
  * CodePress Core
  * @authors : Fernando Miçalli, Michael Hurni
@@ -6,7 +8,7 @@
  
 var CODEPRESS_ENCODED_CONTENT = 1;
 var CODEPRESS_KEYCODES = {
-	3:"cancel",6:"help", 8:"backspace",9:"tab",12:"clear",13:"return",
+	3:"cancel",6:"help", 8:"return",9:"tab",12:"clear",13:"enter",
 	14:"enter",16:"shift",17:"ctrl",18:"alt",19:"pause",20:"capslock",
 	27:"escape",32:"space",33:"pageup",34:"pagedown",35:"end",36:"home",
 	37:"left",38:"up",39:"right",40:"down",44:"printscreen",45:"insert",
@@ -37,10 +39,12 @@ String.prototype.extension = function(compare)
 }
 
 /**
- * Some useful Array prototypes
+ * Some useful Array, String and Number prototypes
  */
 Array.prototype.each = Object.prototype.each = function(fn, bind){
-	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, this[i], i, this);
+	if(typeof fn == "function")
+		for (var i = 0, j = this.length; i < j; i++) 
+			fn.call(bind, this[i], i, this);
 }
 
 Array.prototype.copy = function(start, length){
@@ -61,6 +65,22 @@ Array.prototype.contains = function(item, from){
 	return this.indexOf(item, from) != -1;
 }
 
+String.prototype.repeat = function(number)
+{
+	var value = "";
+	for(var i=0;i<number;i++) value += this.toString();
+	return value;
+}
+
+Number.prototype.toString = function ()
+{
+	return this+"";
+}
+
+Number.prototype.limit = function(min,max)
+{
+	return (this < min) ? min : (this > max) ? max : this;
+}
 var browser = {};
 var ua = navigator.userAgent;	
 if(ua.match('MSIE')) {browser.msie = true; browser.code = "msie"}
@@ -71,8 +91,16 @@ else if(ua.match('Gecko')) {browser.gecko = true; browser.code = "gecko"}
 /**
  * CodePress Core constructor
  */
+ 
+jQuery.fn.codepress = function(option) {
+	var config = option || {};
+	this.each(function() { 
+		config.element = this; 
+		new jQuery.CodePress(config); 
+	});
+}
 
-CodePress = function(config)
+jQuery.CodePress = function(config)
 {
 	var element = config.element || false; // <textarea> for editor OR <code> for readonly
 	if(element.type != "textarea" && element.type != "code") return element;
@@ -86,23 +114,23 @@ CodePress = function(config)
 	
 	element.config = null;
 	element.config = config || {};
-	element.config.extend(CodePress.Config);
+	element.config.extend(jQuery.CodePress.Config);
 	
-	element.util 	= new CodePress.Util(element);
-	element.window 	= new CodePress.Window(element);
-	element.editor 	= new CodePress.Editor(element);
-	element.plugin 	= new CodePress.Plugin(element);	
+	element.util 	= new jQuery.CodePress.Util(element);
+	element.window 	= new jQuery.CodePress.Window(element);
+	element.editor 	= new jQuery.CodePress.Editor(element);
+	element.plugin 	= new jQuery.CodePress.Plugin(element);	
 	
 	return element;
 }
-
-CodePress.Plugins = {}
+jQuery.CodePress.browser = browser;
+jQuery.CodePress.Plugins = {}
 
 /**
  * Default CodePress config
  * @var CodePress.Config
  */
-CodePress.Config = {
+jQuery.CodePress.Config = {
 	"plugins_dir" : "codepress/plugins/",
 	"engines_dir" : "codepress/engines/",
 	"syntax_languages" : {
@@ -122,7 +150,7 @@ CodePress.Config = {
 /**
  * Plugin Manager
  */
-CodePress.Plugin = function(parent) {
+jQuery.CodePress.Plugin = function(parent) {
 	parent.plugins = new Object;
 	parent.config.plugins = parent.config.plugins || new Array;
 	
@@ -148,7 +176,7 @@ CodePress.Plugin = function(parent) {
 	this.register = function(name) {
 		if(!this.isInclude(name)) return false;
 		if(!parent.plugins[name]) 
-			parent.plugins[name] = new CodePress.Plugins[name](parent);
+			parent.plugins[name] = new jQuery.CodePress.Plugins[name](parent);
 		return true;
 	}
 	
@@ -158,7 +186,7 @@ CodePress.Plugin = function(parent) {
 	 * @return boolean Return true if the plugin is allready included
 	 */
 	this.isInclude = function(name) {
-		return (typeof CodePress.Plugins[name]=="function");
+		return (typeof jQuery.CodePress.Plugins[name]=="function");
 	}
 
 	this.fireLoad = function() {
@@ -166,15 +194,8 @@ CodePress.Plugin = function(parent) {
 		parent.config.plugins.each(function(pluginname) {
 			if(!parent.plugins[pluginname]) loaded = false;
 		},this);
-		if(loaded) return this.onpluginsLoad();
+		if(loaded) parent.event.fire("plugins.loaded");
 		else top.setTimeout(function(){ parent.plugin.fireLoad();},100);
-	}
-	
-	this.onpluginsLoad = function() {
-		parent.config.plugins.each(function(pluginname) {
-			if(typeof parent.plugins[pluginname].onpluginsLoad == "function")
-				parent.plugins[pluginname].onpluginsLoad();
-		});
 	}
 
 	// this code will load and register all plugins	
@@ -185,7 +206,7 @@ CodePress.Plugin = function(parent) {
 	this.fireLoad();
 }
 
-CodePress.Window = function(element) {
+jQuery.CodePress.Window = function(element) {
 	var self = document.createElement('div');
 
 	element.disabled = true;
@@ -203,7 +224,7 @@ CodePress.Window = function(element) {
 // Editor class
 // It's the iframe element inside Window
 
-CodePress.Editor = function(parent) {
+jQuery.CodePress.Editor = function(parent) {
 	var self = document.createElement('iframe');
 
 	parent.util.css(self,{
@@ -233,15 +254,15 @@ CodePress.Editor = function(parent) {
 			parent.kill();
 		},
 		"onLoaded" : function() {
-			new CodePress.Engine(parent);
-			new CodePress.Language(parent);
+			new jQuery.CodePress.Engine(parent);
+			new jQuery.CodePress.Language(parent);
 		}
 	});
 	
 	return self;
 }
 
-CodePress.Language = function(parent) {
+jQuery.CodePress.Language = function(parent) {
 	parent.language = this;
 	var element = parent;
 	
@@ -296,7 +317,7 @@ CodePress.Language = function(parent) {
 	
 }
 
-CodePress.Engine = function(parent){
+jQuery.CodePress.Engine = function(parent){
 	parent.engine = this;
 	var element = parent;
 	parent.editor.engine = new parent.editor.contentWindow.CodePress.Engine(parent);
@@ -311,7 +332,7 @@ CodePress.Engine = function(parent){
 	this.setCode(element.innerHTML,CODEPRESS_ENCODED_CONTENT);
 }
 
-CodePress.Util = function(parent)
+jQuery.CodePress.Util = function(parent)
 {
 	parent.kill = function() {
 		var element = parent;
@@ -462,7 +483,7 @@ CodePress.Util = function(parent)
 		var event = evt || {};
 		if(parent.event.list[name]) {
 			parent.event.list[name].each(
-				function(fn){fn.call(fn._context,new CodePress.Event(event));}
+				function(fn){fn.call(fn._context,new jQuery.CodePress.Event(event));}
 			);
 		}
 	}
@@ -499,7 +520,7 @@ CodePress.Util = function(parent)
 /**
  * Event decorator
  */
-CodePress.Event = function(event){
+jQuery.CodePress.Event = function(event){
 	event.stop = function(){
 		if(browser.gecko) event.preventDefault();
 		if(browser.msie) event.returnValue = false; 
@@ -523,3 +544,5 @@ CodePress.Event = function(event){
 	}
 	return event;
 }
+
+});
