@@ -21,8 +21,8 @@ Array.prototype.each = Object.prototype.each = function(fn, bind){
 	for (var i = 0, j = this.length; i < j; i++) fn.call(bind, array[i], i, this);
 }
 
-CodePress = {}
-Language = {}
+CodePress = {};
+Language = {};
 
 CodePress.Engine = function(element) {
 	var engine = this;
@@ -114,7 +114,7 @@ CodePress.Engine = function(element) {
 		*/
 	
 		x = x.replace(/ /g,'&nbsp;');
-		editor.innerHTML = (flag=='scroll') ? x : o.split(z).join(x);
+		editor.innerHTML = (flag=='scroll') ? x : '<pre>' + o.split(z).join(x) + '</pre>';
 		if(flag!='init') engine.findCaret();
 		
 	}
