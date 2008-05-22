@@ -11,12 +11,14 @@ Language.php = {
 			return '<'+tag+'>'+arguments[1]+'</'+tag+'><'+tag+'>'+arguments[3]+'</'+tag+'><'+tag+'>'+arguments[4]+'</'+tag+'>';
 		}},
 
-		{ input : /<br>([\s ]*)/g, output : "<br><tt>$1</tt>" },
+		{ input : /<br>([\t ]*)/g, output : "<br><tt>$1</tt>" },
 		{ input : /("|')(((\\\1)|.??)*(\1|<br>|<\/P>))/g,
 		  output : '<s>$1$2</s>' }, // strings 
 		
-		{ input : /(&lt;\?)(php|=)?([\s\S]*)(\?&gt;)/gi ,
-		  output : "<strong><cite>$1$2</cite>$3<cite>$4</cite></strong>" },
+		{ input : /(&lt;\?)(php|=)?/gi ,
+		  output : "<strong><cite>$1$2</cite>" },
+		{ input : /(\?&gt;)/gi ,
+		  output : "<cite>$1</cite></strong>" },
 		
 		{ input : /(\$[\w\.]*)/g, output : '<a>$1</a>' }, // vars
 		{ input : /\b(false|true|and|or|xor|__FILE__|exception|__LINE__|array|as|break|case|class|const|continue|declare|default|die|do|echo|else|elseif|empty|enddeclare|endfor|endforeach|endif|endswitch|endwhile|eval|exit|extends|for|foreach|function|global|if|include|include_once|isset|list|new|print|require|require_once|return|static|switch|unset|use|while|__FUNCTION__|__CLASS__|__METHOD__|final|php_user_filter|interface|implements|extends|public|private|protected|abstract|clone|try|catch|throw|this)\b/gi,
