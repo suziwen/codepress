@@ -79,7 +79,7 @@ Editor = {
 			return Language.id;
 		
 		window.callback = callback; // TO-DO : change to local var if possible
-		Editor.load('../languages/'+language+'.js', function() {
+		Editor.load('../languages/'+ language +'.js', function() {
 			Engine.init('new');
 //			Engine.syntaxHighlight('init');
 			if(window.callback) // language onload
@@ -91,7 +91,7 @@ Editor = {
 			}
 		});
 
-		Editor.load('../languages/'+language+'.css');
+		Editor.load('../languages/'+ language +'.css');
 	},
 	
 	// snippets on/off/get
@@ -174,16 +174,16 @@ Editor = {
 		var head = document.getElementsByTagName('head')[0];
 		var ok = false;
 		
-		obj.onload = obj.onreadystatechange = function(){
+		obj.onload = obj.onreadystatechange = function() {
 			if (!ok && (!this.readyState || 
 					this.readyState == "loaded" || 
 					this.readyState == "complete")) {
-						
+
 				ok = true;
 				head.removeChild(obj);
 				if(editable) // return to original editable mode
 					Editor.editable(true);
-				
+
 				if(callback)
 					callback.call();
 			}

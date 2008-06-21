@@ -53,37 +53,37 @@ Engine = {
 			Engine.Shortcuts.run(charCode ? charCode : keyCode);
 		}
         // auto complete
-		else if((completeEndChars.indexOf('|'+fromChar+'|')!= -1 || completeChars.indexOf('|'+fromChar+'|')!=-1) && Engine.Complete.active) {
+		else if((completeEndChars.indexOf('|'+ fromChar +'|') != -1 || completeChars.indexOf('|'+ fromChar +'|') != -1) && Engine.Complete.active) {
 			if(!Engine.Complete.end(fromChar))
 			     Engine.Complete.run(fromChar);
 		}
 		// syntax highlighting
-	    else if(chars.indexOf('|'+charCode+'|')!=-1 || keyCode==13 && Engine.Highlight.active) { 
+	    else if(chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13 && Engine.Highlight.active) { 
 			top.setTimeout(function() {
 				Engine.Highlight.run('generic');
 			},100);
 		}
 		// snippets activation (tab)
-		else if((keyCode==9 || evt.tabKey) && Engine.Snippets.active) {  
+		else if((keyCode == 9 || evt.tabKey) && Engine.Snippets.active) {  
 			Engine.Snippets.run(evt);
 		}
 		// save to history when delete or backspace pressed
-		else if(keyCode==46 || keyCode==8) { 
+		else if(keyCode == 46 || keyCode == 8) { 
 		 	Engine.Actions.history[Engine.Actions.next()] = this.body.innerHTML;
 		}
 		// undo and redo
-		else if((charCode==122 || charCode==121 || charCode==90) && evt.ctrlKey) { 
-			(charCode==121 || evt.shiftKey) ? Engine.Actions.redo() : Engine.Actions.undo(); 
+		else if((charCode == 122 || charCode == 121 || charCode == 90) && evt.ctrlKey) { 
+			(charCode == 121 || evt.shiftKey) ? Engine.Actions.redo() : Engine.Actions.undo(); 
 			evt.preventDefault();
 		}
 		// handle paste
-		else if(charCode==118 && evt.ctrlKey)  { 
+		else if(charCode == 118 && evt.ctrlKey)  { 
 		 	top.setTimeout(function() {
 				Engine.Highlight.run('generic');
 			},100);
 		}
 		// handle cut
-		else if(charCode==99 && evt.ctrlKey)  { 
+		else if(charCode == 99 && evt.ctrlKey)  { 
 		 	//alert(window.getSelection().getRangeAt(0).toString().replace(/\t/g,'FFF'));
 		}
 	},
@@ -135,7 +135,7 @@ Engine.Highlight = {
 	
 	// split big files, highlighting parts of it
 	split : function(code, flag) {
-		if(flag=='scroll') {
+		if(flag == 'scroll') {
 			Engine.scrolling = true;
 			return code;
 		}
@@ -155,7 +155,7 @@ Engine.Highlight = {
 				end = mid + 2000;
 			}
 
-			return code.substring(ini,end);
+			return code.substring(ini, end);
 		}
 	},		
 	
@@ -166,15 +166,15 @@ Engine.Highlight = {
 
 		var o, x, z, i, code;
 		o = Engine.body.innerHTML;
-		o = o.replace(/<br>/g,'\n');
-		o = o.replace(/<.*?>/g,'');
-		x = z = this.split(o,flag);
-		x = x.replace(/\n/g,'<br>');
+		o = o.replace(/<br>/g, '\n');
+		o = o.replace(/<.*?>/g, '');
+		x = z = this.split(o, flag);
+		x = x.replace(/\n/g, '<br>');
 
-		if(arguments[1]&&arguments[2]) 
-			x = x.replace(arguments[1],arguments[2]);
+		if(arguments[1] && arguments[2]) 
+			x = x.replace(arguments[1], arguments[2]);
 	
-		for(i=0;i<Language.syntax.length;i++) 
+		for(i=0; i < Language.syntax.length; i++) 
 			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
 
 		code = Engine.Actions.history[Engine.Actions.next()] = flag == 'scroll' ? 
@@ -193,14 +193,14 @@ Engine.Actions = {
 	history : [], // history vector
 	
 	undo : function() {
-		if(Engine.body.innerHTML.indexOf(cc)==-1) {
+		if(Engine.body.innerHTML.indexOf(cc) == -1) {
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 		 	this.history[this.pos] = Engine.body.innerHTML;
 		}
 		
 		this.pos--;
 		
-		if(typeof(this.history[this.pos])=='undefined') 
+		if(typeof(this.history[this.pos]) == 'undefined') 
 			this.pos++;
 		Engine.body.innerHTML = this.history[this.pos];
 		Engine.Highlight.findString();
@@ -208,7 +208,7 @@ Engine.Actions = {
 	
 	redo : function() {
 		this.pos++;
-		if(typeof(this.history[this.pos])=='undefined') 
+		if(typeof(this.history[this.pos]) == 'undefined') 
 			this.pos--;
 		Engine.body.innerHTML = this.history[this.pos];
 		Engine.Highlight.findString();
