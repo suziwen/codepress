@@ -7,19 +7,20 @@ Engine.Shortcuts = {
 	
 	run : function() {
 		var cCode = arguments[0];
-		if(cCode==13) 
+
+		if(cCode == 13) 
 			cCode = '[enter]';
-		else if(cCode==32) 
+		else if(cCode == 32) 
 			cCode = '[space]';
 		else 
-			cCode = '['+String.fromCharCode(charCode).toLowerCase()+']';
+			cCode = '['+ String.fromCharCode(charCode).toLowerCase() +']';
 			
-		for(var i=0;i<Language.shortcuts.length;i++)
+		for(var i = 0; i < Language.shortcuts.length; i++)
 			if(Language.shortcuts[i].input == cCode)
 				this.insertCode(Language.shortcuts[i].output, false);
 	},
 	
-	insertCode : function(code,replaceCursorBefore) {
+	insertCode : function(code, replaceCursorBefore) {
 		var range = window.getSelection().getRangeAt(0);
 		var node = window.document.createTextNode(code);
 		var selct = window.getSelection();
