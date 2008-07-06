@@ -1,5 +1,5 @@
 /**
- * CodePress Auto Complete
+ * CodePress Auto-Complete
  */
 
 // auto-complete on/off/get

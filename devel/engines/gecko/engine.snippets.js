@@ -1,6 +1,7 @@
 /**
  * CodePress Snippets
  */
+
 Engine.Snippets = {
 	
 	active : true,
