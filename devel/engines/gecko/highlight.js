@@ -54,12 +54,12 @@ Engine.Highlight = {
 			x = x.replace(arguments[1], arguments[2]);
 	
 		for(i=0; i < Language.syntax.length; i++) 
-			x = x.replace(Language.syntax[i].input,Language.syntax[i].output);
+			x = x.replace(Language.syntax[i].input, Language.syntax[i].output);
 
 		code = Engine.Actions.history[Engine.Actions.next()] = flag == 'scroll' ? 
 			x : o.split(z).join(x); 
 		
-		Engine.body.innerHTML = '<PRE>'+code+'</PRE>';
+		Engine.body.innerHTML = '<PRE>'+ code +'</PRE>';
 		if(flag != 'init') 
 			this.findString();
 	}

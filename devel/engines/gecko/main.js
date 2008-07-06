@@ -81,21 +81,21 @@ Engine = {
 	// get/set code from editor
 	code : function(code) {
 		if(code) {
-			code = code.replace(/\u2009/gi,'');
-			code = code.replace(/&/gi,'&amp;');
-	       	code = code.replace(/</g,'&lt;');
-	        code = code.replace(/>/g,'&gt;');
-			this.body.innerHTML = '<pre>'+code+'</pre>';
+			code = code.replace(/\u2009/gi, '');
+			code = code.replace(/&/gi, '&amp;');
+	       	code = code.replace(/</g, '&lt;');
+	        code = code.replace(/>/g, '&gt;');
+			this.body.innerHTML = '<pre>'+ code +'</pre>';
 			Engine.Highlight.run('init');
 		}
 		else {
 			var code = this.body.innerHTML;
-			code = code.replace(/<br>/g,'\n');
-			code = code.replace(/\u2009/g,'');
-			code = code.replace(/<.*?>/g,'');
-			code = code.replace(/&lt;/g,'<');
-			code = code.replace(/&gt;/g,'>');
-			code = code.replace(/&amp;/gi,'&');
+			code = code.replace(/<br>/g, '\n');
+			code = code.replace(/\u2009/g, '');
+			code = code.replace(/<.*?>/g, '');
+			code = code.replace(/&lt;/g, '<');
+			code = code.replace(/&gt;/g, '>');
+			code = code.replace(/&amp;/gi, '&');
 			return code;
 		}
 	}
