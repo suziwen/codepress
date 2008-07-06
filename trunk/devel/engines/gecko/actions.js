@@ -30,7 +30,7 @@ Engine.Actions = {
 	
 	next : function() { // get next vector position and clean old ones
 		if(this.pos > 20) 
-			this.history[this.pos-21] = undefined;
+			this.history[this.pos - 21] = undefined;
 		return ++this.pos;
 	}
 }
