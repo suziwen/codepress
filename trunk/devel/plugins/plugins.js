@@ -11,6 +11,22 @@
  * CodePress Plugins
  */
 Plugin = {
-
+	
+	init : function() {
+		// load all plugins here
+		for(plugin in iframe.Config.plugins) {
+			alert(plugin)
+		}
+		this.load('complete');
+		this.load('shortcuts');
+		this.load('snippets');
+		
+	},
+	
+	load : function(plugin) {
+		document.write('<scr'+'ipt src="../plugins/'+ plugin +'/'+ plugin +'.js"></scr'+'ipt>');
+	}
 
 }
+
+Plugin.init();
