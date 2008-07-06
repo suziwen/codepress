@@ -1,6 +1,7 @@
 /**
  * CodePress Shortcuts
  */
+
 Engine.Shortcuts = {
 	
 	active : true,
