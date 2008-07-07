@@ -5,11 +5,11 @@
 Engine = {
 
 	scrolling : false,
+	name : 'gecko',
 	
 	init : function() {
 		chars = '|32|46|62|', // charcodes that trigger syntax highlighting
 		cc = '\u2009', // control char
-
 
 	//	if(typeof(editor)=='undefined' && !arguments[0]) return;
 		this.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
@@ -20,8 +20,10 @@ Engine = {
 		}, false);
 
 		document.addEventListener('keypress', Engine.keyHandler, true);
+
+		Editor.load('')
 		
-		Engine.Complete.init();
+//		Engine.Complete.init();
 		Engine.Highlight.run('init');
 	},
 
@@ -101,4 +103,8 @@ Engine = {
 	}
 }
 
-
+Editor.load('../engines/gecko/highlight.js');
+Editor.load('../engines/gecko/complete.js');
+Editor.load('../engines/gecko/actions.js');
+Editor.load('../engines/gecko/shortcuts.js');
+Editor.load('../engines/gecko/snippets.js');

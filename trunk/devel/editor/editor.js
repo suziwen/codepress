@@ -156,6 +156,10 @@ Editor = {
 	
 	// load js and css
 	load : function(url, callback) {
+		if(url.match('engines')) { // static include
+			document.write('<scr'+'ipt src="'+ url +'"></scr'+'ipt>');
+			return;
+		}
 		if (url.match(/\.js$/)) {
 			var obj = document.createElement('script');
 			obj.type = 'text/javascript';
@@ -206,11 +210,9 @@ Language = {
 	shortcuts : []
 }
 
-document.write('<scr'+'ipt src="../engines/'+Editor.engine()+'.js"></scr'+'ipt>');
-// document.write('<scr'+'ipt src="../plugins/plugin.js"></scr'+'ipt>');
-document.write('<scr'+'ipt src="../plugins/complete/complete.'+Editor.engine()+'.js"></scr'+'ipt>');
-document.write('<scr'+'ipt src="../plugins/shortcuts/shortcuts.'+Editor.engine()+'.js"></scr'+'ipt>');
-document.write('<scr'+'ipt src="../plugins/snippets/snippets.'+Editor.engine()+'.js"></scr'+'ipt>');
+//document.write('<scr'+'ipt src="../engines/'+Editor.engine()+'/main.js"></scr'+'ipt>');
+Editor.load('../engines/'+Editor.engine()+'/main.js');
+document.write('<scr'+'ipt src="../languages/generic.js"></scr'+'ipt>');
 
 
 window.attachEvent ?

@@ -2,12 +2,6 @@
  * CodePress Auto-Complete
  */
 
-// auto-complete on/off/get
-Editor.complete = function(value) {
-	return Engine.Complete.active = value == undefined ?
-		Engine.Complete.active : value;
-}
-
 Engine.Complete = {
 	
 	active : true,
