@@ -79,7 +79,14 @@ Editor = {
 			return Language.id;
 		
 		window.callback = callback; // TO-DO : change to local var if possible
-		Editor.load('../languages/'+ language +'.js', function() {
+
+		
+		Editor.load('../languages/'+ language +'/syntax.js', function() {
+
+
+			Editor.load('../languages/'+ language +'/snippets.js', function() {
+				Editor.load('../languages/'+ language +'/complete.js', function() {
+					Editor.load('../languages/'+ language +'/shortcuts.js', function() {
 			Engine.init('new');
 //			Engine.syntaxHighlight('init');
 			if(window.callback) // language onload
@@ -89,9 +96,14 @@ Editor = {
 				CodePress.onload.call();
 				CodePress.onload = false;
 			}
+						
+					});					
+				});				
+			});
 		});
 
-		Editor.load('../languages/'+ language +'.css');
+
+		Editor.load('../languages/'+ language +'/syntax.css');
 	},
 	
 	// snippets on/off/get
@@ -153,13 +165,14 @@ Editor = {
 	editable : function(value) {
 		return ! (textarea.readOnly = ! Engine.editable(value));
 	},
-	
-	// load js and css
+
+	// include js
+	include : function(url) {
+		document.write('<scr'+'ipt src="'+ url +'"></scr'+'ipt>');
+	},
+
+	// load js and css	
 	load : function(url, callback) {
-		if(url.match('engines')) { // static include
-			document.write('<scr'+'ipt src="'+ url +'"></scr'+'ipt>');
-			return;
-		}
 		if (url.match(/\.js$/)) {
 			var obj = document.createElement('script');
 			obj.type = 'text/javascript';
@@ -211,8 +224,8 @@ Language = {
 }
 
 //document.write('<scr'+'ipt src="../engines/'+Editor.engine()+'/main.js"></scr'+'ipt>');
-Editor.load('../engines/'+Editor.engine()+'/main.js');
-document.write('<scr'+'ipt src="../languages/generic.js"></scr'+'ipt>');
+Editor.include('../engines/'+Editor.engine()+'/engine.js');
+//document.write('<scr'+'ipt src="../languages/generic.js"></scr'+'ipt>');
 
 
 window.attachEvent ?

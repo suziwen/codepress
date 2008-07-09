@@ -64,4 +64,3 @@ Engine.Highlight = {
 			this.findString();
 	}
 }
-
