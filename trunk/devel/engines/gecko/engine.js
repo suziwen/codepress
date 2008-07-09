@@ -21,9 +21,9 @@ Engine = {
 
 		document.addEventListener('keypress', Engine.keyHandler, true);
 
-		Editor.load('')
+//		Editor.load('')
 		
-//		Engine.Complete.init();
+		Engine.Complete.init();
 		Engine.Highlight.run('init');
 	},
 
@@ -103,8 +103,8 @@ Engine = {
 	}
 }
 
-Editor.load('../engines/gecko/highlight.js');
-Editor.load('../engines/gecko/complete.js');
-Editor.load('../engines/gecko/actions.js');
-Editor.load('../engines/gecko/shortcuts.js');
-Editor.load('../engines/gecko/snippets.js');
+Editor.include('../engines/gecko/highlight.js');
+Editor.include('../engines/gecko/complete.js');
+Editor.include('../engines/gecko/actions.js');
+Editor.include('../engines/gecko/shortcuts.js');
+Editor.include('../engines/gecko/snippets.js');
