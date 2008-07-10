@@ -1,4 +1,1 @@
-/**
- * @author falves
- */
 Language.shortcuts = []
