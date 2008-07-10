@@ -1,5 +1,5 @@
 /**
- * @author feanndor
+ * CodePress tests
  */
 
 (function(){
@@ -145,90 +145,90 @@ CodePress.Test.tests = [
 	},
 	
 	function() {
-		title = 'cp.Editor.snippets set false + get';
+		title = 'cp.Engine.snippets set false + get';
 		expected = false;
-		cp.Editor.snippets(true);
+		cp.Engine.snippets(true);
 		$.startTimer();
-		cp.Editor.snippets(false);
+		cp.Engine.snippets(false);
 		$.stopTimer();
-		result = cp.Editor.snippets();
+		result = cp.Engine.snippets();
 		$.next();
 	},
 	
 	function() {
-		title = 'cp.Editor.snippets set true + get';
+		title = 'cp.Engine.snippets set true + get';
 		expected = true;
-		cp.Editor.snippets(false);
+		cp.Engine.snippets(false);
 		$.startTimer();
-		cp.Editor.snippets(true);
+		cp.Engine.snippets(true);
 		$.stopTimer();
-		result = cp.Editor.snippets();
+		result = cp.Engine.snippets();
 		$.next();
 	},	
 
 	function() {
-		title = 'cp.Editor.complete set false + get';
+		title = 'cp.Engine.complete set false + get';
 		expected = false;
-		cp.Editor.complete(true);
+		cp.Engine.complete(true);
 		$.startTimer();
-		cp.Editor.complete(false);
+		cp.Engine.complete(false);
 		$.stopTimer();
-		result = cp.Editor.complete();
+		result = cp.Engine.complete();
 		$.next();
 	},
 	
 	function() {
-		title = 'cp.Editor.complete set true + get';
+		title = 'cp.Engine.complete set true + get';
 		expected = true;
-		cp.Editor.complete(false);
+		cp.Engine.complete(false);
 		$.startTimer();
-		cp.Editor.complete(true);
+		cp.Engine.complete(true);
 		$.stopTimer();
-		result = cp.Editor.complete();
+		result = cp.Engine.complete();
 		$.next();
 	},	
 
 	function() {
-		title = 'cp.Editor.highlight set false + get';
+		title = 'cp.Engine.highlight set false + get';
 		expected = false;
-		cp.Editor.highlight(true);
+		cp.Engine.highlight(true);
 		$.startTimer();
-		cp.Editor.highlight(false);
+		cp.Engine.highlight(false);
 		$.stopTimer();
-		result = cp.Editor.highlight();
+		result = cp.Engine.highlight();
 		$.next();
 	},
 	
 	function() {
-		title = 'cp.Editor.highlight set true + get';
+		title = 'cp.Engine.highlight set true + get';
 		expected = true;
-		cp.Editor.highlight(false);
+		cp.Engine.highlight(false);
 		$.startTimer();
-		cp.Editor.highlight(true);
+		cp.Engine.highlight(true);
 		$.stopTimer();
-		result = cp.Editor.highlight();
+		result = cp.Engine.highlight();
 		$.next();
 	},	
 
 	function() {
-		title = 'cp.Editor.shortcuts set false + get';
+		title = 'cp.Engine.shortcuts set false + get';
 		expected = false;
-		cp.Editor.shortcuts(true);
+		cp.Engine.shortcuts(true);
 		$.startTimer();
-		cp.Editor.shortcuts(false);
+		cp.Engine.shortcuts(false);
 		$.stopTimer();
-		result = cp.Editor.shortcuts();
+		result = cp.Engine.shortcuts();
 		$.next();
 	},
 	
 	function() {
-		title = 'cp.Editor.shortcuts set true + get';
+		title = 'cp.Engine.shortcuts set true + get';
 		expected = true;
-		cp.Editor.shortcuts(false);
+		cp.Engine.shortcuts(false);
 		$.startTimer();
-		cp.Editor.shortcuts(true);
+		cp.Engine.shortcuts(true);
 		$.stopTimer();
-		result = cp.Editor.shortcuts();
+		result = cp.Engine.shortcuts();
 		$.next();
 	},	
 
@@ -277,10 +277,10 @@ CodePress.Test.tests = [
 	},
 	
 	function() {
-		title = 'cp.Editor.engine get';
+		title = 'cp.Engine.name get';
 		expected = 'gecko';
 		$.startTimer();
-		result = cp.Editor.engine();
+		result = cp.Engine.name;
 		$.stopTimer();
 		$.next();
 	},
@@ -301,8 +301,8 @@ CodePress.Test.tests = [
 						callback:function() {
 			$.stopTimer();
 			
-			result = (! (cp.Editor.snippets() || cp.Editor.complete() || cp.Editor.active() || 
-					  cp.Editor.shortcuts() || cp.Editor.highlight() ||
+			result = (! (cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
+					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
 					  cp.Editor.editable()) && cp.Editor.language() == 'generic')
 
 			$.next();
@@ -317,8 +317,8 @@ CodePress.Test.tests = [
 		cp.Editor.open({callback:function() {
 			$.stopTimer();
 
-			result = ((cp.Editor.snippets() || cp.Editor.complete() || cp.Editor.active() || 
-					  cp.Editor.shortcuts() || cp.Editor.highlight() ||
+			result = ((cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
+					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
 					  cp.Editor.editable()) && cp.Editor.language() == 'text')
 
 			$.next();
@@ -333,8 +333,8 @@ CodePress.Test.tests = [
 		cp.Editor.open({language:'javascript', callback:function() {
 			$.stopTimer();
 
-			result = ((cp.Editor.snippets() || cp.Editor.complete() || cp.Editor.active() || 
-					  cp.Editor.shortcuts() || cp.Editor.highlight() ||
+			result = ((cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
+					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
 					  cp.Editor.editable()) && cp.Editor.language() == 'javascript')
 
 			$.next();

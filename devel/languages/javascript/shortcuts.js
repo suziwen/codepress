@@ -1,4 +1,6 @@
 /**
- * @author falves
+ * CodePress Shortcuts for JavaScript
  */
-Language.shortcuts = []
+Language.shortcuts = [
+
+];
