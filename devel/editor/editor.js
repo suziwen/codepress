@@ -80,30 +80,21 @@ Editor = {
 		
 		window.callback = callback; // TO-DO : change to local var if possible
 
-		
-		Editor.load('../languages/'+ language +'/syntax.js', function() {
-
-
-			Editor.load('../languages/'+ language +'/snippets.js', function() {
-				Editor.load('../languages/'+ language +'/complete.js', function() {
-					Editor.load('../languages/'+ language +'/shortcuts.js', function() {
+		Language.load(language, function() {
 			Engine.init('new');
 //			Engine.syntaxHighlight('init');
 			if(window.callback) // language onload
 				window.callback.call();
 
+/*
 			if(CodePress.onload) { // CodePress onload. Execute once
 				CodePress.onload.call();
 				CodePress.onload = false;
 			}
-						
-					});					
-				});				
-			});
+*/
 		});
 
-
-		Editor.load('../languages/'+ language +'/syntax.css');
+//		Editor.load('../languages/'+ language +'/syntax.css');
 	},
 	
 	// snippets on/off/get
@@ -167,64 +158,17 @@ Editor = {
 	},
 
 	// include js
-	include : function(url) {
-		document.write('<scr'+'ipt src="'+ url +'"></scr'+'ipt>');
-	},
-
-	// load js and css	
-	load : function(url, callback) {
-		if (url.match(/\.js$/)) {
-			var obj = document.createElement('script');
-			obj.type = 'text/javascript';
-			obj.src = url;
-		}
-		else {
-			var obj = document.createElement('link');
-			obj.rel = 'stylesheet';
-			obj.type = 'text/css';
-			obj.href = url;
-		}
-
-		var editable = Editor.editable();
-		Editor.editable(false); // can't add script to designMode=on, so turn it off
-
-		var head = document.getElementsByTagName('head')[0];
-		var ok = false;
-		
-		obj.onload = obj.onreadystatechange = function() {
-			if (!ok && (!this.readyState || 
-					this.readyState == "loaded" || 
-					this.readyState == "complete")) {
-
-				ok = true;
-				head.removeChild(obj);
-				if(editable) // return to original editable mode
-					Editor.editable(true);
-
-				if(callback)
-					callback.call();
-			}
-		};
-		
-		head.appendChild(obj);
+	include : function(js) {
+		js = js.replace(/\./g, '/');
+		document.write('<scr'+'ipt src="../'+ js +'.js"></scr'+'ipt>');
 	}
-};
-
-	
-/**
- * Language
- */
-Language = {
-	id : 'text',
-	name : 'Plain text',
-	syntax : [],
-	snippets : [],
-	complete : [],
-	shortcuts : []
 }
 
+	
+
 //document.write('<scr'+'ipt src="../engines/'+Editor.engine()+'/main.js"></scr'+'ipt>');
-Editor.include('../engines/'+Editor.engine()+'/engine.js');
+Editor.include('engines.'+Editor.engine()+'.engine');
+Editor.include('languages.language');
 //document.write('<scr'+'ipt src="../languages/generic.js"></scr'+'ipt>');
 
 

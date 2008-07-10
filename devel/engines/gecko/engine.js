@@ -103,8 +103,8 @@ Engine = {
 	}
 }
 
-Editor.include('../engines/gecko/highlight.js');
-Editor.include('../engines/gecko/complete.js');
-Editor.include('../engines/gecko/actions.js');
-Editor.include('../engines/gecko/shortcuts.js');
-Editor.include('../engines/gecko/snippets.js');
+Editor.include('engines.gecko.highlight');
+Editor.include('engines.gecko.complete');
+Editor.include('engines.gecko.actions');
+Editor.include('engines.gecko.shortcuts');
+Editor.include('engines.gecko.snippets');

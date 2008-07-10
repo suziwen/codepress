@@ -9,4 +9,3 @@ Language.complete = [
 	{ input : '{', output : '{\n\t$0\n}' }		
 ]
 
-alert(5)

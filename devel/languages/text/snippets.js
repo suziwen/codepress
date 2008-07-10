@@ -2,7 +2,7 @@
  * @author falves
  */
 
-alert(2)
+
 Language.snippets = [
 	{ input : 'dw', output : 'document.write(\'$0\');' },
 	{ input : 'getid', output : 'document.getElementById(\'$0\')' },
