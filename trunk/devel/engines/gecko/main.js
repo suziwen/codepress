@@ -1,25 +1,23 @@
 /**
- * CodePress Engine
+ * CodePress Gecko Engine
  */
-
-Engine = {
+Engine.Main = {
 
 	scrolling : false,
-	name : 'gecko',
 	
 	init : function() {
 		chars = '|32|46|62|', // charcodes that trigger syntax highlighting
 		cc = '\u2009', // control char
 
 	//	if(typeof(editor)=='undefined' && !arguments[0]) return;
-		this.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
+		Engine.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
 
 		window.addEventListener('scroll', function() { 
 			if(!Engine.scrolling) 
 				Engine.Highlight.run('scroll');
 		}, false);
 
-		document.addEventListener('keypress', Engine.keyHandler, true);
+		document.addEventListener('keypress', Engine.Main.keyHandler, true);
 
 //		Editor.load('')
 		
@@ -54,7 +52,7 @@ Engine = {
 		}
 		// save to history when delete or backspace pressed
 		else if(keyCode == 46 || keyCode == 8) { 
-		 	Engine.Actions.history[Engine.Actions.next()] = this.body.innerHTML;
+		 	Engine.Actions.history[Engine.Actions.next()] = Engine.body.innerHTML;
 		}
 		// undo and redo
 		else if((charCode == 122 || charCode == 121 || charCode == 90) && evt.ctrlKey) { 
@@ -87,11 +85,11 @@ Engine = {
 			code = code.replace(/&/gi, '&amp;');
 	       	code = code.replace(/</g, '&lt;');
 	        code = code.replace(/>/g, '&gt;');
-			this.body.innerHTML = '<pre>'+ code +'</pre>';
+			Engine.body.innerHTML = '<pre>'+ code +'</pre>';
 			Engine.Highlight.run('init');
 		}
 		else {
-			var code = this.body.innerHTML;
+			var code = Engine.body.innerHTML;
 			code = code.replace(/<br>/g, '\n');
 			code = code.replace(/\u2009/g, '');
 			code = code.replace(/<.*?>/g, '');
@@ -108,3 +106,4 @@ Editor.include('engines.gecko.complete');
 Editor.include('engines.gecko.actions');
 Editor.include('engines.gecko.shortcuts');
 Editor.include('engines.gecko.snippets');
+

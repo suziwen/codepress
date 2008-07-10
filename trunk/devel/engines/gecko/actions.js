@@ -1,9 +1,9 @@
 /**
- * CodePress actions (undo/redo)
+ * CodePress Actions (undo/redo)
  */
-
 Engine.Actions = {
-	pos : -1, // actual history position
+	
+	pos : -1, // current history position
 	history : [], // history vector
 	
 	undo : function() {

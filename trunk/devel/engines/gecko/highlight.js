@@ -1,7 +1,6 @@
 /**
  * CodePress Syntax Highlighting
  */
-
 Engine.Highlight = {
 	
 	active : true,

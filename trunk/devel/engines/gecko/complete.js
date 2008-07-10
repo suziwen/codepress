@@ -1,7 +1,6 @@
 /**
  * CodePress Auto-Complete
  */
-
 Engine.Complete = {
 	
 	active : true,
