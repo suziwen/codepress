@@ -74,7 +74,6 @@ CodePress.Test.tests = [
 		container.appendChild(textarea);
 		cp = new CodePress.instance(textarea);
 		cp.onload = function () { 
-		//	alert('onload ok')
 			$.stopTimer();
 			result = true;
 			$.next();
@@ -127,14 +126,11 @@ CodePress.Test.tests = [
 		title = 'cp.Editor.language set/get + callback';
 		expected = 'javascript';
 		$.startTimer();
-//		alert(1)
 		cp.Editor.language('javascript', function() {
-			alert(3333)
 			result = cp.Editor.language();
 			$.stopTimer();
 			$.next();
 		});
-		alert(2)
 	},
 	
 	function() {
@@ -329,7 +325,7 @@ CodePress.Test.tests = [
 		}});
 	},
 	
-		function() {
+	function() {
 		title = 'cp.Editor.open options className + arguments';
 		expected = true;
 		$.startTimer();

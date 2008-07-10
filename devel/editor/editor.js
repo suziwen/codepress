@@ -78,23 +78,19 @@ Editor = {
 		if(!language) 
 			return Language.id;
 		
-		window.callback = callback; // TO-DO : change to local var if possible
+		Language.callback = callback;
 
 		Language.load(language, function() {
 			Engine.init('new');
-//			Engine.syntaxHighlight('init');
-			if(window.callback) // language onload
-				window.callback.call();
 
-/*
+			if(Language.callback) // language onload
+				Language.callback.call();
+
 			if(CodePress.onload) { // CodePress onload. Execute once
 				CodePress.onload.call();
 				CodePress.onload = false;
 			}
-*/
 		});
-
-//		Editor.load('../languages/'+ language +'/syntax.css');
 	},
 	
 	// snippets on/off/get
@@ -165,12 +161,8 @@ Editor = {
 }
 
 	
-
-//document.write('<scr'+'ipt src="../engines/'+Editor.engine()+'/main.js"></scr'+'ipt>');
 Editor.include('engines.'+Editor.engine()+'.engine');
 Editor.include('languages.language');
-//document.write('<scr'+'ipt src="../languages/generic.js"></scr'+'ipt>');
-
 
 window.attachEvent ?
 	window.attachEvent('onload', Editor.init) :
