@@ -49,8 +49,11 @@ Editor = {
 			
 		var option = function(name)  {
 			var opt = textarea.className.match(name +':(.*?)( |$)');
-			return oa[name] != undefined ? oa[name] : opt ? opt[1] : 
-				CodePress.Config.defaults[name]; // return default if not specified
+			if (name == 'language') // defaults to generic if specified languages does not exist
+				return oa[name] != undefined ? oa[name] : Language.languages[opt[1]] ? opt[1] : 'generic'; 
+
+			// defaults to true (feature on) if not specified
+			return oa[name] != undefined ? oa[name] : opt ? opt[1] == 'true' : true; 
 		}
 
 		Engine.snippets(option('snippets'));

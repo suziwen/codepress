@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
+	<script src="codepress.js"></script>
+</head>
+
+<body>
+
+<textarea id="cp1" class="lala codepress language:javascript snippets:true complete:true active:true shortcuts:true highlight:false editable:true" style="width:600px;height:200px;">
+if (teste == 1) {
+	document.write("teste");
+}
+</textarea>
+
+<button onclick="CodePress['cp1'].Engine.highlight(false)">highlight false</button>
+<button onclick="CodePress['cp1'].Engine.highlight(true)">highlight true</button>
+
+</body>
+</html>
