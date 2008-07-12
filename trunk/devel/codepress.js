@@ -7,6 +7,12 @@
  * under the terms of the GNU Lesser General Public License (license.txt).
  */
 
+/* TO DO
+ * 
+ * - highlight off is not cleaning previous highlighted code (change language to text?) and on is not backing up to the last selected language
+ * - fazer testes de highlight on/off
+ */
+
 /**
  * CodePress
  */
@@ -33,45 +39,6 @@ CodePress = {
 		this.textarea.parentNode.insertBefore(this.iframe, this.textarea);
 	}
 };
-
-
-/**
- * Config
- */
-CodePress.Config = {
-	
-	plugins : {
-		complete 	: 'Auto-complete',
-		snippets 	: 'Code snippets',
-		shortcuts	: 'Shortcut keys'
-	},
-	
-	languages : {
-		csharp 		: 'C#', 
-		css    		: 'CSS', 
-		generic 	: 'Generic',
-		html 		: 'HTML',
-		java 		: 'Java', 
-		javascript  : 'JavaScript', 
-		perl 		: 'Perl', 
-		ruby 		: 'Ruby',	
-		php 		: 'PHP', 
-		text 		: 'Text', 
-		sql 		: 'SQL',
-		vbscript 	: 'VBScript'
-	}, 
-	
-	defaults : {
-		active      : true,
-		language    : 'generic',
-		editable    : true,
-		complete    : true,
-		snippets    : true,
-		shortcuts   : true,
-		highlight   : true
-	}
-};
-
 
 window.attachEvent ? 
 	window.attachEvent('onload', CodePress.init) : 

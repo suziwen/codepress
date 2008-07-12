@@ -5,8 +5,6 @@ Engine = {
 	
 	init : function() {
 		Engine.Main.init(arguments[0]);
-		
-		// add defaults here?
 	},
 
 	// name of the engine

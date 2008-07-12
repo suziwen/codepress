@@ -13,7 +13,7 @@ Engine.Shortcuts = {
 		else if(cCode == 32) 
 			cCode = '[space]';
 		else 
-			cCode = '['+ String.fromCharCode(charCode).toLowerCase() +']';
+			cCode = '['+ String.fromCharCode(cCode).toLowerCase() +']';
 			
 		for(var i = 0; i < Language.shortcuts.length; i++)
 			if(Language.shortcuts[i].input == cCode)

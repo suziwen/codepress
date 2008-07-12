@@ -301,6 +301,7 @@ CodePress.Test.tests = [
 						callback:function() {
 			$.stopTimer();
 			
+			alert(cp.Engine.snippets() +' '+ cp.Engine.complete() +' '+ cp.Editor.active() +' '+  cp.Engine.shortcuts() +' '+ cp.Engine.highlight() +' '+  cp.Editor.editable() + ' '+cp.Editor.language())
 			result = (! (cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
 					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
 					  cp.Editor.editable()) && cp.Editor.language() == 'generic')

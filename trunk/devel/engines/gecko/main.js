@@ -41,7 +41,7 @@ Engine.Main = {
 			     Engine.Complete.run(fromChar);
 		}
 		// syntax highlighting
-	    else if(chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13 && Engine.Highlight.active) { 
+	    else if((chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13) && Engine.Highlight.active) { 
 			top.setTimeout(function() {
 				Engine.Highlight.run('generic');
 			},100);

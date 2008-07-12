@@ -64,6 +64,23 @@ Language = {
 		css.href = url;
 		head.appendChild(css);
 //		head.removeChild(css);			
+	},
+	
+	
+	// supported languages
+	languages : {
+	//	csharp 		: 'C#', 
+//		css    		: 'CSS', 
+		generic 	: 'Generic',
+//		html 		: 'HTML',
+//		java 		: 'Java', 
+		javascript  : 'JavaScript', 
+//		perl 		: 'Perl', 
+//		ruby 		: 'Ruby',	
+//		php 		: 'PHP', 
+		text 		: 'Text'
+//		sql 		: 'SQL',
+//		vbscript 	: 'VBScript'
 	}
 
 }
