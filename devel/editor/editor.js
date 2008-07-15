@@ -50,7 +50,8 @@ Editor = {
 		var option = function(name)  {
 			var opt = textarea.className.match(name +':(.*?)( |$)');
 			if (name == 'language') // defaults to generic if specified languages does not exist
-				return oa[name] != undefined ? oa[name] : Language.languages[opt[1]] ? opt[1] : 'generic'; 
+				return oa[name] != undefined ? oa[name] : opt[1]; 
+				//return oa[name] != undefined ? oa[name] : Language.languages[opt[1]] ? opt[1] : 'generic'; 
 
 			// defaults to true (feature on) if not specified
 			return oa[name] != undefined ? oa[name] : opt ? opt[1] == 'true' : true; 
@@ -70,9 +71,10 @@ Editor = {
 		if(!language) 
 			return Language.id;
 		
+		Language.id = Language.languages[language] ? language : 'generic';
 		Language.callback = callback;
 
-		Language.load(language, function() {
+		Language.load(Language.id, function() {
 			Engine.init('new');
 
 			if(Language.callback) // language onload

@@ -10,8 +10,8 @@ Engine.Snippets = {
 		var trigger = this.getLastWord();
 		
 		for (var i = 0; i < snippets.length; i++) {
-			if(snippets[i].input == trigger) {
-				var content = snippets[i].output.replace(/</g, '&lt;');
+			if(snippets[i].i == trigger) {
+				var content = snippets[i].o.replace(/</g, '&lt;');
 				content = content.replace(/>/g, '&gt;');
 				if(content.indexOf('$0') < 0) 
 					content += cc;

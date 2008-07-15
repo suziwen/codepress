@@ -1,6 +1,7 @@
 /**
- * CodePress Shortcuts for JavaScript
+ * CodePress shortcuts for JavaScript
  */
+
 Language.shortcuts = [
 	{ 
 		input : '[space]', 

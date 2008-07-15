@@ -14,9 +14,9 @@ Engine.Complete = {
 		window.getSelection().getRangeAt(0).deleteContents();
 		var complete = Language.complete;
 		for (var i = 0; i < complete.length; i++) {
-			if(complete[i].input == trigger) {
+			if(complete[i].i == trigger) {
 				var pattern = new RegExp('\\'+ trigger + cc);
-				var content = complete[i].output.replace(/\$0/g, cc);
+				var content = complete[i].o.replace(/\$0/g, cc);
 				parent.setTimeout(function() { 
 					Engine.Highlight.run('complete', pattern, content)
 				}, 0); // wait for char to appear on screen
@@ -27,14 +27,14 @@ Engine.Complete = {
 	getChars : function() {
 		var cChars = '';
 		for(var i = 0; i < Language.complete.length; i++)
-			cChars += '|'+Language.complete[i].input;
+			cChars += '|'+Language.complete[i].i;
 		return cChars +'|';
 	},
 	
 	getEndChars : function() {
 		var cChars = '';
 		for(var i = 0; i < Language.complete.length; i++)
-			cChars += '|'+ Language.complete[i].output.charAt(Language.complete[i].output.length - 1);
+			cChars += '|'+ Language.complete[i].o.charAt(Language.complete[i].o.length - 1);
 		return cChars +'|';
 	},
 	
