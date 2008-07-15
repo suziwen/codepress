@@ -36,7 +36,8 @@ Engine.Main = {
 			Engine.Shortcuts.run(charCode ? charCode : keyCode);
 		}
         // auto complete
-		else if(completeEndChars.indexOf('|'+ fromChar +'|') != -1 || completeChars.indexOf('|'+ fromChar +'|') != -1) {
+		else if(Engine.Complete.endChars.indexOf('|'+ fromChar +'|') != -1 || 
+			 	Engine.Complete.chars.indexOf('|'+ fromChar +'|') != -1) {
 			if(!Engine.Complete.end(fromChar))
 			     Engine.Complete.run(fromChar);
 		}
@@ -44,7 +45,7 @@ Engine.Main = {
 	    else if(chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13) { 
 			top.setTimeout(function() {
 				Engine.Highlight.run('generic');
-			},100);
+			}, 100);
 		}
 		// snippets activation (tab)
 		else if(keyCode == 9 || evt.tabKey) {  
@@ -63,7 +64,7 @@ Engine.Main = {
 		else if(charCode == 118 && evt.ctrlKey)  { 
 		 	top.setTimeout(function() {
 				Engine.Highlight.run('generic');
-			},100);
+			}, 100);
 		}
 		// handle cut
 		else if(charCode == 99 && evt.ctrlKey)  { 
