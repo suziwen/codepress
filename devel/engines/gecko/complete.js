@@ -11,6 +11,9 @@ Engine.Complete = {
 	},
 
 	run : function(trigger) {
+		if(!this.active)
+			return;
+			
 		window.getSelection().getRangeAt(0).deleteContents();
 		var complete = Language.complete;
 		for (var i = 0; i < complete.length; i++) {

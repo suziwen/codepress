@@ -30,8 +30,12 @@ Engine = {
 	
 	// syntax highlighting on/off/get
 	highlight : function(value) {
-		return Engine.Highlight.active = value == undefined ?
+		Engine.Highlight.active = value == undefined ?
 			Engine.Highlight.active : value;
+
+		Engine.Highlight.run('init');
+			
+		return Engine.Highlight.active
 	},
 
 	shortcuts : function(value) {

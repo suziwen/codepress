@@ -38,7 +38,6 @@ Engine.Highlight = {
 	},		
 	
 	run : function(flag) {
-		//if(document.designMode=='off') document.designMode='on'
 		if(flag != 'init')
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 
@@ -52,7 +51,7 @@ Engine.Highlight = {
 		if(arguments[1] && arguments[2]) 
 			x = x.replace(arguments[1], arguments[2]);
 	
-		for(i=0; i < Language.syntax.length; i++) 
+		for(i=0; i < Language.syntax.length && this.active; i++) 
 			x = x.replace(Language.syntax[i].i, Language.syntax[i].o);
 
 		code = Engine.Actions.history[Engine.Actions.next()] = flag == 'scroll' ? 

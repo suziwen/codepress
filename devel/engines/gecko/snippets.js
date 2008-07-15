@@ -6,6 +6,9 @@ Engine.Snippets = {
 	active : true,
 	
 	run : function(evt) {
+		if(!this.active)
+			return;
+		
 		var snippets = Language.snippets;	
 		var trigger = this.getLastWord();
 		
