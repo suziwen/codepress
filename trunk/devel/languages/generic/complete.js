@@ -1,10 +1,30 @@
 /**
- * @author falves
+ * CodePress auto-complete for generic languages
  */
+
 Language.complete = [
-	{ input : '\'', output : '\'$0\'' },
-	{ input : '"', output : '"$0"' },
-	{ input : '(', output : '\($0\)' },
-	{ input : '[', output : '\[$0\]' },
-	{ input : '{', output : '{\n\t$0\n}' }		
-]
+	{ 
+		i : '\'', 
+		o : '\'$0\'' 
+	},
+	
+	{ 
+		i : '"', 
+		o : '"$0"' 
+	},
+	
+	{ 
+		i : '(', 
+		o : '\($0\)' 
+	},
+	
+	{ 
+		i : '[', 
+		o : '\[$0\]' 
+	},
+	
+	{ 
+		i : '{', 
+		o : '{\n\t$0\n}' 
+	}
+];

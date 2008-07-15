@@ -16,8 +16,8 @@ Engine.Shortcuts = {
 			cCode = '['+ String.fromCharCode(cCode).toLowerCase() +']';
 			
 		for(var i = 0; i < Language.shortcuts.length; i++)
-			if(Language.shortcuts[i].input == cCode)
-				this.insertCode(Language.shortcuts[i].output, false);
+			if(Language.shortcuts[i].i == cCode)
+				this.insertCode(Language.shortcuts[i].o, false);
 	},
 	
 	insertCode : function(code, replaceCursorBefore) {
