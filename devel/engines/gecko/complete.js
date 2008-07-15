@@ -6,8 +6,8 @@ Engine.Complete = {
 	active : true,
 	
 	init : function() {
-		completeChars = this.getChars();
-		completeEndChars = this.getEndChars();
+		this.chars = this.getChars();
+		this.endChars = this.getEndChars();
 	},
 
 	run : function(trigger) {
