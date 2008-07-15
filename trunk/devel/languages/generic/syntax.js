@@ -21,7 +21,7 @@ Language.syntax = [
 		i : /\b(abstract|continue|for|new|switch|default|goto|boolean|do|if|private|this|break|double|protected|throw|byte|else|import|public|throws|case|return|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|const|float|while|function|label)\b/g, 
 		o : '<b>$1</b>' 
 	},
-	// special chars;
+	// special chars
 	{ 
 		i : /([\(\){}])/g, 
 		o : '<em>$1</em>' 

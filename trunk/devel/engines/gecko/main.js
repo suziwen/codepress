@@ -32,22 +32,22 @@ Engine.Main = {
 		var fromChar = String.fromCharCode(charCode);
 
 		// shortcuts = ctrl||appleKey+shift+key!=z(undo) 
-		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode != 90 && Engine.Shortcuts.active) { 
+		if((evt.ctrlKey || evt.metaKey) && evt.shiftKey && charCode != 90) { 
 			Engine.Shortcuts.run(charCode ? charCode : keyCode);
 		}
         // auto complete
-		else if((completeEndChars.indexOf('|'+ fromChar +'|') != -1 || completeChars.indexOf('|'+ fromChar +'|') != -1) && Engine.Complete.active) {
+		else if(completeEndChars.indexOf('|'+ fromChar +'|') != -1 || completeChars.indexOf('|'+ fromChar +'|') != -1) {
 			if(!Engine.Complete.end(fromChar))
 			     Engine.Complete.run(fromChar);
 		}
 		// syntax highlighting
-	    else if((chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13) && Engine.Highlight.active) { 
+	    else if(chars.indexOf('|'+ charCode +'|') != -1 || keyCode == 13) { 
 			top.setTimeout(function() {
 				Engine.Highlight.run('generic');
 			},100);
 		}
 		// snippets activation (tab)
-		else if((keyCode == 9 || evt.tabKey) && Engine.Snippets.active) {  
+		else if(keyCode == 9 || evt.tabKey) {  
 			Engine.Snippets.run(evt);
 		}
 		// save to history when delete or backspace pressed

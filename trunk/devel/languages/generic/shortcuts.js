@@ -2,4 +2,6 @@
  * CodePress shortcuts for generic languages
  */
 
-Language.shortcuts = [];
+Language.shortcuts = [
+
+];

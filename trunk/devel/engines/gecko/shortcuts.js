@@ -6,6 +6,9 @@ Engine.Shortcuts = {
 	active : true,
 	
 	run : function() {
+		if(!this.active)
+			return;
+
 		var cCode = arguments[0];
 
 		if(cCode == 13) 
