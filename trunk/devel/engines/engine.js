@@ -4,6 +4,7 @@
 Engine = {
 	
 	init : function() {
+		Engine.body = document.getElementsByTagName('body')[0];
 		Engine.Main.init(arguments[0]);
 	},
 

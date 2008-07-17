@@ -9,8 +9,7 @@ Engine.Main = {
 		chars = '|32|46|62|', // charcodes that trigger syntax highlighting
 		cc = '\u2009', // control char
 
-	//	if(typeof(editor)=='undefined' && !arguments[0]) return;
-		Engine.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
+		//Engine.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
 
 		window.addEventListener('scroll', function() { 
 			if(!Engine.scrolling) 
@@ -18,10 +17,7 @@ Engine.Main = {
 		}, false);
 
 		document.addEventListener('keypress', Engine.Main.keyHandler, true);
-
-//		Editor.load('')
-		
-		Engine.Complete.init();
+		Engine.Complete.init();
 		Engine.Highlight.run('init');
 	},
 
@@ -72,7 +68,7 @@ Engine.Main = {
 		}
 	},
 
-	// readOnly set/get
+	// editable set/get (readOnly)
 	editable : function(value) {
 		var dm = {'true':'on', 'false':'off'};
 		return ((document.designMode = value == undefined ?

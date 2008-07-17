@@ -15,9 +15,7 @@ Editor = {
 		textarea = CodePress.textarea;
 
 		Engine.init('new');
-
 		Editor.style();
-		// Editor.active(true); // <- inside open()
 		Editor.open();
 	}, 
 	
@@ -46,7 +44,7 @@ Editor = {
 			Editor.code(parent.document.getElementById(oa.code) ?
 				parent.document.getElementById(oa.code).innerHTML :
 				typeof oa.code == 'object' ? oa.code.innerHTML : oa.code);
-			
+
 		var option = function(name)  {
 			var opt = textarea.className.match(name +':(.*?)( |$)');
 			if (name == 'language')
@@ -105,7 +103,7 @@ Editor = {
 		iframe.style.visibility = v[value];
 	},
 	
-	// readOnly on/off/get
+	// editable on/off/get
 	editable : function(value) {
 		return ! (textarea.readOnly = ! Engine.Main.editable(value));
 	},
