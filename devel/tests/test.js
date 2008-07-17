@@ -2,6 +2,74 @@
  * CodePress tests
  */
 
+/* TESTS
+ 
+// codepress creation
+CodePress creation via class + cp.onload
+CodePress creation via javascript + cp.onload
+
+// textarea
+cp.textarea.id get
+cp.textarea.style set/get
+
+// iframe
+cp.iframe.style set/get
+
+// snippets
+cp.Engine.snippets set false + get
+cp.Engine.snippets set true + get
+cp.Engine.snippets set wrong value + get
+
+// complete
+cp.Engine.complete set false + get
+cp.Engine.complete set true + get
+cp.Engine.complete set wrong value + get
+
+// highlight
+cp.Engine.highlight set false + get
+cp.Engine.highlight set true + get
+cp.Engine.highlight set wrong value + get
+
+// shortucuts
+cp.Engine.shortcuts set false + get
+cp.Engine.shortcuts set true + get
+cp.Engine.shortcuts set wrong value + get
+
+// active
+cp.Editor.active set false + get
+cp.Editor.active set true + get
+cp.Editor.active set wrong value + get
+
+// editable
+cp.Editor.editable set false + get
+cp.Editor.editable set true + get
+cp.Editor.editable set wrong value + get
+
+// language
+cp.Editor.language set
+cp.Editor.language get
+cp.Editor.language set + callback
+cp.Editor.language set wrong language + get
+
+// code
+cp.Editor.code set
+cp.Editor.code get CP
+cp.Editor.code get textarea
+
+// Engine
+cp.Engine.name get
+cp.Engine.body.style set/get
+
+// open
+cp.Editor.open options arguments
+cp.Editor.open options className
+cp.Editor.open options className + arguments
+cp.Editor.open options arguments + code via getEbyId
+cp.Editor.open options arguments + code via innerHTML
+cp.Editor.open options arguments + code via string
+
+ */
+
 (function(){
 
 var expected = [];

@@ -41,17 +41,18 @@ Engine.Highlight = {
 		if(flag != 'init')
 			window.getSelection().getRangeAt(0).insertNode(document.createTextNode(cc));
 
-		var o, x, z, i, code;
+		var o, x, z, i, l, code;
 		o = Engine.body.innerHTML;
 		o = o.replace(/<br>/g, '\n');
 		o = o.replace(/<.*?>/g, '');
 		x = z = this.split(o, flag);
-		x = x.replace(/\n/g, '<br>');
+		x = x.replace(/\n/g, '<br />');
 
-		if(arguments[1] && arguments[2]) 
+//		if(arguments[1] && arguments[2]) 
+		if(flag == 'snippets' || flag == 'complete')
 			x = x.replace(arguments[1], arguments[2]);
 	
-		for(i=0; i < Language.syntax.length && this.active; i++) 
+		for(i = 0, l = Language.syntax.length; i < l && this.active; i++) 
 			x = x.replace(Language.syntax[i].i, Language.syntax[i].o);
 
 		code = Engine.Actions.history[Engine.Actions.next()] = flag == 'scroll' ? 
