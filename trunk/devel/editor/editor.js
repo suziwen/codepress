@@ -38,7 +38,8 @@ Editor = {
 	
 	// open code on editor with specific language
 	open : function(oa) {
-		oa = oa || {}; // options from arguments
+//		alert(CodePress.options.snippets)
+		oa = oa || CodePress.options || {}; // options from arguments
 
 		if(oa.code)
 			Editor.code(parent.document.getElementById(oa.code) ?
@@ -48,7 +49,7 @@ Editor = {
 		var option = function(name)  {
 			var opt = textarea.className.match(name +':(.*?)( |$)');
 			if (name == 'language')
-				return oa[name] != undefined ? oa[name] : opt[1]; 
+				return oa[name] != undefined ? oa[name] : opt ? opt[1] : 'generic'; 
 
 			// defaults to true (feature on) if not specified
 			return oa[name] != undefined ? oa[name] : opt ? opt[1] == 'true' : true; 

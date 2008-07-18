@@ -128,7 +128,7 @@ var $ = CodePress.Test; // shortcut
 CodePress.Test.tests = [
 	
 	function() {
-		title = 'CodePress Creation + cp.onload';
+		title = 'CodePress creation via class + cp.onload';
 		expected = true;
 		$.startTimer();
 
@@ -143,7 +143,9 @@ CodePress.Test.tests = [
 		cp = new CodePress.instance(textarea);
 		cp.onload = function () { 
 			$.stopTimer();
-			result = true;
+			result = (cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
+					  cp.Engine.shortcuts() && cp.Engine.highlight() &&
+					  cp.Editor.editable() && cp.Editor.language() == 'text')
 			$.next();
 		};
 	},
@@ -155,6 +157,40 @@ CodePress.Test.tests = [
 		result = cp.textarea.id;
 		$.stopTimer();
 		$.next();
+	},
+
+	function() {
+		title = 'CodePress creation via cp.options + cp.onload';
+		expected = true;
+		delete cp
+		$.startTimer();
+		var container = document.getElementById('dyn-codepress');
+		container.innerHTML = '';
+		var textarea = document.createElement('textarea');
+		textarea.id = 'cp3'
+		textarea.style.width = '100%'
+		textarea.style.height = '100%'
+		textarea.className = 'codepress language:text snippets:true complete:true active:true shortcuts:true highlight:true editable:true';
+		container.appendChild(textarea);
+		cp = new CodePress.instance(textarea);
+		cp.options = {
+			code:'function () { alert("test3"); }', 
+			snippets:false,
+			complete:false,
+			active:false,
+			shortcuts:false,
+			highlight:false,
+			editable:false,			
+			language:'javascript'
+		}
+
+		cp.onload = function () { 
+			$.stopTimer();
+			result = (!(cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
+					  cp.Engine.shortcuts() && cp.Engine.highlight() &&
+					  cp.Editor.editable()) && cp.Editor.language() == 'javascript')
+			$.next();
+		};
 	},
 
 	function() {
