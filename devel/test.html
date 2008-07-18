@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+	<title>CodePress - Real Time Syntax Highlighting Editor written in JavaScript</title>
+	<script src="codepress.js"></script>
+</head>
+
+<body>
+
+<div id="dyn-codepress" style="border:1px solid black;padding:10px;height:100px;background:#eee"></div>
+<div id="test-result"></div>
+
+<button onclick="CodePress.Test.run(CodePress['cp2'])"><strong>Run tests</strong></button>
+<br/><br/><br/><br/>
+
+<script src="tests/test.js"></script>
+</body>
+</html>
