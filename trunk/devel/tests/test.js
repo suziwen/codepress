@@ -497,7 +497,7 @@ CodePress.Test.tests = [
 		expected = 'CodePressTest = function() {	document.write(\'testing\'); }';
 		$.startTimer();
 
-		cp.Editor.open({code:'hidden-code', callback:function() {
+		cp.Editor.open({editable:true, highlight:true, language:'javascript', code:'hidden-code', callback:function() {
 			$.stopTimer();
 			
 			result = cp.Editor.code();
