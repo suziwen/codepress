@@ -9,6 +9,7 @@
 
 /* TO DO
  * - criar Editor.onload(function(){}) e matar o CodePress.onload + criar o class onload:function
+ * - analisar se o callback do codepress.options esta executando 1x e se o onload tb
  * - highlight off is not cleaning previous highlighted code (change language to text?) and on is not backing up to the last selected language
  * - fazer testes de highlight on/off
  * - criar o Editor.lines()

@@ -79,9 +79,9 @@ Editor = {
 			if(Language.callback) // language onload
 				Language.callback.call();
 
-			if(CodePress.onload) { // CodePress onload. Execute once
-				CodePress.onload.call();
-				CodePress.onload = false;
+			if(CodePress.options.onload) { // CodePress onload. Execute once
+				CodePress.options.onload.call();
+				CodePress.options.onload = false;
 			}
 		});
 	},
