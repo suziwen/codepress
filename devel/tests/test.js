@@ -141,13 +141,40 @@ CodePress.Test.tests = [
 		textarea.className = 'codepress language:text snippets:true complete:true active:true shortcuts:true highlight:true editable:true';
 		container.appendChild(textarea);
 		cp = new CodePress.instance(textarea);
-		cp.onload = function () { 
-			$.stopTimer();
-			result = (cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
-					  cp.Engine.shortcuts() && cp.Engine.highlight() &&
-					  cp.Editor.editable() && cp.Editor.language() == 'text')
-			$.next();
-		};
+		cp.options = {
+			onload : function () { 
+				$.stopTimer();
+				result = (cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
+						  cp.Engine.shortcuts() && cp.Engine.highlight() &&
+						  cp.Editor.editable() && cp.Editor.language() == 'text')
+				$.next();
+			}
+		}	
+	},
+
+	function() {
+		title = 'CodePress reload via cp.options + callback';
+		expected = true;
+		$.startTimer();
+		cp.options = {
+			code:'function () { alert("test3"); }', 
+			snippets:false,
+			complete:false,
+			active:false,
+			shortcuts:false,
+			highlight:false,
+			editable:false,			
+			language:'javascript',
+			callback:function () { 
+				$.stopTimer();
+				result = ((!cp.Engine.snippets() && !cp.Engine.complete() && !cp.Editor.active() && 
+						  !cp.Engine.shortcuts() && !cp.Engine.highlight() &&
+						  !cp.Editor.editable()) && cp.Editor.language() == 'javascript')
+				$.next();
+			}
+		}
+
+		cp.Editor.open();
 	},
 
 	function() {
@@ -158,41 +185,7 @@ CodePress.Test.tests = [
 		$.stopTimer();
 		$.next();
 	},
-
-	function() {
-		title = 'CodePress creation via cp.options + cp.onload';
-		expected = true;
-		delete cp
-		$.startTimer();
-		var container = document.getElementById('dyn-codepress');
-		container.innerHTML = '';
-		var textarea = document.createElement('textarea');
-		textarea.id = 'cp3'
-		textarea.style.width = '100%'
-		textarea.style.height = '100%'
-		textarea.className = 'codepress language:text snippets:true complete:true active:true shortcuts:true highlight:true editable:true';
-		container.appendChild(textarea);
-		cp = new CodePress.instance(textarea);
-		cp.options = {
-			code:'function () { alert("test3"); }', 
-			snippets:false,
-			complete:false,
-			active:false,
-			shortcuts:false,
-			highlight:false,
-			editable:false,			
-			language:'javascript'
-		}
-
-		cp.onload = function () { 
-			$.stopTimer();
-			result = (!(cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
-					  cp.Engine.shortcuts() && cp.Engine.highlight() &&
-					  cp.Editor.editable()) && cp.Editor.language() == 'javascript')
-			$.next();
-		};
-	},
-
+	
 	function() {
 		title = 'cp.textarea.style';
 		expected = 'white';
@@ -215,38 +208,6 @@ CodePress.Test.tests = [
 		$.next();
 	},
 
-	function() {
-		title = 'cp.Engine.body.style';
-		expected = 'white';
-		cp.Engine.body.style.backgroundColor = 'red'
-		$.startTimer();
-		cp.Engine.body.style.backgroundColor = 'white'
-		$.stopTimer();
-		result = cp.Engine.body.style.backgroundColor;
-		$.next();
-	},
-	
-	function() {
-		title = 'cp.Editor.language set/get + callback';
-		expected = 'javascript';
-		$.startTimer();
-		cp.Editor.language('javascript', function() {
-			result = cp.Editor.language();
-			$.stopTimer();
-			$.next();
-		});
-	},
-	
-	function() {
-		title = 'cp.Editor.code set/get';
-		expected = 'function teste() { alert("test"); }';
-		cp.Editor.code('');
-		$.startTimer();
-		cp.Editor.code('function teste() { alert("test"); }');
-		result = cp.Editor.code();
-		$.stopTimer();
-		$.next();
-	},
 	
 	function() {
 		title = 'cp.Engine.snippets set false + get';
@@ -379,7 +340,63 @@ CodePress.Test.tests = [
 		result = cp.Editor.editable();
 		$.next();
 	},
-	
+		
+	function() {
+		title = 'cp.Editor.language set/get + callback';
+		expected = 'javascript';
+		$.startTimer();
+		cp.Editor.language('javascript', function() {
+			result = cp.Editor.language();
+			$.stopTimer();
+			$.next();
+		});
+	},
+		
+	function() {
+		title = 'cp.Editor.language set/get wrong language';
+		expected = 'generic';
+		$.startTimer();
+		cp.Editor.language('ajdfklajdd', function() {
+			result = cp.Editor.language();
+			$.stopTimer();
+			$.next();
+		});
+	},
+
+	function() {
+		title = 'cp.Editor.code codepress set/get';
+		expected = 'function teste() { alert("test codepress"); }';
+		cp.Editor.code('');
+		$.startTimer();
+		cp.Editor.code('function teste() { alert("test codepress"); }');
+		result = cp.Editor.code();
+		$.stopTimer();
+		$.next();
+	},
+
+	function() {
+		title = 'cp.Editor.code textarea set/get';
+		expected = 'function teste() { alert("test textarea"); }';
+		cp.Editor.active(false);
+		cp.Editor.code('');
+		$.startTimer();
+		cp.Editor.code('function teste() { alert("test textarea"); }');
+		result = cp.Editor.code();
+		$.stopTimer();
+		$.next();
+	},
+
+	function() {
+		title = 'cp.Engine.body.style';
+		expected = 'white';
+		cp.Engine.body.style.backgroundColor = 'red'
+		$.startTimer();
+		cp.Engine.body.style.backgroundColor = 'white'
+		$.stopTimer();
+		result = cp.Engine.body.style.backgroundColor;
+		$.next();
+	},
+
 	function() {
 		title = 'cp.Engine.name get';
 		expected = 'gecko';
@@ -394,7 +411,7 @@ CodePress.Test.tests = [
 		expected = true;
 		$.startTimer();
 		
-		cp.Editor.open({language:'generic', 
+		cp.Editor.open({language:'javascript', 
 						code:'function () { alert("test2"); }', 
 						snippets:false,
 						complete:false,
@@ -404,11 +421,10 @@ CodePress.Test.tests = [
 						editable:false,
 						callback:function() {
 			$.stopTimer();
-			
-//			alert(cp.Engine.snippets() +' '+ cp.Engine.complete() +' '+ cp.Editor.active() +' '+  cp.Engine.shortcuts() +' '+ cp.Engine.highlight() +' '+  cp.Editor.editable() + ' '+cp.Editor.language())
-			result = (! (cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
-					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
-					  cp.Editor.editable()) && cp.Editor.language() == 'generic')
+
+			result = (!cp.Engine.snippets() && !cp.Engine.complete() && !cp.Editor.active() && 
+					  !cp.Engine.shortcuts() && !cp.Engine.highlight() &&
+					  !cp.Editor.editable() && cp.Editor.language() == 'javascript')
 
 			$.next();
 		}});
@@ -418,13 +434,14 @@ CodePress.Test.tests = [
 		title = 'cp.Editor.open options className';
 		expected = true;
 		$.startTimer();
-		
+
+		cp.textarea.className = 'codepress language:text snippets:true complete:true active:true shortcuts:true highlight:true editable:true';
 		cp.Editor.open({callback:function() {
 			$.stopTimer();
-
-			result = ((cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
-					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
-					  cp.Editor.editable()) && cp.Editor.language() == 'text')
+			
+			result = (cp.Engine.snippets() && cp.Engine.complete() && cp.Editor.active() && 
+					  cp.Engine.shortcuts() && cp.Engine.highlight() &&
+					  cp.Editor.editable() && cp.Editor.language() == 'text')
 
 			$.next();
 		}});
@@ -434,18 +451,65 @@ CodePress.Test.tests = [
 		title = 'cp.Editor.open options className + arguments';
 		expected = true;
 		$.startTimer();
-		
-		cp.Editor.open({language:'javascript', callback:function() {
-			$.stopTimer();
 
-			result = ((cp.Engine.snippets() || cp.Engine.complete() || cp.Editor.active() || 
-					  cp.Engine.shortcuts() || cp.Engine.highlight() ||
-					  cp.Editor.editable()) && cp.Editor.language() == 'javascript')
+		cp.textarea.className = 'codepress language:text complete:false shortcuts:false highlight:false editable:false';
+		cp.Editor.open({snippets:true,active:true,callback:function() {
+			$.stopTimer();
+			
+			result = (cp.Engine.snippets() && !cp.Engine.complete() && cp.Editor.active() && 
+					  !cp.Engine.shortcuts() && !cp.Engine.highlight() &&
+					  !cp.Editor.editable() && cp.Editor.language() == 'text')
 
 			$.next();
 		}});
-	}
+	},
+
+	function() {
+		title = 'cp.Editor.open options arguments + code via string';
+		expected = '1234';
+		$.startTimer();
+
+		cp.Editor.open({code:'1234', callback:function() {
+			$.stopTimer();
+			
+			result = cp.Editor.code();
+
+			$.next();
+		}});
+	},
+	
+	function() {
+		title = 'cp.Editor.open options arguments + code via getElemById';
+		expected = 'CodePressTest = function() {	document.write(\'testing\'); }';
+		$.startTimer();
+
+		cp.Editor.open({code:document.getElementById('hidden-code'), callback:function() {
+			$.stopTimer();
+			
+			result = cp.Editor.code();
+
+			$.next();
+		}});
+	},
+
+	function() {
+		title = 'cp.Editor.open options arguments + code via string id';
+		expected = 'CodePressTest = function() {	document.write(\'testing\'); }';
+		$.startTimer();
+
+		cp.Editor.open({code:'hidden-code', callback:function() {
+			$.stopTimer();
+			
+			result = cp.Editor.code();
+
+			$.next();
+		}});
+	}	
 ]
 	
 })();	
 
+
+function bla() {
+	alert(3)
+}
