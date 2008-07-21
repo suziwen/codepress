@@ -4,6 +4,15 @@
 Engine.Highlight = {
 	
 	active : true,
+	
+	init : function() {
+		window.addEventListener('scroll', function() { 
+			if(!Engine.scrolling) 
+				Engine.Highlight.run('scroll');
+		}, false);
+		
+		Engine.Highlight.run('init');		
+	},
 
 	// put cursor back to its original position after every parsing
 	findString : function() {
