@@ -9,16 +9,9 @@ Engine.Main = {
 		chars = '|32|46|62|', // charcodes that trigger syntax highlighting
 		cc = '\u2009', // control char
 
-		//Engine.body = document.getElementsByTagName('body')[0]; // isso nao deve ficar aqui
-
-		window.addEventListener('scroll', function() { 
-			if(!Engine.scrolling) 
-				Engine.Highlight.run('scroll');
-		}, false);
-
 		document.addEventListener('keypress', Engine.Main.keyHandler, true);
 		Engine.Complete.init();
-		Engine.Highlight.run('init');
+		Engine.Highlight.init();		
 	},
 
 	// treat key bindings
