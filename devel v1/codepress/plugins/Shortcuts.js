@@ -41,7 +41,7 @@ jQuery(function($){
 
 		this.deleteLine = function(event)
 		{
-			event.stop();		
+			event.stop();
 			element.console.info("Delete Line");	
 		}
 

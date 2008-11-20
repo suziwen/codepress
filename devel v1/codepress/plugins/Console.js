@@ -10,7 +10,8 @@
  *		[element].console.error(title[,content])
  *		[element].console.log(title[,content[,CSSlevel = 'info']])
  *
- * @author : "Michael Hurni" <michael.hurni@gmail.com>
+ * @author	"Michael Hurni" <michael.hurni@gmail.com>
+ * @todo 	a factory to create popup or firebug logger
  */
  
 jQuery(function($){

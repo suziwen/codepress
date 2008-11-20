@@ -136,14 +136,9 @@ jQuery.CodePress.Config = {
 	"syntax_languages" : {
 		"directory" : "codepress/languages/",
 		"default" : "php",
-		"list" : Array(
-			"php",
-			"javascript",
-			"html",
-			"generic"
-		)
+		"list" : Array("php","javascript","html","generic") // for class="language" detection
 	},
-	"gui_lang" : "en",
+	"gui_lang" : "en-US",
 	"debug" : false
 }
 
@@ -159,7 +154,7 @@ jQuery.CodePress.Plugin = function(parent) {
 		if(this.isInclude(name)) 
 			return this.register(name);
 		var bind = this;
-		new parent.util.Loader({
+		parent.util.include({
 			'file' : parent.util.getPath() + parent.config.plugins_dir + name + ".js",
 			'onFileMissing' : function() { 
 				parent.config.plugins.remove(name);
@@ -243,7 +238,7 @@ jQuery.CodePress.Editor = function(parent) {
 	self.contentDocument.close();
 	self.language = "";
 	
-	new parent.util.Loader({
+	parent.util.include({
 		"queue" : [
 			parent.util.getPath() + parent.config.engines_dir + browser.code + ".js",
 			parent.util.getPath() + parent.config.engines_dir + "common.css"
@@ -274,7 +269,7 @@ jQuery.CodePress.Language = function(parent) {
 	{
 		if(browser.code == "gecko") parent.editor.contentDocument.designMode = "off";
 		
-		new parent.util.Loader({
+		parent.util.include({
 			"queue" : [
 				parent.util.getPath() + parent.config.syntax_languages.directory + language + ".js",
 				parent.util.getPath() + parent.config.syntax_languages.directory + language + ".css"
@@ -292,7 +287,6 @@ jQuery.CodePress.Language = function(parent) {
 				parent.console.error("CodePress error",this.file + " was not found");
 				if(language==parent.language['default']) parent.kill();
 				else parent.language.set(parent.language['default']);
-				
 			}
 		});	
 	}
@@ -367,6 +361,11 @@ jQuery.CodePress.Util = function(parent)
 			}
 		}
 	}
+	
+	this.include = function(params) {
+		return new this.Loader(params);
+	}
+	
 	this.Loader = function(params)
 	{
 		var loader = this;
@@ -511,7 +510,7 @@ jQuery.CodePress.Util = function(parent)
 	 */
 	parent.console.log = parent.console.info = parent.console.warning = function(title,msg)
 	{
-		if(parent.config.debug===true) {
+		if(parent.config.debug) {
 			alert(title+(msg?"\n"+msg:""));
 		}
 	}
