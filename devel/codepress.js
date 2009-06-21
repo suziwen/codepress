@@ -12,7 +12,7 @@
  * - analisar se o callback do codepress.options esta executando 1x e se o onload tb
  * - highlight off is not cleaning previous highlighted code (change language to text?) and on is not backing up to the last selected language
  * - fazer testes de highlight on/off
- * - criar o Editor.lines()
+ * - criar o Editor.lines() como plugin
  */
 
 /**
