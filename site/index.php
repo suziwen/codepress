@@ -30,19 +30,19 @@ You can try some features with the demo below.
 	</li>
 	<li>
 		<strong>Multiple windows</strong> &raquo; you can add multiple CodePress windows to the same page
-	</li>	
+	</li>
 </ul>
 
 <h3>Demo</h3>
 <div id="languages">
-	<em>choose example in:</em> 
-	<button onclick="cp1.edit('cp-php','php')">PHP</button> 
-	<button onclick="cp1.edit('cp-javascript','javascript')">JavaScript</button> 
+	<em>choose example in:</em>
+	<button onclick="cp1.edit('cp-php','php')">PHP</button>
+	<button onclick="cp1.edit('cp-javascript','javascript')">JavaScript</button>
 	<button onclick="cp1.edit('cp-java','java')">Java</button>
 	<button onclick="cp1.edit('cp-perl','perl')">Perl</button>
-	<button onclick="cp1.edit('cp-sql','sql')">SQL</button>	
-	<button onclick="cp1.edit('cp-html','html')">HTML</button> 
-	<button onclick="cp1.edit('cp-css','css')">CSS</button> 	
+	<button onclick="cp1.edit('cp-sql','sql')">SQL</button>
+	<button onclick="cp1.edit('cp-html','html')">HTML</button>
+	<button onclick="cp1.edit('cp-css','css')">CSS</button>
 </div>
 
 <textarea id="cp1" class="codepress php" style="width:700px;height:350px;" wrap="off">
@@ -151,7 +151,7 @@ this.setLanguage = function() {
 		Line numbers do not resize with browser font size (because it's a bg image)
 	</li>
 	<li>
-		Copy from CodePress and paste somewhere else is not working correctly on Internet Explorer. 
+		Copy from CodePress and paste somewhere else is not working correctly on Internet Explorer.
 		Fixed for Firefox on version 0.9.6.
 	</li>
 
@@ -165,41 +165,6 @@ this.setLanguage = function() {
 	To know a little more about this project, go to the <a href="about.php">about section</a>.
 </p>
 
-
-
-<h3>Comments <span style="color:black;">(are frozen, please use the <a href="http://sourceforge.net/forum/forum.php?forum_id=654507">forum</a>)</span></h3>
-<p>
-	These are the last 25 comments. <a href="comment_list_all.php">See everything.</a>
-</p>
-<div id="comments">
-	
-<?php include_once("includes/comment_list.php"); ?>
-
-
-<h4>Comments are frozen. Please, use the <a href="http://sourceforge.net/forum/forum.php?forum_id=654507">forum</a></h4>
-
-<!-- 
-	<div id="newcomments"></div>
-    <div id="yourcomment" class="comment">
-		<a href="http://" id="yoururl"><strong id="yourname" class="name">Your name</strong></a> &raquo; <strong id="yourdate"><?= date('Y-m-d') ?></strong>
-	    <p id="yourtext">Your comment</p>
-	</div>
-
-	<h3>Post a comment</h3>
-	<div id="postcomment">
-		<img src=images/preview.gif id="previewimg">
-		<form name="comm">
-		<input type="text" name="cname" value="Your name" onkeyup="commentPreview()" onclick="if(this.value=='Your name')this.value=''" /><br />
-		<input type="text" name="curl" value="http://" onkeyup="commentPreview()" /><br />
-		<textarea name="ccomment" onkeyup="commentPreview()" onclick="if(this.value=='Your comment')this.value=''" onfocus="if(this.value=='Your comment')this.value=''">Your comment</textarea><br />
-		<input type="hidden" name="corderdate" value="">
-		<input type="hidden" name="cpwd" value="<?php if(isset($_GET['p'])) echo $_GET['p'];?>">
-		<div id="comment-msg"></div>
-		</form>
-		<button onclick="commentAdd()">submit your comment</button>
-		<script type="text/javascript">commentPreview(1)</script>
-	</div>
--->	
 </div><!--/comments-->
 
 
@@ -244,14 +209,14 @@ CodePress = function(obj) {
 	self.textarea.disabled = true;
 	self.style.height = self.textarea.clientHeight +'px';
 	self.style.width = self.textarea.clientWidth +'px';
-	
+
 	self.initialize = function() {
 		self.editor = self.contentWindow.CodePress;
 		self.editor.body = self.contentWindow.document.getElementsByTagName('body')[0];
 		self.editor.setCode(self.textarea.value);
 		self.editor.syntaxHighlight('init');
 	}
-	
+
 	self.edit = function(id,language) {
 		self.language = (language) ? language : self.textarea.className.replace(/ ?codepress ?/,'');
 		self.src = cpPath+'modules/codepress.html?engine='+self.getEngine()+'&language='+self.language;
@@ -291,11 +256,11 @@ public class FileManager extends HttpServlet {
 </textarea>
 
 <textarea id="cp-perl" class="hidden-code">
-#!/usr/bin/perl      
-# The first line of the script envokes Perl 
+#!/usr/bin/perl
+# The first line of the script envokes Perl
 
 # Scalar variables
-$var1 = "Hello World";   
+$var1 = "Hello World";
 $var2 = 14.6;
 
 # Array variables
@@ -305,7 +270,7 @@ $var2 = 14.6;
 %hash1 = ("one","Monday","two", "Tuesday","three", "Wednesday","four","Thursday");
 
 # Some simple printing
-print $var1; 
+print $var1;
 
 # Subroutine
 sub test() {
@@ -316,19 +281,19 @@ sub test() {
 <textarea id="cp-sql" class="hidden-code">
 --
 -- simple select example
--- 
+--
 SELECT * FROM books
 	WHERE price > 100.00 and price < 150.00
 	ORDER BY title
 
 SELECT books.title, count(*) AS Authors
 	FROM books
-	JOIN book_authors 
+	JOIN book_authors
 		ON books.book_number = book_authors.book_number
 	GROUP BY books.title
 
 -- insert, update and delete examples
-	
+
 INSERT INTO my_table (field1, field2, field3) VALUES ('test', 'N', NULL);
 
 BEGIN WORK;
@@ -343,9 +308,9 @@ COMMIT;
 	<title>CodePress - Online Real Time Syntax Highlighting Editor</title>
 
 	<style type="text/css">
-	@import url(styles.css);	
+	@import url(styles.css);
 	</style>
-	
+
 	<script type="text/javascript">
 	function getCode() {
 		alert(textWithoutHighlighting);
@@ -363,9 +328,9 @@ COMMIT;
 
 
 <div id="languages">
-	<em>choose language:</em> 
-	<button onclick="edit('codepress.php',this)" id="default">PHP</button> 
-	<button onclick="edit('FileManager.java',this)">Java</button> 
+	<em>choose language:</em>
+	<button onclick="edit('codepress.php',this)" id="default">PHP</button>
+	<button onclick="edit('FileManager.java',this)">Java</button>
 </div>
 
 </div><!--/container-->
@@ -379,13 +344,13 @@ COMMIT;
 body {
 	color:#000;
 	background-color:white;
-	font:15px Georgia, "Lucida Grande", Arial, sans-serif; 
+	font:15px Georgia, "Lucida Grande", Arial, sans-serif;
 	letter-spacing:0.01em;
 	margin:15px;
 }
 
-p { 
-	margin:0 0 15px 0; 
+p {
+	margin:0 0 15px 0;
 }
 
 a,a:visited {
